@@ -11,14 +11,15 @@ App.controller('LoginController', function ($scope, $http, $cookies, $cookieStor
         $scope.authMsg = '';
         console.log($scope.account.email);
         console.log($scope.account.password);
-        $.post(MY_CONSTANT.url + 'admin_email_login',
+        $.post(MY_CONSTANT.url + 'api/admin/login',
             {
-                admin_email: $scope.account.email,
-                admin_password: $scope.account.password
+                email: $scope.account.email,
+                password: $scope.account.password
             }).then(
-            function (data) {
+            function (data,status) {
                 console.log(data)
-                if (data.status != 100) {
+                console.log(status)
+                if (status != 'success') {
                     console.log("if");
                     $scope.authMsg = data.message;
                     setTimeout(function () {
@@ -28,7 +29,7 @@ App.controller('LoginController', function ($scope, $http, $cookies, $cookieStor
                     $scope.$apply();
                 } else {
                     console.log("else");
-                    var someSessionObj = {'accesstoken': data.data.access_token};
+                    var someSessionObj = {'accesstoken': data.data.accessToken};
                     $cookieStore.put('obj', someSessionObj);
                     console.log($cookieStore.get('obj').accesstoken)
                     $state.go('app.dashboard');

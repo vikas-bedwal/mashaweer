@@ -5,7 +5,7 @@
 </h3>
 <button type="button" class="btn-primary" style="float: right;margin-top: -70px" ng-controller="dashboardController" ng-click="addCreditDialog()">Add Credit</button>
 <!--/*----- WIDGET DATA -----*/-->
-<div ng-controller="dashboardController">
+<div ng-controller="dashboardController" ng-init="init()">
     <div class="Heading">
         <h4>Today's Data</h4>
     </div>
@@ -17,7 +17,7 @@
                         <em class="icon fa fa-truck fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
-                        <div class="h2 mt0">{{ stats.today_tot_revenue}}</div>
+                        <div class="h2 mt0">{{ totalOrder }}</div>
                         <div class="text-uppercase">Total Orders</div>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                         <em class="icon fa fa-check"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
-                        <div class="h2 mt0">{{ stats.today_tot_services }}</div>
+                        <div class="h2 mt0">{{ totalCompletedOrder }}</div>
                         <div class="text-uppercase">Assigned Orders</div>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                         <em class="icon fa fa-bell"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
-                        <div class="h2 mt0">{{stats.today_on_services}}</div>
+                        <div class="h2 mt0">{{ totalUnAssignedOrder }}</div>
                         <div class="text-uppercase">Unassigned Orders</div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                         <em class="icon fa fa-automobile fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
-                        <div class="h2 mt0">{{ stats.today_tot_revenue}}</div>
+                        <div class="h2 mt0">{{ totalOnlineDriver}}</div>
                         <div class="text-uppercase">Live Drivers</div>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
                         <em class="icon fa fa-users fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
-                        <div class="h2 mt0">{{ stats.today_tot_services }}</div>
+                        <div class="h2 mt0">{{ totalNewCustomer }}</div>
                         <div class="text-uppercase">New Customers</div>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                         <em class="icon fa fa-dollar fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
-                        <div class="h2 mt0">{{stats.today_on_services}}</div>
+                        <div class="h2 mt0">{{ totalRevenue }}</div>
                         <div class="text-uppercase">Total Revenue</div>
                     </div>
                 </div>

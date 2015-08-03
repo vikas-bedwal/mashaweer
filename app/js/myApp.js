@@ -13,7 +13,7 @@ myApp.run(["$log", function ($log) {
 }]);
 
 App.constant("MY_CONSTANT", {
-    "url": "http://52.7.55.186:8001/"
+    "url": " http://52.6.230.125:8002/"
 });
 
 App.constant("responseCode", {
@@ -88,14 +88,14 @@ myApp.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'Rout
             .state('app.customers', {
                 url: '/customers',
                 title: 'Customers',
-                templateUrl: helper.basepath('customers.html')
-                //resolve: helper.resolveFor()
+                templateUrl: helper.basepath('customers.html'),
+                resolve: helper.resolveFor('datatables', 'datatables-pugins')
             })
             .state('app.drivers', {
                 url: '/drivers',
                 title: 'Drivers',
-                templateUrl: helper.basepath('drivers.html')
-                //resolve: helper.resolveFor()
+                templateUrl: helper.basepath('drivers.html'),
+                resolve: helper.resolveFor('datatables', 'datatables-pugins')
             })
             .state('app.orders', {
                 url: '/orders',

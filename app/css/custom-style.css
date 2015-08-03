@@ -217,6 +217,9 @@ h6,
     line-height: 1.1;
     color: #929292;
 }
+.mt0{
+    color: #fff;
+}
 ::-webkit-input-placeholder {
     color:    #999;
 }

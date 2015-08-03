@@ -5,12 +5,12 @@ App.controller('driversController', function ($scope, $http, $cookies, $cookieSt
 
     'use strict';
     console.log("In driver");
-    /*   $(function () {
+       $(function () {
      $("#datatable2").dataTable({
      'aLengthMenu':[[100,50,25,10],[100,50,25,10]],
      "processing": true,
      "bServerSide": true,
-     "sAjaxSource": 'http://54.173.40.155:1441/get_manage_appointments?access_token=' + $cookieStore.get('obj').accesstoken
+     "sAjaxSource": MY_CONSTANT.url + 'api/admin/driverList/' + $cookieStore.get('obj').accesstoken
      });
-     });*/
+     });
 });
