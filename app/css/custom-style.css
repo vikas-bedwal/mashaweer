@@ -1,0 +1,290 @@
+
+.btn-success {
+    background-color: #f4bf00;
+    border-color: #f4bf00;
+}
+
+.login-head {
+    background-color: #f4bf00 !important;
+}
+
+.btn-success:hover, .btn-success:focus,
+.btn-success.focus, .btn-success:active,
+.btn-success.active,
+.open > .dropdown-toggle.btn-success {
+    color: #ffffff;
+    background-color: #f4bf00;
+    border-color: #fff;
+}
+
+.nav-wrapper {
+    background-color: #f4bf00;
+}
+
+.map-dashboard {
+    background-color: #f4bf00;
+    padding: 10px;
+}
+
+.sidebar > .nav > li.active {
+    border-left-color: #f4bf00;
+}
+
+.topnavbar .navbar-nav > .open > a, .topnavbar .navbar-nav > .open > a:hover, .topnavbar .navbar-nav > .open > a:focus {
+    box-shadow: 0 -3px 0 #f4bf00 inset;
+}
+
+.topnavbar .navbar-header {
+    background-color: transparent;
+    background-image: -webkit-linear-gradient(left, #f4bf00 0%, #f4bf00 100%);
+    background-image: -o-linear-gradient(left, #f4bf00 0%, #f4bf00 100%);
+    background-image: linear-gradient(to right, #f4bf00 0%, #f4bf00 100%);
+    background-repeat: repeat-x;
+    color: #f4bf00;
+}
+
+.topnavbar .navbar-nav > li > a:hover,
+.topnavbar .navbar-nav > .open > a:hover,
+.topnavbar .navbar-nav > li > a:focus,
+.topnavbar .navbar-nav > .open > a:focus,
+.sidebar > .nav > li.active > a > em,
+.sidebar > .nav > li.open > a > em,
+.sidebar-subnav > li.active > a,
+.sidebar-subnav > li.active > .nav-item,
+.sidebar-subnav > li > a:focus,
+.sidebar-subnav > li > .nav-item:focus,
+.sidebar-subnav > li > a:hover,
+.sidebar-subnav > li > .nav-item:hover {
+    color: #000;
+}
+
+.sidebar > .nav > li.active, .sidebar > .nav > li.open, .sidebar > .nav > li.active > a, .sidebar > .nav > li.open > a, .sidebar > .nav > li.active .nav, .sidebar > .nav > li.open .nav {
+    background-color: #fcfcfc;
+    color: #f4bf00;
+}
+
+.sidebar > .nav > li > a:focus, .sidebar > .nav > li > .nav-item:focus, .sidebar > .nav > li > a:hover, .sidebar > .nav > li > .nav-item:hover {
+    text-decoration: none;
+    outline: none;
+    color: #f4bf00;
+}
+
+.btn-info:focus, .btn-info.focus, .btn-info:active, .btn-info.active, .open > .dropdown-toggle.btn-info {
+    color: #ffffff;
+    background-color: #f4bf00;
+    border-color: #f4bf00;
+}
+
+.text-info, .form-control:focus {
+    border-color: #f4bf00;
+    color: #f4bf00;
+}
+
+/*.table-hover > tbody > tr:hover {
+    background-color: #f04f7e;
+    color: white;
+}*/
+
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    background-color: #f4bf00;
+    border-color: #f4bf00;
+}
+
+li > .pull-left > .btn-info {
+    background-color: #dde6e9;
+    border-color: #dde6e9;
+    color: #333333;
+}
+/* (cs)spinner.css - http://jh3y.github.io/-cs-spinner
+  Licensed under the MIT license | Jhey Tompkins (c) 2014. */
+body {
+    /* (cs)spinner base styling */
+}
+body .whirl {
+    position: relative;
+}
+body .whirl:before {
+    content: attr(data-spinner-text);
+    display: block;
+    background-color: #f0f0f0;
+    opacity: 0.7;
+}
+body .whirl.solid {
+    opacity: 1;
+}
+.no-cssanimations body .whirl:before {
+    opacity: .9;
+}
+.no-cssanimations body .whirl:after {
+    content: "Loading...";
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    line-height: 40px;
+    color: #000;
+    opacity: 1;
+    border: 0;
+    box-shadow: 0 0 0 #000;
+    background-color: transparent;
+    text-align: center;
+}
+.login-btn {
+    color: #fff;
+}
+.login-btn:active {
+    border: solid;
+}
+
+#slides_control > div{
+    height: 200px;
+}
+img{
+    margin:auto;
+    width: 400px;
+}
+#slides_control {
+    position:absolute;
+    width: 400px;
+    left:50%;
+    top:20px;
+    margin-left:-200px;
+}
+
+
+/*Advance map styles*/
+
+.angular-google-map-container {
+    width: 100%;
+    height: 500px;
+}
+.inline-block{
+    display: inline-block;
+}
+.form-control{
+    padding-left: 10px;
+}
+.col-md-3{
+    width: 40%;
+}
+.cityBox{
+    width: 100%;
+    float: right;
+}
+.centerDiv{
+    margin-top: 150px;
+}
+
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+    cursor: pointer;
+    background-color: #fff;
+    opacity: 1;
+}
+.bgimage{
+    width: 96%;
+}
+.startTimepicker{
+    float: left;
+    margin-right: 20px;
+}
+.endTimepicker{
+
+    margin-left: 20px;
+}
+.timepickerLabel{
+    margin-top: 39px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    color: #929292;
+}
+::-webkit-input-placeholder {
+    color:    #999;
+}
+:-moz-placeholder {
+    color:    #999;
+}
+::-moz-placeholder {
+    color:    #999;
+}
+:-ms-input-placeholder {
+    color:    #999;
+}
+
+/* Different color for some fields */
+
+#abc::-webkit-input-placeholder
+{
+    color:    #909fa7;
+}
+.timpickerDiv{
+    margin-top: 24px;
+}
+
+
+
+
+
+
+
+
+
+
+
+.img-logo {
+    width: auto;
+    max-height: 35px;
+}
+
+#datatable2 tfoot {
+    display: table-caption;
+}
+
+#inputTags, #inputAccess {
+    float: left !important;
+}
+
+#inputAccessLabel {
+    margin-left: 35px;
+    margin-right: 5px;
+}
+
+.link_color {
+    color: #656565;
+}
+
+.link_color:hover {
+    text-decoration: none;
+}
+
+
+.login_btn{
+    background: #24DEA2;
+}
+.login_btn:hover{
+    background: #24DEA2;
+    border-color: #24DEA2;
+}
+.login_btn:focus{
+    background: #24DEA2;
+    border-color: #24DEA2;
+}

@@ -1,0 +1,233 @@
+
+<h3>
+    Mashaweer Dashboard
+    <small>Welcome to Mashaweer</small>
+</h3>
+<button type="button" class="btn-primary" style="float: right;margin-top: -70px" ng-controller="dashboardController" ng-click="addCreditDialog()">Add Credit</button>
+<!--/*----- WIDGET DATA -----*/-->
+<div ng-controller="dashboardController">
+    <div class="Heading">
+        <h4>Today's Data</h4>
+    </div>
+    <div class="row state-overview" id="first_state_overview1" style="z-index: 1000000;">
+        <div class="col-lg-4 col-sm-6">
+            <div class="panel widget bg-primary">
+                <div class="row row-table">
+                    <div class="col-xs-4 text-center bg-primary-dark pv-lg">
+                        <em class="icon fa fa-truck fa-3x"></em>
+                    </div>
+                    <div class="col-xs-8 pv-lg">
+                        <div class="h2 mt0">{{ stats.today_tot_revenue}}</div>
+                        <div class="text-uppercase">Total Orders</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6">
+            <div class="panel widget bg-purple">
+                <div class="row row-table">
+                    <div class="col-xs-4 text-center bg-purple-dark pv-lg">
+                        <em class="icon fa fa-truck fa-3x"></em>
+                        <em class="icon fa fa-check"></em>
+                    </div>
+                    <div class="col-xs-8 pv-lg">
+                        <div class="h2 mt0">{{ stats.today_tot_services }}</div>
+                        <div class="text-uppercase">Assigned Orders</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-6">
+            <div class="panel widget bg-green">
+                <div class="row row-table">
+                    <div class="col-xs-4 text-center bg-green-dark pv-lg">
+                        <em class="icon fa fa-truck fa-3x"></em>
+                        <em class="icon fa fa-bell"></em>
+                    </div>
+                    <div class="col-xs-8 pv-lg">
+                        <div class="h2 mt0">{{stats.today_on_services}}</div>
+                        <div class="text-uppercase">Unassigned Orders</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6">
+            <div class="panel widget bg-primary">
+                <div class="row row-table">
+                    <div class="col-xs-4 text-center bg-primary-dark pv-lg">
+                        <em class="icon fa fa-automobile fa-3x"></em>
+                    </div>
+                    <div class="col-xs-8 pv-lg">
+                        <div class="h2 mt0">{{ stats.today_tot_revenue}}</div>
+                        <div class="text-uppercase">Live Drivers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6">
+            <div class="panel widget bg-purple">
+                <div class="row row-table">
+                    <div class="col-xs-4 text-center bg-purple-dark pv-lg">
+                        <em class="icon fa fa-users fa-3x"></em>
+                    </div>
+                    <div class="col-xs-8 pv-lg">
+                        <div class="h2 mt0">{{ stats.today_tot_services }}</div>
+                        <div class="text-uppercase">New Customers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-6">
+            <div class="panel widget bg-green">
+                <div class="row row-table">
+                    <div class="col-xs-4 text-center bg-green-dark pv-lg">
+                        <em class="icon fa fa-dollar fa-3x"></em>
+                    </div>
+                    <div class="col-xs-8 pv-lg">
+                        <div class="h2 mt0">{{stats.today_on_services}}</div>
+                        <div class="text-uppercase">Total Revenue</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+</div>
+
+
+<!-- **************************************************************************
+******************* Modal to add credit ***********************************
+*******************************************************************************-->
+<script type="text/ng-template" id="addCredit">
+    <div class="ngdialog-message">
+        <h3>Add Credit</h3>
+
+        <div class="panel panel-default">
+            <form method="post" validate-form="" novalidate="" ng-submit="addCredit(data)">
+
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <label class="control-label">Email Id</label>
+                        <input type="email" name="busi_pro_name" required="required" class="form-control"
+                               ng-model="data.email"  capitalize-first/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Credit</label>
+                        <input type="text" name="busi_desc" required="required" class="form-control"
+                               ng-model="data.credit"  data-parsley-type="number"/>
+                    </div>
+                </div>
+                <div class="panel-footer btn-align">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" ng-click="closeThisDialog(0)" class="btn btn-default">Cancel
+                    </button>
+                    <div ng-show="successMsg" class="alert alert-success text-center" style="margin-top: 10px;">{{successMsg}}</div>
+                    <div ng-show="errorMsg" class="alert alert-danger text-center" style="margin-top: 10px;">{{errorMsg}}</div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+
+</script>
+
+<!--/*----- MAP DATA -----*/-->
+<!--<div class="panel widget bg-primary">
+    <div ng-controller="MapCircleController">
+
+        <div class="panel-body map-dashboard">
+            <ui-gmap-google-map center='map.center'
+                                zoom='map.zoom'
+                                draggable='map.draggable'
+                                dragging='map.dragging'
+                                refresh='map.refresh'
+                                options='map.options'
+                                events='map.events'
+                                pan='map.pan'>
+
+                <ui-gmap-markers models="map.markers2" coords="'self'" icon="'icon'" options="'options'"
+                                 events="map.markers2Events">
+
+                </ui-gmap-markers>
+
+            </ui-gmap-google-map>
+        </div>
+    </div>
+</div>-->
+
+<!--/*----- CHART DATA -----*/-->
+<!--<div class="row charts">
+
+    <div ng-controller="ChartController" class="container-fluid">
+        <div class="pull-right">
+
+            <div class="form-group mb-xl, col-sm-3 dtpicker">
+                <br/>
+                <p class="input-group" ng-controller="DatepickerDemoCtrl">
+                    <input type="text" datepicker-popup="{{format}}" ng-model="date.startDate" is-open="datepicker.dt1"
+                           min-date="minDate"
+                           max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
+                           ng-required="true" close-text="Close" class="form-control" disabled/>
+            <span class="input-group-btn">
+               <button type="button" ng-click="openDt1($event)" class="btn btn-default">
+                   <em class="fa fa-calendar"></em>
+               </button>
+            </span>
+                </p>
+            </div>
+            <div class="form-group mb-xl, col-sm-3">
+                <br/>
+
+                <p class="input-group" ng-controller="DatepickerDemoCtrl">
+                    <input type="text" datepicker-popup="{{format}}" ng-model="date.endDate" is-open="datepicker.dt2"
+                           min-date="date.startDate"
+                           max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
+                           ng-required="true" close-text="Close" class="form-control" disabled/>
+            <span class="input-group-btn">
+               <button type="button" ng-click="openDt2($event)" class="btn btn-default">
+                   <em class="fa fa-calendar"></em>
+               </button>
+            </span>
+                </p>
+            </div>
+            <button type="submit" class="btn btn-success btn-datepicker dt" ng-click="dates()">Submit</button>
+        </div>
+        &lt;!&ndash; START row&ndash;&gt;
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="panelChart1" class="panel panel-default">
+                    <div class="panel-heading">
+                        <paneltool tool-collapse="tool-collapse" tool-dismiss="tool-dismiss"
+                                   tool-refresh="traditional"></paneltool>
+                        <div class="panel-title">Area</div>
+                    </div>
+                    <div collapse="panelChart1" class="panel-wrapper">
+                        <div class="panel-body">
+                            <flot dataset="areaData" options="areaOptions" height="300px"></flot>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-left: 0px; margin-right: 0">
+                <div class="col-lg-12">
+                    <div id="panelChart4" class="panel panel-default">
+                        <div class="panel-heading">
+                            <paneltool tool-collapse="tool-collapse" tool-dismiss="tool-dismiss"></paneltool>
+                            <div class="panel-title">Line</div>
+                        </div>
+                        <div collapse="panelChart4" class="panel-wrapper">
+                            <div class="panel-body">
+                                <flot dataset="lineData" options="lineOptions" height="300px"></flot>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>-->

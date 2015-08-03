@@ -1,0 +1,46 @@
+[
+  {
+    "text": "Main Navigation",
+    "heading": "true"
+  },
+  {
+    "text": "Dashboard",
+    "sref": "app.dashboard",
+    "icon": "fa fa-dashboard"
+  },
+  {
+  "text": "Customers",
+  "sref": "app.customers",
+  "icon": "fa fa-user"
+},
+  {
+    "text": "Drivers",
+    "sref": "app.drivers",
+    "icon": "fa fa-automobile"
+  },
+  {
+    "text": "Orders",
+    "sref": "app.orders",
+    "icon": "fa fa-truck"
+  },
+  {
+    "text": "Payment",
+    "sref": "app.payment",
+    "icon": "fa fa-paypal"
+  },
+  {
+    "text": "Reports",
+    "sref": "app.reports",
+    "icon": "fa fa-newspaper-o"
+  },
+  {
+    "text": "Pricing",
+    "sref": "app.pricing",
+    "icon": "icon-wallet"
+  },
+  {
+    "text": "Subscription",
+    "sref": "app.subscription",
+    "icon": "icon-user-following"
+  }
+]
