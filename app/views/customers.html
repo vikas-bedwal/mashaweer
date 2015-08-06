@@ -2,7 +2,11 @@
     Customers List
     <small>Displaying list of all customers.</small>
 </h3>
-<div ng-controller="customersController" class="container-fluid">
+<div>
+    <button ng-click="exportData()" class="pull-right btn btn-sm btn-info" style="float: right; margin-top: -70px"  ng-controller="customersController">Export To CSV</button>
+    <button ng-click="addCreditDialog()" type="button" class="pull-right btn btn-sm btn-info" style="float: right;margin: -70px 110px 0 0" ng-controller="customersController">Add Credit</button>
+</div>
+<div ng-controller="customersController" ng-init="init()" class="container-fluid">
     <!-- START DATATABLE 2 -->
     <div class="row">
         <div class="col-lg-12">
@@ -11,16 +15,38 @@
                     <table id="datatable2" class="table table-striped table-hover">
                         <thead>
                         <tr>
-                            <th>Id</th>
+                            <th>No.</th>
+                            <th hidden="hidden">ID</th>
                             <th>Customer Name</th>
                             <!--<th>Service Date</th>-->
                             <th>Email</th>
                             <th>Mobile No</th>
-                            <th>Status</th>
                             <th>Credits</th>
+                            <th>Status</th>
+                            <th>Action</th>
+
                         </tr>
                         </thead>
                         <tbody>
+                        <tr ng-repeat="data in list">
+                            <td>{{$index + 1}}</td>
+                            <td hidden="hidden">{{data._id}}</td>
+                            <td>{{data.fullName}}</td>
+                            <td>{{data.email}}</td>
+                            <td>{{data.phoneNumber}}</td>
+                            <td>{{data.credits}}</td>
+                            <td>{{data.isDeleted}}</td>
+                            <td style="text-align: center;">
+                                <button ng-hide="{{data.isBlocked}}" ng-click="blockCust(data.email)"
+                                        title="Block" class="btn btn-sm btn-success">
+                                    <em class="fa fa-unlock"></em>
+                                </button>
+                                <button ng-show="{{data.isBlocked}}" ng-click="blockCust(data.email)"
+                                        title="Unblock" class="btn btn-sm btn-success">
+                                    <em class="fa fa-lock"></em>
+                                </button>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -28,3 +54,56 @@
         </div>
     </div>
 </div>
+
+
+<!-- **************************************************************************
+******************* Modal to add credit ***********************************
+*******************************************************************************-->
+<script type="text/ng-template" id="addCredit">
+    <div class="ngdialog-message">
+        <h3>Add Credit</h3>
+
+        <div class="panel panel-default">
+            <form method="post" validate-form="" novalidate="" ng-submit="addCredit(data)">
+
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <label class="control-label">Email Id</label>
+                        <input type="email" name="busi_pro_name" required="required" class="form-control"
+                               ng-model="data.email"  capitalize-first/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Credit</label>
+                        <input type="text" name="busi_desc" required="required" class="form-control"
+                               ng-model="data.credit"  data-parsley-type="number"/>
+                    </div>
+                </div>
+                <div class="panel-footer btn-align">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" ng-click="closeThisDialog(0)" class="btn btn-default">Cancel
+                    </button>
+                    <div ng-show="successMsg" class="alert alert-success text-center" style="margin-top: 10px;">{{successMsg}}</div>
+                    <div ng-show="errorMsg" class="alert alert-danger text-center" style="margin-top: 10px;">{{errorMsg}}</div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+
+</script>
+
+<!-- **************************************************************************
+******************* Modal to display msg **************************************
+*******************************************************************************-->
+<script type="text/ng-template" id="display_msg">
+    <div class="ngdialog-message">
+
+        <h4>{{displaymsg2}}</h4>
+        <button type="submit" ng-click="$state.reload() && closeThisDialog(0)" class="btn btn-primary"
+                style="margin-top:20px;float:right;">OK</button>
+
+        <div style="clear: both;"></div>
+    </div>
+</script>

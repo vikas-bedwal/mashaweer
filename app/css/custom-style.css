@@ -18,11 +18,11 @@
 }
 
 .nav-wrapper {
-    background-color: #f4bf00;
+    background-color: #666;
 }
 
 .map-dashboard {
-    background-color: #f4bf00;
+    background-color: #666;
     padding: 10px;
 }
 
@@ -38,7 +38,7 @@
     background-color: transparent;
     background-image: -webkit-linear-gradient(left, #f4bf00 0%, #f4bf00 100%);
     background-image: -o-linear-gradient(left, #f4bf00 0%, #f4bf00 100%);
-    background-image: linear-gradient(to right, #f4bf00 0%, #f4bf00 100%);
+    background-image: linear-gradient(to right, #f4bf00 0%, #666 100%);
     background-repeat: repeat-x;
     color: #f4bf00;
 }
@@ -218,7 +218,7 @@ h6,
     color: #929292;
 }
 .mt0{
-    color: #fff;
+    color: #F6D21A;
 }
 ::-webkit-input-placeholder {
     color:    #999;
@@ -281,13 +281,28 @@ h6,
 
 
 .login_btn{
-    background: #24DEA2;
+    background: #F6D21A;
 }
 .login_btn:hover{
-    background: #24DEA2;
-    border-color: #24DEA2;
+    background: #F6D21A;
+    border-color: #F6D21A;
 }
 .login_btn:focus{
-    background: #24DEA2;
-    border-color: #24DEA2;
+    background: #F6D21A;
+    border-color: #F6D21A;
+}
+#pricing > tbody > tr:hover {
+    background-color: #51c6ea;
+    color: #272727;
+}
+.fareList {
+    color: #F4BF00;
+}
+.angular-google-map-container {
+    width: 100%;
+    height: 500px;
+}
+
+.infoWindowContent{
+    color: #F6D21A;
 }

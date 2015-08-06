@@ -4,22 +4,33 @@
 // angle to myAppName
 // -----------------------------------
 
-var myApp = angular.module('myAppName', ['angle']);
+//var App = angular.module('myAppName', ['angle']);
 
-myApp.run(["$log", function ($log) {
+var App = angular.module('AppName', ['angle', 'uiGmapgoogle-maps']);
+
+App.config(['uiGmapGoogleMapApiProvider', function (GoogleMapApi) {
+    GoogleMapApi.configure({
+//    key: 'your api key',
+        v: '3.17',
+        libraries: 'weather,geometry,visualization'
+    });
+}]);
+
+
+App.run(["$log", function ($log) {
 
     $log.log('I\'m a line from custom.js');
 
 }]);
 
 App.constant("MY_CONSTANT", {
-    "url": " http://52.6.230.125:8002/"
+    "url": " http://52.6.230.125:8000/"
 });
 
 App.constant("responseCode", {
     "SUCCESS": 200
 });
-myApp.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteHelpersProvider',
+App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteHelpersProvider',
     function ($stateProvider, $locationProvider, $urlRouterProvider, helper) {
         'use strict';
 
@@ -82,14 +93,14 @@ myApp.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'Rout
             .state('app.dashboard', {
                 url: '/dashboard',
                 title: 'Dashboard',
-                templateUrl: helper.basepath('dashboard.html'),
-                resolve: helper.resolveFor('ngDialog','parsley')
+                templateUrl: helper.basepath('dashboard.html')
+                //resolve: helper.resolveFor()
             })
             .state('app.customers', {
                 url: '/customers',
                 title: 'Customers',
                 templateUrl: helper.basepath('customers.html'),
-                resolve: helper.resolveFor('datatables', 'datatables-pugins')
+                resolve: helper.resolveFor('datatables', 'datatables-pugins', 'ngDialog','parsley')
             })
             .state('app.drivers', {
                 url: '/drivers',
@@ -100,14 +111,14 @@ myApp.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'Rout
             .state('app.orders', {
                 url: '/orders',
                 title: 'Orders',
-                templateUrl: helper.basepath('orders.html')
-                //resolve: helper.resolveFor()
+                templateUrl: helper.basepath('orders.html'),
+                resolve: helper.resolveFor('datatables', 'datatables-pugins')
             })
             .state('app.payment', {
                 url: '/payment',
                 title: 'Payment',
-                templateUrl: helper.basepath('payment.html')
-                //resolve: helper.resolveFor()
+                templateUrl: helper.basepath('payment.html'),
+                resolve: helper.resolveFor('datatables', 'datatables-pugins')
             })
             .state('app.reports', {
                 url: '/reports',

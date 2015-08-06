@@ -3,9 +3,8 @@
     Mashaweer Dashboard
     <small>Welcome to Mashaweer</small>
 </h3>
-<button type="button" class="btn-primary" style="float: right;margin-top: -70px" ng-controller="dashboardController" ng-click="addCreditDialog()">Add Credit</button>
 <!--/*----- WIDGET DATA -----*/-->
-<div ng-controller="dashboardController" ng-init="init()">
+<div ng-controller="dashboardController">
     <div class="Heading">
         <h4>Today's Data</h4>
     </div>
@@ -96,6 +95,218 @@
     </div>
 </div>
 
+<!--/*----- MAP DATA -----*/-->
+<!--<div class="panel widget bg-primary">
+    <div ng-controller="MapCircleController">
+
+
+        <div class="panel-body map-dashboard">
+            <div id="map-container" style="height: 500px"></div>
+            </div>
+
+        &lt;!&ndash;<div class="panel-body map-dashboard">&ndash;&gt;
+            &lt;!&ndash;<ui-gmap-google-map center='map.center'&ndash;&gt;
+                                &lt;!&ndash;zoom='map.zoom'&ndash;&gt;
+                                &lt;!&ndash;draggable='map.draggable'&ndash;&gt;
+                                &lt;!&ndash;dragging='map.dragging'&ndash;&gt;
+                                &lt;!&ndash;refresh='map.refresh'&ndash;&gt;
+                                &lt;!&ndash;options='map.options'&ndash;&gt;
+                                &lt;!&ndash;events='map.events'&ndash;&gt;
+                                &lt;!&ndash;pan='map.pan'>&ndash;&gt;
+
+                &lt;!&ndash;<ui-gmap-markers models="map.markers2" coords="'self'" icon="'icon'" options="'options'"&ndash;&gt;
+                                 &lt;!&ndash;events="map.markers2Events">&ndash;&gt;
+
+                &lt;!&ndash;</ui-gmap-markers>&ndash;&gt;
+
+            &lt;!&ndash;</ui-gmap-google-map>&ndash;&gt;
+        &lt;!&ndash;</div>&ndash;&gt;
+    </div>
+</div>-->
+
+
+<div class="row">
+    <!-- START dashboard main content-->
+    <div class="col-lg-9">
+        <!-- START chart-->
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- START widget-->
+                <div class="panel widget bg-primary">
+                    <div ng-controller="MapCircleController">
+
+
+                        <div class="panel-body map-dashboard">
+                            <div id="map-container" style="height:620px"></div>
+                        </div>
+
+                        <!--<div class="panel-body map-dashboard">-->
+                        <!--<ui-gmap-google-map center='map.center'-->
+                        <!--zoom='map.zoom'-->
+                        <!--draggable='map.draggable'-->
+                        <!--dragging='map.dragging'-->
+                        <!--refresh='map.refresh'-->
+                        <!--options='map.options'-->
+                        <!--events='map.events'-->
+                        <!--pan='map.pan'>-->
+
+                        <!--<ui-gmap-markers models="map.markers2" coords="'self'" icon="'icon'" options="'options'"-->
+                        <!--events="map.markers2Events">-->
+
+                        <!--</ui-gmap-markers>-->
+
+                        <!--</ui-gmap-google-map>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END dashboard main content-->
+    <!-- START dashboard sidebar-->
+    <aside class="col-lg-3">
+        <!-- START loader widget-->
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <a href="#" class="text-muted pull-right">
+                    <em class="fa fa-arrow-right"></em>
+                </a>
+                <div class="text-info">Average Monthly Uploads</div>
+                <canvas classyloader="" data-percentage="70" data-speed="20" data-font-size="40px" data-diameter="70" data-line-color="{{colorByName('info')}}" data-remaining-line-color="rgba(200,200,200,0.4)" data-line-width="10"
+                        data-rounded-line="true" class="center-block"></canvas>
+                <div sparkline="" data-bar-color="{{colorByName('info')}}" data-height="30" data-bar-width="5" data-bar-spacing="2" values="5,4,8,7,8,5,4,6,5,5,9,4,6,3,4,7,5,4,7" class="text-center"></div>
+            </div>
+            <div class="panel-footer">
+                <p class="text-muted">
+                    <em class="fa fa-upload fa-fw"></em>
+                    <span>This Month</span>
+                    <span class="text-dark">1000 Gb</span>
+                </p>
+            </div>
+        </div>
+        <!-- END loader widget-->
+        <!-- START messages and activity-->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">Latest activities</div>
+            </div>
+            <!-- START list group-->
+            <div class="list-group">
+                <!-- START list group item-->
+                <div class="list-group-item">
+                    <div class="media-box">
+                        <div class="pull-left">
+                     <span class="fa-stack">
+                        <em class="fa fa-circle fa-stack-2x text-purple"></em>
+                        <em class="fa fa-cloud-upload fa-stack-1x fa-inverse text-white"></em>
+                     </span>
+                        </div>
+                        <div class="media-box-body clearfix">
+                            <small class="text-muted pull-right ml">15m</small>
+                            <div class="media-box-heading"><a href="#" class="text-purple m0">NEW FILE</a>
+                            </div>
+                            <p class="m0">
+                                <small><a href="#">Bootstrap.xls</a>
+                                </small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- END list group item-->
+                <!-- START list group item-->
+                <div class="list-group-item">
+                    <div class="media-box">
+                        <div class="pull-left">
+                     <span class="fa-stack">
+                        <em class="fa fa-circle fa-stack-2x text-info"></em>
+                        <em class="fa fa-file-text-o fa-stack-1x fa-inverse text-white"></em>
+                     </span>
+                        </div>
+                        <div class="media-box-body clearfix">
+                            <small class="text-muted pull-right ml">2h</small>
+                            <div class="media-box-heading"><a href="#" class="text-info m0">NEW DOCUMENT</a>
+                            </div>
+                            <p class="m0">
+                                <small><a href="#">Bootstrap.doc</a>
+                                </small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- END list group item-->
+                <!-- START list group item-->
+                <div class="list-group-item">
+                    <div class="media-box">
+                        <div class="pull-left">
+                     <span class="fa-stack">
+                        <em class="fa fa-circle fa-stack-2x text-danger"></em>
+                        <em class="fa fa-exclamation fa-stack-1x fa-inverse text-white"></em>
+                     </span>
+                        </div>
+                        <div class="media-box-body clearfix">
+                            <small class="text-muted pull-right ml">5h</small>
+                            <div class="media-box-heading"><a href="#" class="text-danger m0">BROADCAST</a>
+                            </div>
+                            <p class="m0"><a href="#">Read</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- END list group item-->
+                <!-- START list group item-->
+                <div class="list-group-item">
+                    <div class="media-box">
+                        <div class="pull-left">
+                     <span class="fa-stack">
+                        <em class="fa fa-circle fa-stack-2x text-success"></em>
+                        <em class="fa fa-clock-o fa-stack-1x fa-inverse text-white"></em>
+                     </span>
+                        </div>
+                        <div class="media-box-body clearfix">
+                            <small class="text-muted pull-right ml">15h</small>
+                            <div class="media-box-heading"><a href="#" class="text-success m0">NEW MEETING</a>
+                            </div>
+                            <p class="m0">
+                                <small>On
+                                    <em>10/12/2015 09:00 am</em>
+                                </small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- END list group item-->
+                <!-- START list group item-->
+                <div class="list-group-item">
+                    <div class="media-box">
+                        <div class="pull-left">
+                     <span class="fa-stack">
+                        <em class="fa fa-circle fa-stack-2x text-warning"></em>
+                        <em class="fa fa-tasks fa-stack-1x fa-inverse text-white"></em>
+                     </span>
+                        </div>
+                        <div class="media-box-body clearfix">
+                            <small class="text-muted pull-right ml">1w</small>
+                            <div class="media-box-heading"><a href="#" class="text-warning m0">TASKS COMPLETION</a>
+                            </div>
+                            <progressbar value="22" type="warning" class="progress-xs m0">22%</progressbar>
+                        </div>
+                    </div>
+                </div>
+                <!-- END list group item-->
+            </div>
+            <!-- END list group-->
+            <!-- START panel footer-->
+            <div class="panel-footer clearfix">
+                <a href="#" class="pull-left">
+                    <small>Load more</small>
+                </a>
+            </div>
+            <!-- END panel-footer-->
+        </div>
+        <!-- END messages and activity-->
+    </aside>
+    <!-- END dashboard sidebar-->
+</div>
 
 <!-- **************************************************************************
 ******************* Modal to add credit ***********************************
@@ -135,99 +346,17 @@
 
 </script>
 
-<!--/*----- MAP DATA -----*/-->
-<!--<div class="panel widget bg-primary">
-    <div ng-controller="MapCircleController">
+<!-- **************************************************************************
+******************* Modal to display msg **************************************
+*******************************************************************************-->
+<script type="text/ng-template" id="display_msg">
+    <div class="ngdialog-message">
 
-        <div class="panel-body map-dashboard">
-            <ui-gmap-google-map center='map.center'
-                                zoom='map.zoom'
-                                draggable='map.draggable'
-                                dragging='map.dragging'
-                                refresh='map.refresh'
-                                options='map.options'
-                                events='map.events'
-                                pan='map.pan'>
+        <h4>{{displaymsg2}}</h4>
+        <button type="submit" ng-click="$state.reload() && closeThisDialog(0)" class="btn btn-primary"
+                style="margin-top:20px;float:right;">OK</button>
 
-                <ui-gmap-markers models="map.markers2" coords="'self'" icon="'icon'" options="'options'"
-                                 events="map.markers2Events">
-
-                </ui-gmap-markers>
-
-            </ui-gmap-google-map>
-        </div>
+        <div style="clear: both;"></div>
     </div>
-</div>-->
+</script>
 
-<!--/*----- CHART DATA -----*/-->
-<!--<div class="row charts">
-
-    <div ng-controller="ChartController" class="container-fluid">
-        <div class="pull-right">
-
-            <div class="form-group mb-xl, col-sm-3 dtpicker">
-                <br/>
-                <p class="input-group" ng-controller="DatepickerDemoCtrl">
-                    <input type="text" datepicker-popup="{{format}}" ng-model="date.startDate" is-open="datepicker.dt1"
-                           min-date="minDate"
-                           max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
-                           ng-required="true" close-text="Close" class="form-control" disabled/>
-            <span class="input-group-btn">
-               <button type="button" ng-click="openDt1($event)" class="btn btn-default">
-                   <em class="fa fa-calendar"></em>
-               </button>
-            </span>
-                </p>
-            </div>
-            <div class="form-group mb-xl, col-sm-3">
-                <br/>
-
-                <p class="input-group" ng-controller="DatepickerDemoCtrl">
-                    <input type="text" datepicker-popup="{{format}}" ng-model="date.endDate" is-open="datepicker.dt2"
-                           min-date="date.startDate"
-                           max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
-                           ng-required="true" close-text="Close" class="form-control" disabled/>
-            <span class="input-group-btn">
-               <button type="button" ng-click="openDt2($event)" class="btn btn-default">
-                   <em class="fa fa-calendar"></em>
-               </button>
-            </span>
-                </p>
-            </div>
-            <button type="submit" class="btn btn-success btn-datepicker dt" ng-click="dates()">Submit</button>
-        </div>
-        &lt;!&ndash; START row&ndash;&gt;
-        <div class="row">
-            <div class="col-lg-12">
-                <div id="panelChart1" class="panel panel-default">
-                    <div class="panel-heading">
-                        <paneltool tool-collapse="tool-collapse" tool-dismiss="tool-dismiss"
-                                   tool-refresh="traditional"></paneltool>
-                        <div class="panel-title">Area</div>
-                    </div>
-                    <div collapse="panelChart1" class="panel-wrapper">
-                        <div class="panel-body">
-                            <flot dataset="areaData" options="areaOptions" height="300px"></flot>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row" style="margin-left: 0px; margin-right: 0">
-                <div class="col-lg-12">
-                    <div id="panelChart4" class="panel panel-default">
-                        <div class="panel-heading">
-                            <paneltool tool-collapse="tool-collapse" tool-dismiss="tool-dismiss"></paneltool>
-                            <div class="panel-title">Line</div>
-                        </div>
-                        <div collapse="panelChart4" class="panel-wrapper">
-                            <div class="panel-body">
-                                <flot dataset="lineData" options="lineOptions" height="300px"></flot>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>-->

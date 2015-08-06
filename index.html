@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" data-ng-app="myAppName">
-
+<html lang="en" data-ng-app="AppName">
 <head>
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="shortcut icon" type="image/x-icon" href="app/img/chitchapp_logo.png"/>
+    <link rel="shortcut icon" type="image/x-icon" href="app/img/mashaweer-logo.png"/>
     <meta name="description" content="{{app.description}}">
    <title data-ng-bind="pageTitle()">Click Labs</title>
    <link rel="stylesheet" href="app/css/app.css">
@@ -19,12 +18,20 @@
    <script src="app/js/controllers/customers-ctrl.js"></script>
    <script src="app/js/controllers/dashboard-ctrl.js"></script>
    <script src="app/js/controllers/drivers-ctrl.js"></script>
+   <script src="app/js/controllers/map-circle-ctrl.js"></script>
+   <script src="app/js/controllers/moment.js"></script>
    <script src="app/js/controllers/orders-ctrl.js"></script>
    <script src="app/js/controllers/payment-ctrl.js"></script>
    <script src="app/js/controllers/pricing-ctrl.js"></script>
    <script src="app/js/controllers/reports-ctrl.js"></script>
    <script src="app/js/controllers/subscription-ctrl.js"></script>
    <script src="app/js/controllers/login-ctrl.js"></script>
+   <script src="vendor/export/alasql.min.js"></script>
+   <script src="vendor/angular-google-maps/angular-google-maps.min.js"></script>
+   <script src="vendor/angular-google-maps/lodash.min.js"></script>
+   <script src='http://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&amp;libraries=places'></script>
+   <script src="vendor/marker/markerclusterer.js"></script>
+   <script src="vendor/marker/markerwithLabel.js"></script>
  <!--  <script src="app/js/controllers/register-ctrl.js"></script>
    <script src="app/js/controllers/moment.js"></script>-->
 </body>

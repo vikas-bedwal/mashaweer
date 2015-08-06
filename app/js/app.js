@@ -52,7 +52,7 @@ var App = angular.module('angle', ['ngRoute', 'ngAnimate', 'ngStorage', 'ngCooki
         $rootScope.user = {
             name: 'John',
             job: 'ng-Dev',
-            picture: 'app/img/chitchapp_logo.png'
+            picture: 'app/img/mashaweer-logo.png'
         };
 
     }]);
@@ -137,7 +137,9 @@ App
             'datatables-pugins': ['vendor/datatable-bootstrap/js/dataTables.bootstrap.js',
                 'vendor/datatable-bootstrap/js/dataTables.bootstrapPagination.js',
                 'vendor/datatables-colvis/js/dataTables.colVis.js',
-                'vendor/datatables-colvis/css/dataTables.colVis.css']
+                'vendor/datatables-colvis/css/dataTables.colVis.css'],
+            'loadGoogleMapsJS':   ['vendor/gmap/load-google-maps.js'],
+            'google-map':         ['vendor/jQuery-gMap/jquery.gmap.min.js'],
         },
 
         // Angular based script (use the right module name)

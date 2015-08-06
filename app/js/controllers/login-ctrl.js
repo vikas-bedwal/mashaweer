@@ -1,12 +1,9 @@
 /**
- * Created by Vikas on 3/25/15.
+ * Created by Vikas on 29/07/15.
  */
 App.controller('LoginController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $state) {
-    //initially set those objects to null to avoid undefined error
-    // place the message if something goes wrong
     $scope.account = {};
     $scope.authMsg = '';
-
     $scope.loginAdmin = function () {
         $scope.authMsg = '';
         console.log($scope.account.email);
@@ -36,9 +33,7 @@ App.controller('LoginController', function ($scope, $http, $cookies, $cookieStor
                 }
             });
     };
-
     $scope.recover = function () {
-
         $.post(MY_CONSTANT.url + '/forgot_password',
             {
                 email: $scope.account.email
@@ -55,10 +50,8 @@ App.controller('LoginController', function ($scope, $http, $cookies, $cookieStor
                 $scope.$apply();
             })
     };
-
     $scope.logout = function () {
         $cookieStore.remove('obj');
         $state.go('page.login');
     }
 });
-

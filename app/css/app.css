@@ -106,13 +106,13 @@ p{
 	margin: 0;
 }
 .logo-div{
-  min-width: 240px;
+  /*min-width: 240px;*/
   width: 20%;
   display:block;
   height: auto;
   max-width: 100%;
 
-  padding-top: 20px;
+  /*padding-top: 20px;*/
 
 }
 

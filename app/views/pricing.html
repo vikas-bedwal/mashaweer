@@ -4,31 +4,38 @@
 </h3>
 <div ng-controller="pricingController" class="container-fluid">
 
+    <tabset justified="true">
 
-    <h4 class="page-header">Truck</h4>
-    <table class="table table-bordered table-hover bg-white">
+        <!------------------------Bike Fare Tab Starts------------------------------->
+        <tab ng-click="bike()">
+            <tab-heading>
+                <em class="fa fa-bicycle fa-fw"></em>
+                <span style="color: #F4BF00">Bike</span>
+            </tab-heading>
+            <h4 class="fareList">Distance Bases Fare</h4>
+    <table id="pricing" class="table table-bordered table-hover bg-white">
         <tr style="font-weight: bold">
             <td style="width:35%">From</td>
             <td style="width:20%">To</td>
             <td style="width:20%">Fare</td>
             <td style="width:25%">Edit</td>
         </tr>
-        <tr ng-repeat="user in users">
+        <tr ng-repeat="distanceFareBike in distanceFareBike">
             <td>
                 <!-- editable username (text with validation)-->
-                <span editable-text="user.name" e-name="name" e-form="rowform" onbeforesave="checkName($data, user.id)" e-required="">{{ user.name || &apos;empty&apos; }}</span>
+                <span editable-text="distanceFareBike.from" e-name="from" e-form="rowform" onbeforesave="checkName($data, distanceFareBike.id)" e-required="">{{ distanceFareBike.from || &apos;empty&apos; }}</span>
             </td>
             <td>
-                <!-- editable status (select-local)-->
-                <span editable-select="user.status" e-name="status" e-form="rowform" e-ng-options="s.value as s.text for s in statuses">{{ showStatus(user) }}</span>
+                <!-- editable username (text with validation)-->
+                <span editable-text="distanceFareBike.to" e-name="to" e-form="rowform" onbeforesave="checkName($data, distanceFareBike.id)" e-required="">{{ distanceFareBike.to || &apos;empty&apos; }}</span>
             </td>
             <td>
-                <!-- editable group (select-remote)-->
-                <span editable-select="user.group" e-name="group" onshow="loadGroups()" e-form="rowform" e-ng-options="g.id as g.text for g in groups">{{ showGroup(user) }}</span>
+                <!-- editable username (text with validation)-->
+                <span editable-text="distanceFareBike.fareCharge" e-name="fareCharge" e-form="rowform" onbeforesave="checkName($data, distanceFareBike.id)" e-required="">{{ distanceFareBike.fareCharge || &apos;empty&apos; }}</span>
             </td>
             <td style="white-space: nowrap">
                 <!-- form-->
-                <form editable-form="" name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" shown="inserted == user" class="form-buttons form-inline">
+                <form editable-form="" name="rowform" onbeforesave="saveUser($data)" ng-show="rowform.$visible" shown="inserted == distanceFareBike" class="form-buttons form-inline">
                     <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-info">
                         <em class="fa fa-save"></em>
                     </button>
@@ -37,17 +44,261 @@
                     </button>
                 </form>
                 <div ng-show="!rowform.$visible" class="buttons">
-                    <button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
+                    <!--<button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
                         <em class="fa fa-pencil"></em>
-                    </button>
-                    <button ng-click="removeUser($index)" title="Delete" class="btn btn-sm btn-danger">
+                    </button>-->
+                    <button ng-click="removeUser($index,'BIKE',0)" title="Delete" class="btn btn-sm btn-danger">
                         <em class="fa fa-trash"></em>
                     </button>
                 </div>
             </td>
         </tr>
     </table>
-    <button ng-click="addUser()" class="btn btn-default">Add row</button>
+    <button ng-click="addRow('distanceFareBike')" class="btn btn-default">Add row</button>
 
+            <hr>
 
+            <h4 class="fareList">Wait Bases Fare</h4>
+            <table id="pricing" class="table table-bordered table-hover bg-white">
+                <tr style="font-weight: bold">
+                    <td style="width:35%">From</td>
+                    <td style="width:20%">To</td>
+                    <td style="width:20%">Fare</td>
+                    <td style="width:25%">Edit</td>
+                </tr>
+                <tr ng-repeat="waitFareBike in waitFareBike">
+                    <td>
+                        <!-- editable username (text with validation)-->
+                        <span editable-text="waitFareBike.from" e-name="from" e-form="rowform" onbeforesave="checkName($data, waitFareBike.id)" e-required="">{{ waitFareBike.from || &apos;empty&apos; }}</span>
+                    </td>
+                    <td>
+                        <!-- editable username (text with validation)-->
+                        <span editable-text="waitFareBike.to" e-name="to" e-form="rowform" onbeforesave="checkName($data, waitFareBike.id)" e-required="">{{ waitFareBike.to || &apos;empty&apos; }}</span>
+                    </td>
+                    <td>
+                        <!-- editable username (text with validation)-->
+                        <span editable-text="waitFareBike.fareCharge" e-name="fareCharge" e-form="rowform" onbeforesave="checkName($data, waitFareBike.id)" e-required="">{{ waitFareBike.fareCharge || &apos;empty&apos; }}</span>
+                    </td>
+                    <td style="white-space: nowrap">
+                        <!-- form-->
+                        <form editable-form="" name="rowform" onbeforesave="saveUser($data, waitFareBike.id)" ng-show="rowform.$visible" shown="inserted == waitFareBike" class="form-buttons form-inline">
+                            <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-info">
+                                <em class="fa fa-save"></em>
+                            </button>
+                            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
+                                <em class="fa fa-times"></em>
+                            </button>
+                        </form>
+                        <div ng-show="!rowform.$visible" class="buttons">
+                            <!--<button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
+                                <em class="fa fa-pencil"></em>
+                            </button>-->
+                            <button ng-click="removeUser($index,'BIKE',1)" title="Delete" class="btn btn-sm btn-danger">
+                                <em class="fa fa-trash"></em>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <button ng-click="addRow('waitFareBike')" class="btn btn-default">Add row</button>
+</tab>
+
+        <!------------------------Van Fare Tab Starts------------------------------->
+
+        <tab>
+            <tab-heading>
+                <em class="fa fa-automobile fa-fw"></em>
+                <span style="color: #F4BF00">Van</span>
+            </tab-heading>
+
+            <h4 class="fareList">Distance Bases Fare</h4>
+            <table id="pricing" class="table table-bordered table-hover bg-white">
+                <tr style="font-weight: bold">
+                    <td style="width:35%">From</td>
+                    <td style="width:20%">To</td>
+                    <td style="width:20%">Fare</td>
+                    <td style="width:25%">Edit</td>
+                </tr>
+                <tr ng-repeat="distanceFareVan in distanceFareVan">
+                    <td>
+                        <!-- editable username (text with validation)-->
+                        <span editable-text="distanceFareVan.from" e-name="from" e-form="rowform" onbeforesave="checkName($data, distanceFareVan.id)" e-required="">{{ distanceFareVan.from || &apos;empty&apos; }}</span>
+                    </td>
+                    <td>
+                        <!-- editable username (text with validation)-->
+                        <span editable-text="distanceFareVan.to" e-name="to" e-form="rowform" onbeforesave="checkName($data, distanceFareVan.id)" e-required="">{{ distanceFareVan.to || &apos;empty&apos; }}</span>
+                    </td>
+                    <td>
+                        <!-- editable username (text with validation)-->
+                        <span editable-text="distanceFareVan.fareCharge" e-name="fareCharge" e-form="rowform" onbeforesave="checkName($data, distanceFareVan.id)" e-required="">{{ distanceFareVan.fareCharge || &apos;empty&apos; }}</span>
+                    </td>
+                    <td style="white-space: nowrap">
+                        <!-- form-->
+                        <form editable-form="" name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" shown="inserted == distanceFareVan" class="form-buttons form-inline">
+                            <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-info">
+                                <em class="fa fa-save"></em>
+                            </button>
+                            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
+                                <em class="fa fa-times"></em>
+                            </button>
+                        </form>
+                        <div ng-show="!rowform.$visible" class="buttons">
+                            <!--<button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
+                                <em class="fa fa-pencil"></em>
+                            </button>-->
+                            <button ng-click="removeUser($index,'VAN',0)" title="Delete" class="btn btn-sm btn-danger">
+                                <em class="fa fa-trash"></em>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <button ng-click="addRow('distanceFareVan')" class="btn btn-default">Add row</button>
+
+            <hr>
+
+            <h4 class="fareList">Wait Bases Fare</h4>
+            <table id="pricing" class="table table-bordered table-hover bg-white">
+                <tr style="font-weight: bold">
+                    <td style="width:35%">From</td>
+                    <td style="width:20%">To</td>
+                    <td style="width:20%">Fare</td>
+                    <td style="width:25%">Edit</td>
+                </tr>
+                <tr ng-repeat="waitFareVan in waitFareVan">
+                    <td>
+                        <!-- editable username (text with validation)-->
+                        <span editable-text="waitFareVan.from" e-name="from" e-form="rowform" onbeforesave="checkName($data, waitFareVan.id)" e-required="">{{ waitFareVan.from || &apos;empty&apos; }}</span>
+                    </td>
+                    <td>
+                        <!-- editable username (text with validation)-->
+                        <span editable-text="waitFareVan.to" e-name="to" e-form="rowform" onbeforesave="checkName($data, waitFareVan.id)" e-required="">{{ waitFareVan.to || &apos;empty&apos; }}</span>
+                    </td>
+                    <td>
+                        <!-- editable username (text with validation)-->
+                        <span editable-text="waitFareVan.fareCharge" e-name="fareCharge" e-form="rowform" onbeforesave="checkName($data, waitFareVan.id)" e-required="">{{ waitFareVan.fareCharge || &apos;empty&apos; }}</span>
+                    </td>
+                    <td style="white-space: nowrap">
+                        <!-- form-->
+                        <form editable-form="" name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" shown="inserted == waitFareVan" class="form-buttons form-inline">
+                            <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-info">
+                                <em class="fa fa-save"></em>
+                            </button>
+                            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
+                                <em class="fa fa-times"></em>
+                            </button>
+                        </form>
+                        <div ng-show="!rowform.$visible" class="buttons">
+                           <!-- <button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
+                                <em class="fa fa-pencil"></em>
+                            </button>-->
+                            <button ng-click="removeUser($index,'VAN',1)" title="Delete" class="btn btn-sm btn-danger">
+                                <em class="fa fa-trash"></em>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <button ng-click="addRow('waitFareVan')" class="btn btn-default">Add row</button>
+
+            </tab>
+
+        <!------------------------Truck Fare Tab Starts------------------------------->
+
+        <tab>
+            <tab-heading>
+                <em class="fa fa-truck fa-fw"></em>
+                <span style="color: #F4BF00">Truck</span>
+            </tab-heading>
+            <h4 class="fareList">Distance Bases Fare</h4>
+            <table id="pricing" class="table table-bordered table-hover bg-white">
+                <tr style="font-weight: bold">
+                    <td style="width:35%">From</td>
+                    <td style="width:20%">To</td>
+                    <td style="width:20%">Fare</td>
+                    <td style="width:25%">Edit</td>
+                </tr>
+                <tr ng-repeat="distanceFareTruck in distanceFareTruck">
+                    <td>
+                        <!-- editable username (text with validation)-->
+                        <span editable-text="distanceFareTruck.from" e-name="from" e-form="rowform" onbeforesave="checkName($data, distanceFareTruck.id)" e-required="">{{ distanceFareTruck.from || &apos;empty&apos; }}</span>
+                    </td>
+                    <td>
+                        <!-- editable username (text with validation)-->
+                        <span editable-text="distanceFareTruck.to" e-name="to" e-form="rowform" onbeforesave="checkName($data, distanceFareTruck.id)" e-required="">{{ distanceFareTruck.to || &apos;empty&apos; }}</span>
+                    </td>
+                    <td>
+                        <!-- editable username (text with validation)-->
+                        <span editable-text="distanceFareTruck.fareCharge" e-name="fareCharge" e-form="rowform" onbeforesave="checkName($data, distanceFareTruck.id)" e-required="">{{ distanceFareTruck.fareCharge || &apos;empty&apos; }}</span>
+                    </td>
+                    <td style="white-space: nowrap">
+                        <!-- form-->
+                        <form editable-form="" name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" shown="inserted == distanceFareTruck" class="form-buttons form-inline">
+                            <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-info">
+                                <em class="fa fa-save"></em>
+                            </button>
+                            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
+                                <em class="fa fa-times"></em>
+                            </button>
+                        </form>
+                        <div ng-show="!rowform.$visible" class="buttons">
+                           <!-- <button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
+                                <em class="fa fa-pencil"></em>
+                            </button>-->
+                            <button ng-click="removeUser($index,'TRUCK',0)" title="Delete" class="btn btn-sm btn-danger">
+                                <em class="fa fa-trash"></em>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <button ng-click="addRow('distanceFareTruck')" class="btn btn-default">Add row</button>
+
+            <hr>
+
+            <h4 class="fareList">Wait Bases Fare</h4>
+            <table id="pricing" class="table table-bordered table-hover bg-white">
+                <tr style="font-weight: bold">
+                    <td style="width:35%">From</td>
+                    <td style="width:20%">To</td>
+                    <td style="width:20%">Fare</td>
+                    <td style="width:25%">Edit</td>
+                </tr>
+                <tr ng-repeat="waitFaretruck in waitFaretruck">
+                    <td>
+                        <!-- editable username (text with validation)-->
+                        <span editable-text="waitFaretruck.from" e-name="from" e-form="rowform" onbeforesave="checkName($data, waitFaretruck.id)" e-required="">{{ waitFaretruck.from || &apos;empty&apos; }}</span>
+                    </td>
+                    <td>
+                        <!-- editable username (text with validation)-->
+                        <span editable-text="waitFaretruck.to" e-name="to" e-form="rowform" onbeforesave="checkName($data, waitFaretruck.id)" e-required="">{{ waitFaretruck.to || &apos;empty&apos; }}</span>
+                    </td>
+                    <td>
+                        <!-- editable username (text with validation)-->
+                        <span editable-text="waitFaretruck.fareCharge" e-name="fareCharge" e-form="rowform" onbeforesave="checkName($data, waitFaretruck.id)" e-required="">{{ waitFaretruck.fareCharge || &apos;empty&apos; }}</span>
+                    </td>
+                    <td style="white-space: nowrap">
+                        <!-- form-->
+                        <form editable-form="" name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" shown="inserted == waitFaretruck" class="form-buttons form-inline">
+                            <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-info">
+                                <em class="fa fa-save"></em>
+                            </button>
+                            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
+                                <em class="fa fa-times"></em>
+                            </button>
+                        </form>
+                        <div ng-show="!rowform.$visible" class="buttons">
+                            <!--<button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
+                                <em class="fa fa-pencil"></em>
+                            </button>-->
+                            <button ng-click="removeUser($index,'TRUCK',1)" title="Delete" class="btn btn-sm btn-danger">
+                                <em class="fa fa-trash"></em>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <button ng-click="addRow('waitFaretruck')" class="btn btn-default">Add row</button>
+        </tab>
+</tabset>
 </div>
