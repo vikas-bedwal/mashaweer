@@ -89,6 +89,8 @@ App.controller('customersController', function ($scope, $http, $cookies, $cookie
             });
     };
     }
+
+    /*-----------Add Credit Section dialog---------------------*/
     $scope.addCreditDialog = function () {
         ngDialog.open({
             template: 'addCredit',
@@ -99,8 +101,7 @@ App.controller('customersController', function ($scope, $http, $cookies, $cookie
         });
     }
 
-    /*-----------Customer BLock Section Starts---------------------*/
-
+    /*-----------Add Credit Section Starts---------------------*/
     $scope.addCredit = function (data) {
         $.post(MY_CONSTANT.url + 'api/admin/addCustomerCredits',
             {

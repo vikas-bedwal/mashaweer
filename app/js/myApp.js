@@ -130,7 +130,7 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
                 url: '/pricing',
                 title: 'Pricing',
                 templateUrl: helper.basepath('pricing.html'),
-                resolve: helper.resolveFor('xeditable')
+                resolve: helper.resolveFor('xeditable','ngDialog')
             })
             .state('app.subscription', {
                 url: '/subscription',

@@ -13,9 +13,11 @@
                         <tr>
                             <th>No.</th>
                             <th hidden="hidden">Id</th>
-                            <th>Deriver Name</th>
-                            <th>Document</th>
-                            <th>Type</th>
+                            <th>Driver Name</th>
+                            <th>Driver Email</th>
+                            <th>Document Type</th>
+                            <th>Driver Type</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -23,19 +25,19 @@
                             <td>{{$index + 1}}</td>
                             <td hidden="hidden">{{data._id}}</td>
                             <td>{{data.fullName}}</td>
+                            <td>{{data.email}}</td>
                             <td>{{data.title}}</td>
                             <td>{{data.isDedicated}}</td>
-                            <!--<td>{{data.isDeleted}}</td>-->
-                            <!--<td style="text-align: center;">
-                                <button ng-hide="{{data.is_blocked}}" ng-click="blockCust(data.email)"
+                            <td style="text-align: center;">
+                                <button ng-hide="0" ng-click="blockDriver(data.email)"
                                         title="Block" class="btn btn-sm btn-success">
                                     <em class="fa fa-unlock"></em>
                                 </button>
-                                <button ng-show="{{data.is_blocked}}" ng-click="blockCust(data.email)"
+                               <!-- <button ng-show="{{data.isBlocked}}" ng-click="blockDriver(data.email)"
                                         title="Unblock" class="btn btn-sm btn-success">
                                     <em class="fa fa-lock"></em>
-                                </button>
-                            </td>-->
+                                </button>-->
+                            </td>
                         </tr>
                         </tbody>
                     </table>

@@ -2,6 +2,12 @@
  * Created by Vikas on 29/07/15.
  */
 App.controller('LoginController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $state) {
+  /*  $("#login-button").click(function(event){
+        event.preventDefault();
+
+        $('form').fadeOut(500);
+        $('.wrapper').addClass('form-success');
+    });*/
     $scope.account = {};
     $scope.authMsg = '';
     $scope.loginAdmin = function () {
@@ -54,4 +60,5 @@ App.controller('LoginController', function ($scope, $http, $cookies, $cookieStor
         $cookieStore.remove('obj');
         $state.go('page.login');
     }
+
 });

@@ -13,7 +13,8 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
                 custList.forEach(function (column) {
                     var d = {};
                     d._id = column._id;
-                    d.fullName = column.fullName;
+                    d.customerName = column.customerName;
+                    d.driverName = column.driverName;
                     d.amount = column.amount;
                     d.pickupLocation = column.pickupLocation;
                     d.deliveryLocation = column.deliveryLocation

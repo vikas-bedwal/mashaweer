@@ -2,13 +2,8 @@
  * Created by Vikas on 31/07/15.
  */
 
-    /**=========================================================
-     * Module: demo-buttons.js
-     * Provides a simple demo for buttons actions
-     =========================================================*/
-
     App.controller('pricingController',
-        function($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $timeout, $filter, editableOptions, editableThemes, $q,$state) {
+        function($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $timeout, $filter, editableOptions, editableThemes, $q,$state,ngDialog) {
             console.log("In pricing");
             // editable row
             // -----------------------------------
@@ -18,11 +13,6 @@
             $scope.waitFareBike = [];
             $scope.waitFareVan = [];
             $scope.waitFareTruck = [];
-
-            $scope.bike = function(){
-                console.log("In bike");
-            }
-
 
             $http.get(MY_CONSTANT.url + 'api/admin/pricingInfo/' + $cookieStore.get('obj').accesstoken)
                 .success(function (response, status) {
@@ -129,10 +119,10 @@
                                     dtInstance.fnFilter(this.value, columnInputs.index(this));
                                 });
                         });
-                        $scope.$on('$destroy', function () {
+                      /*  $scope.$on('$destroy', function () {
                             dtInstance.fnDestroy();
                             $('[class*=ColVis]').remove();
-                        })
+                        })*/
 
                     } else {
                         alert("Something went wrong, please try again later.");
@@ -214,7 +204,7 @@
             };
 
             // remove user
-            $scope.removeUser = function(index,type,flag) {
+   /*         $scope.removeUser = function(index,type,flag) {
                 console.log(index);
                 console.log(type);
                 console.log(flag);
@@ -234,27 +224,10 @@
                         $scope.$apply();
                         $state.reload();
                     });
-            };
+            };*/
 
             // -----------------Add row for Fare List------------------------
             $scope.addRow = function(type) {
-                    /*$.post(MY_CONSTANT.url + 'api/admin/addPricing',
-                        {
-                            accessToken: $cookieStore.get('obj').accesstoken,
-                            vehicleType: '"VAN"',
-                            priceFrom: 5,
-                            priceTo: 55,
-                            priceCharge: 155,
-                            waitFrom: 5,
-                            waitTo: 75,
-                            waitCharge: 95
-                        },
-                        function (data) {
-                            console.log(data)
-                            $scope.list = data;
-                            $scope.$apply();
-                            $state.reload();
-                        });*/
                 $scope.inserted = {
                     from: null,
                     to: null,
@@ -300,7 +273,7 @@
             // -----------------------------------
 
 
-            $scope.saveColumn = function(column) {
+            /*$scope.saveColumn = function(column) {
                 console.log("Check");
                 console.log($scope.type)
                 var results = [];
@@ -361,6 +334,91 @@
                 }
 
                 return $q.all(results);
+            };*/
+
+
+            /**=========================================================
+             * Module: delete row
+             =========================================================*/
+
+            $scope.openConfirmationDialog = function ($index,type,flag) {
+                $scope.index = $index;
+                $scope.type = type;
+                $scope.flag = flag;
+                ngDialog.open({
+                    template: 'firstDialogId',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope
+                });
             };
+
+
+            $scope.confirmDelete = function () {
+                switch($scope.type) {
+                    case 'distanceFareBike':
+                        $scope.from = $scope.distanceFareBike[$scope.index].from;
+                        $scope.to = $scope.distanceFareBike[$scope.index].to;
+                        $scope.type = "BIKE";
+                        $scope.flag = 0;
+                        break;
+                    case 'waitFareBike':
+                        $scope.from = $scope.waitFareBike[$scope.index].from;
+                        $scope.to = $scope.waitFareBike[$scope.index].to;
+                        $scope.type = "BIKE";
+                        $scope.flag = 1;
+                        break;
+                    case 'distanceFareVan':
+                        $scope.from = $scope.distanceFareVan[$scope.index].from;
+                        $scope.to = $scope.distanceFareVan[$scope.index].to;
+                        $scope.type = "VAN";
+                        $scope.flag = 0;
+                        break;
+                    case 'waitFareVan':
+                        $scope.from = $scope.waitFareVan[$scope.index].from;
+                        $scope.to = $scope.waitFareVan[$scope.index].to;
+                        $scope.type = "VAN";
+                        $scope.flag = 1;
+                        break;
+                    case 'distanceFareTruck':
+                        $scope.from = $scope.distanceFareTruck[$scope.index].from;
+                        $scope.to = $scope.distanceFareTruck[$scope.index].to;
+                        $scope.type = "TRUCK";
+                        $scope.flag = 0;
+                        break;
+                    case 'waitFaretruck':
+                        $scope.from = $scope.waitFaretruck[$scope.index].from;
+                        $scope.to = $scope.waitFaretruck[$scope.index].to;
+                        $scope.type = "TRUCK";
+                        $scope.flag = 1;
+                        break;
+                    default: console.log("Default");
+                }
+
+                $.post(MY_CONSTANT.url + 'api/admin/deletePricing',
+                    {
+                        accessToken: $cookieStore.get('obj').accesstoken,
+                        vehicleType: $scope.type,
+                        from: $scope.from,
+                        to: $scope.to,
+                        flag: $scope.flag
+                    },
+                    function (data) {
+                        console.log(data)
+                        $scope.list = data;
+                        $scope.$apply();
+                        $state.reload();
+                    });
+
+            };
+
+            /**=========================================================
+             * Module: Find active tab
+             =========================================================*/
+            $scope.tabNo = function(tabNo){
+                console.log("In bike");
+                var activeTab = {'tab': tabNo};
+                $cookieStore.put('obj1', activeTab);
+                console.log($cookieStore.get('obj1').tab)
+            }
 
         });

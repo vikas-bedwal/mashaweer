@@ -1,7 +1,7 @@
 /**
  * Created by Vikas on 31/07/15.
  */
-App.controller('driversController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $timeout) {
+App.controller('driversController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $timeout,$state) {
     'use strict';
     console.log("In driver");
     $http.get(MY_CONSTANT.url + 'api/admin/driverList/' + $cookieStore.get('obj').accesstoken)
@@ -14,12 +14,21 @@ App.controller('driversController', function ($scope, $http, $cookies, $cookieSt
                     var d = {};
                     d._id = column._id;
                     d.fullName = column.fullName;
+                    d.email = column.email;
                     d.title = column.title;
                     d.isDedicated = column.isDedicated
                     if(column.isDedicated == false)
                         d.isDedicated = 'Freelancer';
                     else
                         d.isDedicated = 'Dedicated';
+                    if(column.isDeleted == false)
+                        d.isDeleted = 'Active';
+                    else
+                        d.isDeleted = 'Inactive';
+                    if(column.isBlocked == false)
+                        d.isBlocked = 0;
+                    else
+                        d.isBlocked = 1;
                     dataArray.push(d);
                 });
                 $scope.list = dataArray;
@@ -88,4 +97,19 @@ App.controller('driversController', function ($scope, $http, $cookies, $cookieSt
         .error(function (error) {
             console.log(error);
         });
+
+
+    // -----------Driver BLock Section Starts---------------------
+    $scope.blockDriver = function (email) {
+        $.post(MY_CONSTANT.url + 'api/admin/toggleDriverBlock',
+            {
+                accessToken: $cookieStore.get('obj').accesstoken, email: email
+            },
+            function (data) {
+                console.log(data)
+                $scope.list = data;
+                $scope.$apply();
+                $state.reload();
+            });
+    };
 });
