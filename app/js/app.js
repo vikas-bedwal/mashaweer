@@ -139,7 +139,7 @@ App
                 'vendor/datatables-colvis/js/dataTables.colVis.js',
                 'vendor/datatables-colvis/css/dataTables.colVis.css'],
             'loadGoogleMapsJS':   ['vendor/gmap/load-google-maps.js'],
-            'google-map':         ['vendor/jQuery-gMap/jquery.gmap.min.js'],
+            'google-map':         ['vendor/jQuery-gMap/jquery.gmap.min.js']
         },
 
         // Angular based script (use the right module name)

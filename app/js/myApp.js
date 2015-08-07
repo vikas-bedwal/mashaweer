@@ -6,6 +6,13 @@
 
 //var App = angular.module('myAppName', ['angle']);
 
+
+/*{
+    "text": "Reports",
+    "sref": "app.reports",
+    "icon": "fa fa-newspaper-o"
+},*/
+
 var App = angular.module('AppName', ['angle', 'uiGmapgoogle-maps']);
 
 App.config(['uiGmapGoogleMapApiProvider', function (GoogleMapApi) {
@@ -93,8 +100,8 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
             .state('app.dashboard', {
                 url: '/dashboard',
                 title: 'Dashboard',
-                templateUrl: helper.basepath('dashboard.html')
-                //resolve: helper.resolveFor()
+                templateUrl: helper.basepath('dashboard.html'),
+                resolve: helper.resolveFor('datatables', 'datatables-pugins')
             })
             .state('app.customers', {
                 url: '/customers',
@@ -135,8 +142,8 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
             .state('app.subscription', {
                 url: '/subscription',
                 title: 'Subscription',
-                templateUrl: helper.basepath('subscription.html')
-                //resolve: helper.resolveFor()
+                templateUrl: helper.basepath('subscription.html'),
+                resolve: helper.resolveFor('parsley')
             })
             .state('app.details', {
                 url : "/{id:[0-9]*}",

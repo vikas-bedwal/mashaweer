@@ -29,11 +29,6 @@
     "icon": "fa fa-paypal"
   },
   {
-    "text": "Reports",
-    "sref": "app.reports",
-    "icon": "fa fa-newspaper-o"
-  },
-  {
     "text": "Pricing",
     "sref": "app.pricing",
     "icon": "icon-wallet"

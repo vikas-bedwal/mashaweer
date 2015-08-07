@@ -29,14 +29,14 @@
                             <td>{{data.title}}</td>
                             <td>{{data.isDedicated}}</td>
                             <td style="text-align: center;">
-                                <button ng-hide="0" ng-click="blockDriver(data.email)"
+                                <button ng-hide="{{data.isBlocked}}" ng-click="blockDriver(data.email)"
                                         title="Block" class="btn btn-sm btn-success">
                                     <em class="fa fa-unlock"></em>
                                 </button>
-                               <!-- <button ng-show="{{data.isBlocked}}" ng-click="blockDriver(data.email)"
+                                <button ng-show="{{data.isBlocked}}" ng-click="blockDriver(data.email)"
                                         title="Unblock" class="btn btn-sm btn-success">
                                     <em class="fa fa-lock"></em>
-                                </button>-->
+                                </button>
                             </td>
                         </tr>
                         </tbody>

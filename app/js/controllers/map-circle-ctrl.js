@@ -15,7 +15,7 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
         $scope.map = {
             center: center,
             pan: true,
-            zoom: 7,
+            zoom: 3,
             refresh: false,
             events: {},
             bounds: {}
@@ -131,12 +131,80 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                     if (status == 200) {
                         console.log(response);
                         var dataArray = [];
+                        var dataArray1 = [];
                         var liveDriverList = response.data.driverDetailArray;
                         var liveOrderList = response.data.orderDetail;
+                        var liveDriverStatusList = response.data.driverStatusArray;
 
                         var orderLength = response.data.orderDetail.length;
                         var driverLength = response.data.driverDetailArray.length;
                         $scope.total_no_of_drivers = driverLength;
+
+
+                        /*================ Live driver info window===================*/
+                        liveDriverStatusList.forEach(function (column) {
+                            var d = {};
+                            d.driverId = column.driverId;
+                            d.fullName = column.fullName;
+                            d.phoneNumber = column.phoneNumber;
+                            d.profilePicture = column.profilePicture;
+                            if(column.status=='busy')
+                                d.status = 0;
+                            else
+                            d.status = 1;
+                            console.log(d.status)
+                            dataArray.push(d);
+                        });
+                        $scope.list = dataArray;
+
+                        /*================  ongoing order table ===================*/
+                        liveOrderList.forEach(function (column) {
+                            var d = {};
+                            d._id = column._id;
+                            d.driverFullName = column.driverFullName;
+                            d.dropUpAddress = column.dropUpAddress;
+                            d.pickupAddress = column.pickupAddress;
+                            dataArray1.push(d);
+                        });
+                        $scope.orderList = dataArray1;
+
+                        var dtInstance;
+                        $timeout(function () {
+                            if (!$.fn.dataTable) return;
+                            dtInstance = $('#datatable2').dataTable({
+                                'paging': true,  // Table pagination
+                                'ordering': true,  // Column ordering
+                                'info': true,  // Bottom left status text
+                                oLanguage: {
+                                    sSearch: 'Search all columns:',
+                                    sLengthMenu: '_MENU_ records per page',
+                                    info: 'Showing page _PAGE_ of _PAGES_',
+                                    zeroRecords: 'Nothing found - sorry',
+                                    infoEmpty: 'No records available',
+                                    infoFiltered: '(filtered from _MAX_ total records)'
+                                },
+                                "pageLength": 50
+                            });
+                            var inputSearchClass = 'datatable_input_col_search';
+                            var columnInputs = $('tfoot .' + inputSearchClass);
+
+                            // On input keyup trigger filtering
+                            columnInputs
+                                .keyup(function () {
+                                    dtInstance.fnFilter(this.value, columnInputs.index(this));
+                                });
+                        });
+
+                        $scope.$on('$destroy', function () {
+                            dtInstance.fnDestroy();
+                            $('[class*=ColVis]').remove();
+                        })
+
+                        /*================ Reassigning driver for  ongoing order ===================*/
+                        $scope.reAssign = function(){
+
+                        }
+
 
                         /*================Calling Live driver marker set function===================*/
                         if (driverLength) {
@@ -225,13 +293,16 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
 
         $scope.drawMap();
 
-        $scope.setinterval= setInterval(function(){
-
+      /*  $scope.setinterval= setInterval(function(){
+            $scope.$on('$destroy', function () {
+                dtInstance.fnDestroy();
+                $('[class*=ColVis]').remove();
+            })
             markerArr = [];    //empty the markerArray to refresh the map
             markerCount = 0;
 
             $scope.drawMap();
-        }, 400000);
+        }, 500000);*/
 
 
     }]);

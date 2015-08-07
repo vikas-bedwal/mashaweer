@@ -298,6 +298,19 @@ h6,
 .infoWindowContent{
     color: #F6D21A;
 }
+.driverImg{
+    width: 50px;
+    height: 50px;
+}
+.fa-stack-1x, .fa-stack-2x {
+    position: absolute;
+    left: 0;
+    width: 190% !important;
+    text-align: center
+}
+.fa-circle:before{
+    font-size: 11px;
+}
 
 
 
