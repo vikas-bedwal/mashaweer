@@ -30,13 +30,13 @@
                 </div>
             </form>
 
-            <form method="post" ng-submit="subscribe()" validate-form="" novalidate="" id="add-promo">
+            <form method="post" ng-submit="subscribe(add)" validate-form="" novalidate="" id="add-promo">
                 <!-- START panel-->
                 <div class="panel-body">
 
 
                     <div class="form-group">
-                        <label class="control-label">Vehical</label>
+                        <label class="control-label">Vehicle</label>
                         <select id="type" ng-init="add.type=0" ng-model="add.type"
                                 required="required"
                                 placeholder="Type" name="type" class="form-control">
@@ -48,9 +48,9 @@
 
                     <div class="form-group">
                         <label class="control-label">City</label>
-                        <input type="text" name="city" required="required"
+                        <input type="text" name="city" id="city" required="required"
                                class="form-control"
-                               ng-model="add.city"/>
+                               ng-model="add.city" googleplace/>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Duration</label>
@@ -64,6 +64,17 @@
                                   class="form-control"
                                   ng-model="add.details"></textarea>
                     </div>
+
+                    <div class="form-group" ng-repeat="item in conditionArray">
+                        <label class="control-label" >Conditions</label>
+                        <input type="text" id="choice.id" ng-model="item.name" name="" placeholder="Enter Condition" class="form-control">{{choice.id}}
+                        <button type="button" style="margin-top: 10px;float: right;"  ng-click="addNewChoice()">Add More</button>
+                    </div>
+                    <p>All customers</p>
+                    <p ng-repeat="item in conditionArray">{{item.name}}</p>
+
+
+
                     <div class="form-group">
                         <label class="control-label">Credit</label>
                         <input type="text" name="credit" required="required" numbers-only="numbers-only"
@@ -78,10 +89,14 @@
                     </div>
                 </div>
                 <div class="panel-footer">
-                    <button type="submit" class="btn btn-success">Subscribe</button>
+                    <button type="submit"  class="btn btn-success">Subscribe</button>
                 </div>
                 <!-- END panel-->
             </form>
         </div>
     </div>
+
+        <div id="map-container" style="height: 855px;border: double"></div>
+
+
 </div>

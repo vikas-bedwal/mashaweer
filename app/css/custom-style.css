@@ -25,6 +25,9 @@
     background-color: #666;
     padding: 10px;
 }
+.subscribe{
+    background-color: #666;
+}
 
 .sidebar > .nav > li.active {
     border-left-color: #f4bf00;

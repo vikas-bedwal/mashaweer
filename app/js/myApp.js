@@ -33,7 +33,9 @@ App.run(["$log", function ($log) {
 App.constant("MY_CONSTANT", {
     "url": " http://52.6.230.125:8000/"
 });
-
+App.constant("MY_CONSTANT1", {
+    "url": "http://maps.googleapis.com/maps/api/geocode/json"
+});
 App.constant("responseCode", {
     "SUCCESS": 200
 });
@@ -170,3 +172,22 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
 
 
     }]);
+
+App.directive('googleplace', function() {
+    return {
+        require: 'ngModel',
+        link: function(scope, element, attrs, model) {
+            var options = {
+                types: [],
+                componentRestrictions: {}
+            };
+            scope.gPlace = new google.maps.places.Autocomplete(element[0], options);
+
+            google.maps.event.addListener(scope.gPlace, 'place_changed', function() {
+                scope.$apply(function() {
+                    model.$setViewValue(element.val());
+                });
+            });
+        }
+    };
+});

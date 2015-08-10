@@ -13,7 +13,7 @@ App.controller('paymentController', function ($scope, $http, $cookies, $cookieSt
                 custList.forEach(function (column) {
                     var d = {};
                     d._id = column._id;
-                    d.fullName = column.fullName;
+                    d.customerName = column.customerName;
                     d.amount = column.amount;
                     d.paymentMode = column.paymentMode;
                     var str = moment.utc(column.createdAt).format("Do MMM YYYY hh:mm A");
