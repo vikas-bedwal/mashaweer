@@ -14,9 +14,10 @@
                         <div class="col-md-12">
                             <p class="input-group">
                                 <input type="text" readonly="" id="start_date" datepicker-popup="{{format}}"
-                                       ng-model="add.start_date"
+                                       ng-model="add.expiry_date"
                                        is-open="datepicker.dt1"
                                        min-date="min_date"
+                                       id="date"
                                        max-date="" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
                                        ng-required="true" close-text="Close" class="form-control disableFieldColor"/>
             <span class="input-group-btn">
@@ -37,12 +38,12 @@
 
                     <div class="form-group">
                         <label class="control-label">Vehicle</label>
-                        <select id="type" ng-init="add.type=0" ng-model="add.type"
+                        <select id="type" ng-init="add.type='BIKE'" ng-model="add.type"
                                 required="required"
                                 placeholder="Type" name="type" class="form-control">
-                            <option value="0">Bike</option>
-                            <option value="1">Van</option>
-                            <option value="2">Truck</option>
+                            <option value="BIKE">Bike</option>
+                            <option value="VAN">Van</option>
+                            <option value="TRUCK">Truck</option>
                         </select>
                     </div>
 
@@ -67,11 +68,10 @@
 
                     <div class="form-group" ng-repeat="item in conditionArray">
                         <label class="control-label" >Conditions</label>
-                        <input type="text" id="choice.id" ng-model="item.name" name="" placeholder="Enter Condition" class="form-control">{{choice.id}}
-                        <button type="button" style="margin-top: 10px;float: right;"  ng-click="addNewChoice()">Add More</button>
+                        <input type="text" id="choice.id" ng-model="item.name" name="" placeholder="Enter Condition" class="form-control">
+                        <button ng-show="showAddChoice({{length}})" id="{{length}}" type="button" style="margin-top: 10px;float: right;"  ng-click="addNewChoice()">Add More</button>
                     </div>
-                    <p>All customers</p>
-                    <p ng-repeat="item in conditionArray">{{item.name}}</p>
+                    <!--<p ng-repeat="item in conditionArray">{{item.name}}</p>-->
 
 
 
@@ -96,7 +96,7 @@
         </div>
     </div>
 
-        <div id="map-container" style="height: 855px;border: double"></div>
+        <div id="map-container" style="height: 755px;border: double"></div>
 
 
 </div>

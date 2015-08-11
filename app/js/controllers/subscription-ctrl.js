@@ -1,12 +1,11 @@
 /**
  * Created by Vikas on 31/07/15.
  */
-App.controller('subscriptionController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT,MY_CONSTANT1, $timeout) {
+App.controller('subscriptionController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT,MY_CONSTANT1,$state, $timeout) {
 
     'use strict';
     $scope.choice = '';
     $scope.conditionArray = [];
-
 
     var markerArr = new Array();
     $scope.map = {
@@ -68,17 +67,15 @@ App.controller('subscriptionController', function ($scope, $http, $cookies, $coo
     /*--------------------------------------------------------------------------
      * --------- Add subscribe Code Call ---------------------------------------
      --------------------------------------------------------------------------*/
+
+    $scope.loc = {};
+    $scope.text = [];
     $scope.subscribe = function (add) {
-        console.log($scope.conditionArray);
         $scope.successMsg = '';
         $scope.errorMsg = '';
         $scope.lat = '';
         $scope.lng = '';
-        console.log("In subscribe");
-        console.log(add);
-
-
-
+        $scope.city = "";
         (new google.maps.Geocoder()).geocode({
             'address': add.city
         }, function (results, status) {
@@ -90,6 +87,60 @@ App.controller('subscriptionController', function ($scope, $http, $cookies, $coo
                 /*--------------------------------------------------------------------------
                  * --------- Convert lat lng into address string ---------------------------------------
                  --------------------------------------------------------------------------*/
+
+                $.ajax({
+                    type: 'POST',
+                    url: MY_CONSTANT1.url+'?latlng='+$scope.lat+','+$scope.lng+'&sensor=true',
+                    async: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        var dataArray = [];
+                        var custList = response.results;
+                        custList.forEach(function (column) {
+                            var d = {};
+                            d.formatted_address = column.formatted_address;
+                            dataArray.push(d);
+                        });
+                        $scope.list = dataArray.reverse();
+                        $scope.state = $scope.list[1].formatted_address;
+                        $scope.city = $scope.list[2].formatted_address;
+                        var res = $scope.state.split(",");
+                        $scope.state = res[0];
+                        var res = $scope.city.split(",");
+                        $scope.city = res[0];
+                        $scope.loc.city = $scope.city;
+                        $scope.loc.state = $scope.state;
+                        $scope.loc.latitude = $scope.lat;
+                        $scope.loc.longitude = $scope.lng;
+                        for(var i=0;i<$scope.conditionArray.length;i++){
+                            if(!$scope.conditionArray[i].name=="")
+                            $scope.text.push($scope.conditionArray[i].name);
+                        }
+                        var str = moment.utc(add.expiry_date).format("YYYY-MM-DD");
+                        $.post(MY_CONSTANT.url + 'api/admin/addSubscription',
+                            {
+                                accessToken: $cookieStore.get('obj').accesstoken,
+                                vehicleType: add.type,
+                                amount: add.amount,
+                                credit: add.credit,
+                                duration: add.duration,
+                                heading: add.details,
+                                text: $scope.text,
+                                location: $scope.loc,
+                                ExpiryDate:str
+                            },
+                            function (data) {
+                                $scope.text = {};
+                                console.log(data)
+                                $scope.list = data;
+                                $scope.$apply();
+                                $state.reload();
+                            });
+
+                    }
+                })
+/*
                 $http.get(MY_CONSTANT1.url+'?latlng='+$scope.lat+','+$scope.lng+'&sensor=true')
                     .success(function (response, status) {
                         if (status == 200) {
@@ -107,6 +158,13 @@ App.controller('subscriptionController', function ($scope, $http, $cookies, $coo
                             $scope.state = res[0];
                             var res = $scope.city.split(",");
                             $scope.city = res[0];
+
+                            $scope.loc = {};
+                            loc[0] = $scope.city;
+                            loc[1] = $scope.state;
+                            loc[2] = $scope.lat;
+                            loc[3] = $scope.lng;
+
                         } else {
                             alert("Something went wrong, please try again later.");
                             return false;
@@ -114,32 +172,12 @@ App.controller('subscriptionController', function ($scope, $http, $cookies, $coo
                     })
                     .error(function (error) {
                         console.log(error);
-                    });
+                    });*/
             }
             else {
                 alert("unable to identify location");
             }
         })
-return false;
-        $.post(MY_CONSTANT.url + 'api/admin/addSubscription',
-            {
-                accessToken: $cookieStore.get('obj').accesstoken,
-                vehicleType: add.type,
-                amount: add.amount,
-                credit: add.credit,
-                duration: add.duration,
-                heading: add.details,
-                text: add.flag,
-                location: add.flag,
-                ExpiryDate: add.flag
-            },
-            function (data) {
-                console.log(data)
-                $scope.list = data;
-                $scope.$apply();
-                $state.reload();
-            });
-
     };
 
     /*--------------------------------------------------------------------------
@@ -148,11 +186,12 @@ return false;
    // $scope.choices = [{id: 'choice1'}, {id: 'choice2'}, {id: 'choice3'}];
     $scope.addNewChoice = function() {
         $scope.conditionArray.push({ name: ''});
+        $scope.length = $scope.conditionArray.length;
         //var newItemNo = $scope.choices.length+1;
         //$scope.choices.push({'id':'choice'+newItemNo});
     };
     $scope.showAddChoice = function(choice) {
-        return choice.id === $scope.choices[$scope.choices.length-1].id;
+        return choice == $scope.length;
     };
 
     $scope.showChoiceLabel = function(choice) {
