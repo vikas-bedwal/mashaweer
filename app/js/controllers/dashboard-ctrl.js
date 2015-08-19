@@ -3,12 +3,11 @@
  * Created by Vikas on 03/08/15.
  */
 
-App.controller('dashboardController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT) {
+App.controller('dashboardController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT,$rootScope,ngDialog) {
     'use strict';
+    $rootScope.test = $cookieStore.get('obj1').adminType;
     $http.get(MY_CONSTANT.url + 'api/admin/statsInfo/' + $cookieStore.get('obj').accesstoken)
         .success(function (response, status) {
-            console.log(response)
-            console.log(status)
             if (status == 200) {
                 $scope.totalCompletedOrder = response.data.totalCompletedOrder;
                 $scope.totalNewCustomer = response.data.totalNewCustomer;
@@ -24,4 +23,16 @@ App.controller('dashboardController', function ($scope, $http, $cookies, $cookie
         .error(function (error) {
             console.log(error);
         });
+
+    $scope.placeOrder = function(){
+        console.log("Order");
+        ngDialog.openConfirm({
+            template: 'placeOrder',
+            className: 'ngdialog-theme-default',
+            scope: $scope
+        }).then(function (value) {
+        }, function (reason) {
+        });
+    }
+
 });

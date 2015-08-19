@@ -6,36 +6,49 @@
   {
     "text": "Dashboard",
     "sref": "app.dashboard",
+    "is_super": 0,
     "icon": "fa fa-dashboard"
   },
   {
   "text": "Customers",
   "sref": "app.customers",
+    "is_super": 1,
   "icon": "fa fa-user"
 },
   {
     "text": "Drivers",
     "sref": "app.drivers",
+    "is_super": 1,
     "icon": "fa fa-automobile"
   },
   {
     "text": "Orders",
     "sref": "app.orders",
+    "is_super": 0,
     "icon": "fa fa-truck"
   },
   {
     "text": "Payment",
     "sref": "app.payment",
+    "is_super": 1,
     "icon": "fa fa-paypal"
   },
   {
     "text": "Pricing",
     "sref": "app.pricing",
+    "is_super": 1,
     "icon": "icon-wallet"
   },
   {
     "text": "Subscription",
     "sref": "app.subscription",
+    "is_super": 1,
     "icon": "icon-user-following"
+  },
+  {
+    "text": "Promotion",
+    "sref": "app.promo",
+    "is_super": 1,
+    "icon": "icon-note"
   }
 ]

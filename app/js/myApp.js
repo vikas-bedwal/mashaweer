@@ -103,7 +103,7 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
                 url: '/dashboard',
                 title: 'Dashboard',
                 templateUrl: helper.basepath('dashboard.html'),
-                resolve: helper.resolveFor('datatables', 'datatables-pugins')
+                resolve: helper.resolveFor('datatables', 'datatables-pugins','ngDialog')
             })
             .state('app.customers', {
                 url: '/customers',
@@ -145,6 +145,18 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
                 url: '/subscription',
                 title: 'Subscription',
                 templateUrl: helper.basepath('subscription.html'),
+                resolve: helper.resolveFor('parsley')
+            })
+            .state('app.promo', {
+                url: '/promotion',
+                title: 'Promotion',
+                templateUrl: helper.basepath('promo.html'),
+                resolve: helper.resolveFor('datatables', 'datatables-pugins','ngDialog')
+            })
+            .state('app.addPromo', {
+                url: '/add_promo',
+                title: 'Add Promo',
+                templateUrl: helper.basepath('addPromo.html'),
                 resolve: helper.resolveFor('parsley')
             })
             .state('app.details', {

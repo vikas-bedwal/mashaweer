@@ -2,17 +2,14 @@
  * Created by Vikas  on 03/08/15.
  */
 
-
 App.controller('customersController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT,$timeout, $state, ngDialog) {
     'use strict';
+    //$scope.excelList = {};
     $scope.init = function () {
-    console.log($cookieStore.get('obj').accesstoken);
         $http.get(MY_CONSTANT.url + 'api/admin/customerList/' + $cookieStore.get('obj').accesstoken)
             .success(function (response, status) {
                 if (status == 200) {
-                    console.log(response);
                     var dataArray = [];
-                    var excelArray = [];
                     var custList = response.data;
                     custList.forEach(function (column) {
                         var d = {};
@@ -30,7 +27,6 @@ App.controller('customersController', function ($scope, $http, $cookies, $cookie
                         else
                             d.isBlocked = 1;
                         dataArray.push(d);
-                        excelArray.push(d);
                     });
                     $scope.list = dataArray;
                     $scope.excelList = dataArray;
@@ -76,18 +72,19 @@ App.controller('customersController', function ($scope, $http, $cookies, $cookie
 
           // -----------Customer BLock Section Starts---------------------
     $scope.blockCust = function (email) {
-        console.log("Check");
         $.post(MY_CONSTANT.url + 'api/admin/toggleCustomerBlock',
             {
                 accessToken: $cookieStore.get('obj').accesstoken, email: email
             },
             function (data) {
-                console.log(data)
                 $scope.list = data;
                 $scope.$apply();
                 $state.reload();
             });
     };
+
+
+
     }
 
     /*-----------Add Credit Section dialog---------------------*/
@@ -108,8 +105,6 @@ App.controller('customersController', function ($scope, $http, $cookies, $cookie
                 accessToken: $cookieStore.get('obj').accesstoken, email: data.email, credit: data.credit
             },
             function (data, status) {
-                console.log(data);
-                console.log(status);
                 if (status == "success") {
                     ngDialog.close({
                         template: 'addCredit',
@@ -138,7 +133,6 @@ App.controller('customersController', function ($scope, $http, $cookies, $cookie
                         showClose: false
                     });
                 }
-                console.log(data)
                 $scope.list = data;
                 $scope.$apply();
             });
@@ -147,4 +141,5 @@ App.controller('customersController', function ($scope, $http, $cookies, $cookie
     $scope.exportData = function () {
         alasql('SELECT * INTO CSV("customer.csv",{headers:true}) FROM ?', [$scope.excelList]);
     };
+
 });

@@ -11,7 +11,7 @@
 if (typeof $ === 'undefined') {
     throw new Error('This application\'s JavaScript requires jQuery');
 }
-
+var admin_type=0;
 
 // APP START
 // ----------------------------------- 
@@ -29,7 +29,7 @@ var App = angular.module('angle', ['ngRoute', 'ngAnimate', 'ngStorage', 'ngCooki
          $templateCache.remove(toState.templateUrl);
          }
          });*/
-        console.log("log from angle app");
+        //console.log("log from angle app");
         // Scope Globals
         // -----------------------------------
         $rootScope.app = {
@@ -259,9 +259,11 @@ App.controller('AppController',
  * Module: sidebar-menu.js
  * Handle sidebar collapsible elements
  =========================================================*/
-
-App.controller('SidebarController', ['$rootScope', '$scope', '$state', '$http', '$timeout', 'Utils',
-    function ($rootScope, $scope, $state, $http, $timeout, Utils) {
+App.run(function($rootScope) {
+    $rootScope.test = "";
+})
+App.controller('SidebarController', ['$rootScope', '$scope','$cookieStore', '$state', '$http', '$timeout', 'Utils',
+    function ($rootScope, $scope,$cookieStore, $state, $http, $timeout, Utils) {
 
         var collapseList = [];
 
@@ -297,18 +299,27 @@ App.controller('SidebarController', ['$rootScope', '$scope', '$state', '$http', 
         };
 
         $scope.loadSidebarMenu = function () {
-
             var menuJson = 'server/sidebar-menu.json',
                 menuURL = menuJson + '?v=' + (new Date().getTime()); // jumps cache
             $http.get(menuURL)
                 .success(function (items) {
-                    $rootScope.menuItems = items;
+                    var finalTab =[];
+                    items.forEach(function (tab) {
+                        if($cookieStore.get('obj1').adminType == "SUPER_ADMIN"){
+                            finalTab.push(tab);
+                        }
+                        else{
+                            if(tab.is_super != 1){
+                                finalTab.push(tab);
+                            }
+                        }
+                    });
+                    $rootScope.menuItems = finalTab;
                 })
                 .error(function (data, status, headers, config) {
                     alert('Failure loading menu');
                 });
         };
-
         $scope.loadSidebarMenu();
 
         // Handle sidebar collapse items

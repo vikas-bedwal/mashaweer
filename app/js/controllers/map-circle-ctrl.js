@@ -53,7 +53,6 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
 
 
             google.maps.event.addListener(marker, 'click', function () {
-                console.log(marker.content);
                 infoWindow.setContent(marker.content);
                 infoWindow.open($scope.mapContainer, marker);
             });
@@ -79,7 +78,6 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
             '</div>';
 
             google.maps.event.addListener(marker, 'click', function () {
-                console.log(marker.content);
                 infoWindow.setContent(marker.content);
                 infoWindow.open($scope.mapContainer, marker);
             });
@@ -103,7 +101,6 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
             '</div>';
 
             google.maps.event.addListener(marker, 'click', function () {
-                console.log(marker.content);
                 infoWindow.setContent(marker.content);
                 infoWindow.open($scope.mapContainer, marker);
             });
@@ -129,7 +126,6 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
             $http.get(MY_CONSTANT.url + 'api/admin/getLiveView/' + $cookieStore.get('obj').accesstoken)
                 .success(function (response, status) {
                     if (status == 200) {
-                        console.log(response);
                         var dataArray = [];
                         var dataArray1 = [];
                         var liveDriverList = response.data.driverDetailArray;
@@ -152,7 +148,6 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                                 d.status = 0;
                             else
                             d.status = 1;
-                            console.log(d.status)
                             dataArray.push(d);
                         });
                         $scope.list = dataArray;

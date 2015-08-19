@@ -25,7 +25,8 @@
     background-color: #666;
     padding: 10px;
 }
-.subscribe{
+
+.subscribe {
     background-color: #666;
 }
 
@@ -103,26 +104,32 @@ li > .pull-left > .btn-info {
     border-color: #dde6e9;
     color: #333333;
 }
+
 /* (cs)spinner.css - http://jh3y.github.io/-cs-spinner
   Licensed under the MIT license | Jhey Tompkins (c) 2014. */
 body {
     /* (cs)spinner base styling */
 }
+
 body .whirl {
     position: relative;
 }
+
 body .whirl:before {
     content: attr(data-spinner-text);
     display: block;
     background-color: #f0f0f0;
     opacity: 0.7;
 }
+
 body .whirl.solid {
     opacity: 1;
 }
+
 .no-cssanimations body .whirl:before {
     opacity: .9;
 }
+
 .no-cssanimations body .whirl:after {
     content: "Loading...";
     width: 40px;
@@ -136,28 +143,31 @@ body .whirl.solid {
     background-color: transparent;
     text-align: center;
 }
+
 .login-btn {
     color: #fff;
 }
+
 .login-btn:active {
     border: solid;
 }
 
-#slides_control > div{
+#slides_control > div {
     height: 200px;
 }
-img{
-    margin:auto;
+
+img {
+    margin: auto;
     width: 400px;
-}
-#slides_control {
-    position:absolute;
-    width: 400px;
-    left:50%;
-    top:20px;
-    margin-left:-200px;
 }
 
+#slides_control {
+    position: absolute;
+    width: 400px;
+    left: 50%;
+    top: 20px;
+    margin-left: -200px;
+}
 
 /*Advance map styles*/
 
@@ -165,44 +175,54 @@ img{
     width: 100%;
     height: 500px;
 }
-.inline-block{
+
+.inline-block {
     display: inline-block;
 }
-.form-control{
+
+.form-control {
     padding-left: 10px;
 }
-.col-md-3{
+
+.col-md-3 {
     width: 40%;
 }
-.cityBox{
+
+.cityBox {
     width: 100%;
     float: right;
 }
-.centerDiv{
+
+.centerDiv {
     margin-top: 150px;
 }
 
 .form-control[disabled],
 .form-control[readonly],
 fieldset[disabled] .form-control {
-    cursor: pointer;
+    /*cursor: pointer;*/
     background-color: #fff;
     opacity: 1;
 }
-.bgimage{
+
+.bgimage {
     width: 96%;
 }
-.startTimepicker{
+
+.startTimepicker {
     float: left;
     margin-right: 20px;
 }
-.endTimepicker{
+
+.endTimepicker {
 
     margin-left: 20px;
 }
-.timepickerLabel{
+
+.timepickerLabel {
     margin-top: 39px;
 }
+
 h1,
 h2,
 h3,
@@ -220,33 +240,36 @@ h6,
     line-height: 1.1;
     color: #929292;
 }
-.mt0{
+
+.mt0 {
     color: #F6D21A;
 }
+
 ::-webkit-input-placeholder {
-    color:    #999;
+    color: #999;
 }
+
 :-moz-placeholder {
-    color:    #999;
+    color: #999;
 }
+
 ::-moz-placeholder {
-    color:    #999;
+    color: #999;
 }
+
 :-ms-input-placeholder {
-    color:    #999;
+    color: #999;
 }
 
 /* Different color for some fields */
 
-#abc::-webkit-input-placeholder
-{
-    color:    #909fa7;
+#abc::-webkit-input-placeholder {
+    color: #909fa7;
 }
-.timpickerDiv{
+
+.timpickerDiv {
     margin-top: 24px;
 }
-
-
 
 .img-logo {
     width: auto;
@@ -274,49 +297,76 @@ h6,
     text-decoration: none;
 }
 
+.login_btn {
+    background: #F6D21A;
+}
 
-.login_btn{
-    background: #F6D21A;
-}
-.login_btn:hover{
+.login_btn:hover {
     background: #F6D21A;
     border-color: #F6D21A;
 }
-.login_btn:focus{
+
+.login_btn:focus {
     background: #F6D21A;
     border-color: #F6D21A;
 }
+
 #pricing > tbody > tr:hover {
     background-color: #51c6ea;
     color: #272727;
 }
+
 .fareList {
     color: #F4BF00;
 }
+
 .angular-google-map-container {
     width: 100%;
     height: 500px;
 }
 
-.infoWindowContent{
+.infoWindowContent {
     color: #F6D21A;
 }
-.driverImg{
+
+.driverImg {
     width: 50px;
     height: 50px;
 }
+
 .fa-stack-1x, .fa-stack-2x {
     position: absolute;
     left: 0;
     width: 190% !important;
     text-align: center
 }
-.fa-circle:before{
+
+.fa-circle:before {
     font-size: 11px;
 }
-
-
-
+.c-radio input[type=radio]:checked + span {
+    border-color: #F4BF00;
+    background-color: #fff;
+}
+.c-checkbox input[type=radio]:checked + span:before,
+.c-radio input[type=radio]:checked + span:before {
+    color: #F4BF00;
+}
+.dateLbl {
+    color: #656565;
+    font-weight: bold;
+}
+.promoCOdeClndr:last-child > .btn,
+.promoCOdeClndr:last-child > .btn-group {
+    margin-left: -1px;
+    margin-top: 26px;
+}
+span > h3 .small,{
+    font-weight: normal;
+    line-height: 1;
+    color: #3a3f51;
+    font-size: 65%;
+}
 /*
 @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
 * {

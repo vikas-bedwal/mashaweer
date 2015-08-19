@@ -1,0 +1,16 @@
+[
+  {
+    "text": "Main Navigation",
+    "heading": "true"
+  },
+  {
+    "text": "Dashboard",
+    "sref": "app.dashboard",
+    "icon": "fa fa-dashboard"
+  },
+  {
+    "text": "Orders",
+    "sref": "app.orders",
+    "icon": "fa fa-truck"
+  }
+]

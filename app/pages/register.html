@@ -1,14 +1,19 @@
 <div ng-controller="RegisterFormController" class="block-center mt-xl wd-xl">
    <!-- START panel-->
    <div class="panel panel-dark panel-flat">
-       <a href="#">
-           <img src="app/img/logo.png" alt="Image" class="block-center logo-div"/>
-       </a>
+       <!--<a href="#">
+           <img src="app/img/mashaweer-logo.png" alt="Image" class="block-center logo-div"/>
+       </a>-->
        <div class="panel-heading text-center">
            <p class="text-center pv">SIGNUP TO GET INSTANT ACCESS.</p>
        </div>
       <div class="panel-body">
          <form role="form" validate-form="" novalidate="" ng-submit="register()" class="mb-lg">
+            <div class="form-group has-feedback">
+               <label for="signupInputFullName" class="text-muted">Full Name</label>
+               <input id="signupInputFullName" type="text" placeholder="Enter Full Name" autocomplete="off" ng-model="account.fullName" required="required" class="form-control" />
+               <span class="fa fa-envelope form-control-feedback text-muted"></span>
+            </div>
             <div class="form-group has-feedback">
                <label for="signupInputEmail1" class="text-muted">Email address</label>
                <input id="signupInputEmail1" type="email" placeholder="Enter email" autocomplete="off" ng-model="account.email" required="required" class="form-control" />

@@ -1,7 +1,7 @@
 /**
  * Created by Vikas on 29/07/15.
  */
-App.controller('LoginController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $state) {
+App.controller('LoginController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $state,$rootScope) {
   /*  $("#login-button").click(function(event){
         event.preventDefault();
 
@@ -12,18 +12,13 @@ App.controller('LoginController', function ($scope, $http, $cookies, $cookieStor
     $scope.authMsg = '';
     $scope.loginAdmin = function () {
         $scope.authMsg = '';
-        console.log($scope.account.email);
-        console.log($scope.account.password);
         $.post(MY_CONSTANT.url + 'api/admin/login',
             {
                 email: $scope.account.email,
                 password: $scope.account.password
             }).then(
             function (data,status) {
-                console.log(data)
-                console.log(status)
                 if (status != 'success') {
-                    console.log("if");
                     $scope.authMsg = data.message;
                     setTimeout(function () {
                         $scope.authMsg = "";
@@ -31,10 +26,10 @@ App.controller('LoginController', function ($scope, $http, $cookies, $cookieStor
                     }, 3000);
                     $scope.$apply();
                 } else {
-                    console.log("else");
                     var someSessionObj = {'accesstoken': data.data.accessToken};
+                    var someSessionObj1 = {'adminType': data.data.adminType};
                     $cookieStore.put('obj', someSessionObj);
-                    console.log($cookieStore.get('obj').accesstoken)
+                    $cookieStore.put('obj1', someSessionObj1);
                     $state.go('app.dashboard');
                 }
             });
@@ -46,7 +41,6 @@ App.controller('LoginController', function ($scope, $http, $cookies, $cookieStor
             }).then(
             function (data) {
                 data = JSON.parse(data);
-                console.log(data);
                 if (data.status == 200) {
                     $scope.successMsg = data.message.toString();
                 } else {

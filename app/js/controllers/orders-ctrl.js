@@ -10,11 +10,20 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
                 console.log(response);
                 var dataArray = [];
                 var custList = response.data;
+                console.log(custList);
                 custList.forEach(function (column) {
                     var d = {};
                     d._id = column._id;
+                    d.orderId = column.orderId;
                     d.customerName = column.customerName;
                     d.driverName = column.driverName;
+                    d.parcelDetails = column.parcelDetails;
+                    d.actualCollectionTime = column.actualCollectionTime;
+                    d.collectionFrom = column.collectionFrom;
+                    d.deliverTo = column.deliverTo;
+                    d.waitingTime = column.waitingTime;
+                    d.vehicleRequired = column.vehicleRequired;
+                    d.distance = column.distance;
                     d.amount = column.amount;
                     d.pickupLocation = column.pickupLocation;
                     d.deliveryLocation = column.deliveryLocation
