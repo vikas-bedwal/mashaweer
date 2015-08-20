@@ -30,12 +30,33 @@
       <!-- END Left navbar-->
       <!-- START Right Navbar-->
       <ul class="nav navbar-nav navbar-right">
-          <!-- Fullscreen (only desktops)-->
-          <li class="visible-lg">
-              <a href="" ng-controller="dashboardController" ng-click="placeOrder()" title="Place Order">
-                  <!--<em class="fa fa-truck">--></em><em class="fa fa-plus"></em>
-              </a>
+
+          <li class="visible-lg placeOrderDropdown">
+              <div dropdown="dropdown" class="btn-group">
+                  <button dropdown-toggle="" class="btn btn-default">Task <b class="caret"></b>
+                  </button>
+                  <ul role="menu" class="dropdown-menu animated fadeIn">
+                      <li><a href="" ng-controller="dashboardController" ng-click="placeOrder()">Place Order</a>
+                      </li>
+                      <li><a href="#">Another action</a>
+                      </li>
+                  </ul>
+              </div>
+
+           <!--   <a href="" ng-controller="dashboardController" ng-click="placeOrder()" title="Place Order">
+                  &lt;!&ndash;<em class="fa fa-truck">&ndash;&gt;</em><em class="fa fa-plus"></em>
+              </a>-->
           </li>
+
+                  <!-- START button group-->
+
+                  <!-- END button group-->
+
+
+
+
+
+          <!-- Fullscreen (only desktops)-->
           <li class="visible-lg">
               <a href="#" toggle-fullscreen="toggle-fullscreen" title="Full Screen">
                   <em class="fa fa-expand"></em>

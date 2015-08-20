@@ -1,4 +1,3 @@
-
 <h3>
     Mashaweer Dashboard
     <small>Welcome to Mashaweer</small>
@@ -93,39 +92,11 @@
         </div>
         <div style="clear:both"></div>
     </div>
+
+
 </div>
 
-<!--/*----- MAP DATA -----*/-->
-<!--<div class="panel widget bg-primary">
-    <div ng-controller="MapCircleController">
-
-
-        <div class="panel-body map-dashboard">
-            <div id="map-container" style="height: 500px"></div>
-            </div>
-
-        &lt;!&ndash;<div class="panel-body map-dashboard">&ndash;&gt;
-            &lt;!&ndash;<ui-gmap-google-map center='map.center'&ndash;&gt;
-                                &lt;!&ndash;zoom='map.zoom'&ndash;&gt;
-                                &lt;!&ndash;draggable='map.draggable'&ndash;&gt;
-                                &lt;!&ndash;dragging='map.dragging'&ndash;&gt;
-                                &lt;!&ndash;refresh='map.refresh'&ndash;&gt;
-                                &lt;!&ndash;options='map.options'&ndash;&gt;
-                                &lt;!&ndash;events='map.events'&ndash;&gt;
-                                &lt;!&ndash;pan='map.pan'>&ndash;&gt;
-
-                &lt;!&ndash;<ui-gmap-markers models="map.markers2" coords="'self'" icon="'icon'" options="'options'"&ndash;&gt;
-                                 &lt;!&ndash;events="map.markers2Events">&ndash;&gt;
-
-                &lt;!&ndash;</ui-gmap-markers>&ndash;&gt;
-
-            &lt;!&ndash;</ui-gmap-google-map>&ndash;&gt;
-        &lt;!&ndash;</div>&ndash;&gt;
-    </div>
-</div>-->
-
-
-<div class="row"  ng-controller="MapCircleController">
+<div class="row" ng-controller="MapCircleController">
     <!-- START dashboard main content-->
     <div class="col-lg-9">
         <!-- START chart-->
@@ -134,29 +105,9 @@
                 <!-- START widget-->
                 <div class="panel widget bg-primary">
                     <div>
-
-
                         <div class="panel-body map-dashboard">
                             <div id="map-container" style="height:600px"></div>
                         </div>
-
-                        <!--<div class="panel-body map-dashboard">-->
-                        <!--<ui-gmap-google-map center='map.center'-->
-                        <!--zoom='map.zoom'-->
-                        <!--draggable='map.draggable'-->
-                        <!--dragging='map.dragging'-->
-                        <!--refresh='map.refresh'-->
-                        <!--options='map.options'-->
-                        <!--events='map.events'-->
-                        <!--pan='map.pan'>-->
-
-                        <!--<ui-gmap-markers models="map.markers2" coords="'self'" icon="'icon'" options="'options'"-->
-                        <!--events="map.markers2Events">-->
-
-                        <!--</ui-gmap-markers>-->
-
-                        <!--</ui-gmap-google-map>-->
-                        <!--</div>-->
                     </div>
                 </div>
             </div>
@@ -165,26 +116,6 @@
     <!-- END dashboard main content-->
     <!-- START dashboard sidebar-->
     <aside class="col-lg-3">
-        <!-- START loader widget-->
-       <!-- <div class="panel panel-default">
-            <div class="panel-body">
-                <a href="#" class="text-muted pull-right">
-                    <em class="fa fa-arrow-right"></em>
-                </a>
-                <div class="text-info">Average Monthly Uploads</div>
-                <canvas classyloader="" data-percentage="70" data-speed="20" data-font-size="40px" data-diameter="70" data-line-color="{{colorByName('info')}}" data-remaining-line-color="rgba(200,200,200,0.4)" data-line-width="10"
-                        data-rounded-line="true" class="center-block"></canvas>
-                <div sparkline="" data-bar-color="{{colorByName('info')}}" data-height="30" data-bar-width="5" data-bar-spacing="2" values="5,4,8,7,8,5,4,6,5,5,9,4,6,3,4,7,5,4,7" class="text-center"></div>
-            </div>
-            <div class="panel-footer">
-                <p class="text-muted">
-                    <em class="fa fa-upload fa-fw"></em>
-                    <span>This Month</span>
-                    <span class="text-dark">1000 Gb</span>
-                </p>
-            </div>
-        </div>-->
-        <!-- END loader widget-->
         <!-- START messages and activity-->
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -196,11 +127,13 @@
                 <div class="list-group-item" ng-repeat="data in list">
                     <div class="media-box">
                         <div class="pull-left">
-                        <img src="{{data.profilePicture}}" class="img-thumbnail img-circle driverImg">
+                            <img src="{{data.profilePicture}}" class="img-thumbnail img-circle driverImg">
                         </div>
                         <div class="media-box-body clearfix" style="margin-top: 5px">
-                            <em class="fa fa-circle fa-stack-2x text-yellow" ng-hide="{{data.status}}" title="Busy"></em>
+                            <em class="fa fa-circle fa-stack-2x text-yellow" ng-hide="{{data.status}}"
+                                title="Busy"></em>
                             <em class="fa fa-circle fa-stack-2x text-green" ng-show="{{data.status}}" title="Free"></em>
+
                             <div class="media-box-heading"><a href="#" class="text-purple m0">{{data.fullName}}</a>
                             </div>
                             <p class="m0">
@@ -215,7 +148,7 @@
             <!-- END list group-->
             <!-- START panel footer-->
             <div class="panel-footer clearfix">
-                    <small>Scroll Down to show more</small>
+                <small>Scroll Down to show more</small>
             </div>
             <!-- END panel-footer-->
         </div>
@@ -224,10 +157,10 @@
     <!-- END dashboard sidebar-->
 
 
-
     <h4>
-       Live Order List
+        Live Order List
     </h4>
+
     <div class="container-fluid">
         <!-- START DATATABLE 2 -->
         <div class="row">
@@ -266,12 +199,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
 </div>
 
 <!-- **************************************************************************
@@ -289,20 +216,24 @@
                     <div class="form-group">
                         <label class="control-label">Email Id</label>
                         <input type="email" name="busi_pro_name" required="required" class="form-control"
-                               ng-model="data.email"  capitalize-first/>
+                               ng-model="data.email" capitalize-first/>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Credit</label>
                         <input type="text" name="busi_desc" required="required" class="form-control"
-                               ng-model="data.credit"  data-parsley-type="number"/>
+                               ng-model="data.credit" data-parsley-type="number"/>
                     </div>
                 </div>
                 <div class="panel-footer btn-align">
                     <button type="submit" class="btn btn-primary">Submit</button>
                     <button type="button" ng-click="closeThisDialog(0)" class="btn btn-default">Cancel
                     </button>
-                    <div ng-show="successMsg" class="alert alert-success text-center" style="margin-top: 10px;">{{successMsg}}</div>
-                    <div ng-show="errorMsg" class="alert alert-danger text-center" style="margin-top: 10px;">{{errorMsg}}</div>
+                    <div ng-show="successMsg" class="alert alert-success text-center" style="margin-top: 10px;">
+                        {{successMsg}}
+                    </div>
+                    <div ng-show="errorMsg" class="alert alert-danger text-center" style="margin-top: 10px;">
+                        {{errorMsg}}
+                    </div>
                 </div>
             </form>
         </div>
@@ -320,88 +251,273 @@
 
         <h4>{{displaymsg2}}</h4>
         <button type="submit" ng-click="$state.reload() && closeThisDialog(0)" class="btn btn-primary"
-                style="margin-top:20px;float:right;">OK</button>
+                style="margin-top:20px;float:right;">OK
+        </button>
 
         <div style="clear: both;"></div>
     </div>
 </script>
 
-<!---------------- Start Edit Service View--------------------->
-
+<!-- **************************************************************************
+******************* Modal to add Order ***********************************
+*******************************************************************************-->
 <script type="text/ng-template" id="placeOrder">
     <div class="ngdialog-message">
-        <div class="panel-body" style="height: 500px;overflow: scroll">
-            <div class="panel-heading" style="font-weight: bolder; color: gray">Place Order
+        <h3>Place Order</h3>
+        <div class="row">
+            <div class="col-lg-6">
+                <form method="post" validate-form="" novalidate="" ng-submit="AddBusinessProduct(addbusinessproduct)">
+                    <div class="panel panel-default">
+
+                        <div id="panelDemo3" class="panel panel-default custom-panel">
+                            <div class="panel-heading">
+                                <label>Pick Up</label>
+                                <input class="pull-right ng-valid ng-dirty ng-valid-parse ng-touched" type="checkbox" ng-model="panelDemo3">
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <div collapse="!panelDemo3" ng-init="panelDemo3=false" class="panel-wrapper">
+                                        <div class="">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <input type="text" name="phone_no"
+                                                           class="form-control ng-dirty ng-valid-parse ng-invalid ng-invalid-required ng-touched"
+                                                           placeholder="Mobile" ng-model="job.phone_no" ng-required="hasPickup"
+                                                           required="required">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <input type="text" name="sender_name"
+                                                           class="form-control ng-dirty ng-valid-parse ng-invalid ng-invalid-required ng-touched"
+                                                           placeholder="Sender Name" ng-model="job.sender_name" ng-required="hasPickup"
+                                                           required="required">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <input type="text" name="company_name"
+                                                           class="form-control ng-dirty ng-valid-parse ng-invalid ng-invalid-required ng-touched"
+                                                           placeholder="Company Name" ng-model="job.company_name" ng-required="hasPickup"
+                                                           required="required">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <input type="text" name="pick_up_before"
+                                                           class="form-control ng-dirty ng-valid-parse ng-invalid ng-invalid-required ng-touched"
+                                                           placeholder="Pick-up Before" ng-model="job.pick_up_before" ng-required="hasPickup"
+                                                           required="required">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <input type="text" name="pick_up_address"
+                                                           class="form-control ng-dirty ng-valid-parse ng-invalid ng-invalid-required ng-touched"
+                                                           placeholder="Pick-up Address" ng-model="job.pick_up_address" ng-required="hasPickup"
+                                                           required="required" googleplace="">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <input type="text" name="info"
+                                                           class="form-control ng-dirty ng-valid-parse ng-invalid ng-invalid-required ng-touched"
+                                                           placeholder="Info" ng-model="job.info" ng-required="hasPickup"
+                                                           required="required">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="panelDemo2" class="panel panel-default custom-panel">
+                            <div class="panel-heading">
+                                <label>Delivery</label>
+                                <input class="pull-right ng-valid ng-dirty ng-valid-parse ng-touched" type="checkbox" ng-model="panelDemo2">
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <div collapse="!panelDemo2" ng-init="panelDemo2=false" class="panel-wrapper">
+                                        <div class="">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <input type="text" name="phone_no"
+                                                           class="form-control ng-dirty ng-valid-parse ng-invalid ng-invalid-required ng-touched"
+                                                           placeholder="Mobile" ng-model="job.phone_no" ng-required="hasPickup"
+                                                           required="required">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <input type="text" name="sender_name"
+                                                           class="form-control ng-dirty ng-valid-parse ng-invalid ng-invalid-required ng-touched"
+                                                           placeholder="Sender Name" ng-model="job.sender_name" ng-required="hasPickup"
+                                                           required="required">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <input type="text" name="company_name"
+                                                           class="form-control ng-dirty ng-valid-parse ng-invalid ng-invalid-required ng-touched"
+                                                           placeholder="Company Name" ng-model="job.company_name" ng-required="hasPickup"
+                                                           required="required">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <input type="text" name="pick_up_before"
+                                                           class="form-control ng-dirty ng-valid-parse ng-invalid ng-invalid-required ng-touched"
+                                                           placeholder="Pick-up Before" ng-model="job.pick_up_before" ng-required="hasPickup"
+                                                           required="required">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <input type="text" name="pick_up_address"
+                                                           class="form-control ng-dirty ng-valid-parse ng-invalid ng-invalid-required ng-touched"
+                                                           placeholder="Pick-up Address" ng-model="job.pick_up_address" ng-required="hasPickup"
+                                                           required="required" googleplace="">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <input type="text" name="info"
+                                                           class="form-control ng-dirty ng-valid-parse ng-invalid ng-invalid-required ng-touched"
+                                                           placeholder="Info" ng-model="job.info" ng-required="hasPickup"
+                                                           required="required">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="panelDemo4" class="panel panel-default custom-panel">
+                            <div class="panel-heading">
+                                <label>Personal Details</label>
+                                <input class="pull-right ng-valid ng-dirty ng-valid-parse ng-touched" type="checkbox" ng-model="panelDemo4">
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <div collapse="!panelDemo4" ng-init="panelDemo4=false" class="panel-wrapper">
+                                        <div class="">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <input type="text" name="vehival_id"
+                                                           class="form-control ng-dirty ng-valid-parse ng-invalid ng-invalid-required ng-touched"
+                                                           placeholder="Vehival Id" ng-model="job.vehival_id" ng-required="hasPickup"
+                                                           required="required">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group"><input type="email" name="pickup_email"
+                                                                               class="form-control ng-pristine ng-untouched ng-valid ng-valid-email"
+                                                                               placeholder="Email(Optional)" ng-model="job.pickup_email"></div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <input type="text" name="parcel_detail"
+                                                           class="form-control ng-dirty ng-valid-parse ng-invalid ng-invalid-required ng-touched"
+                                                           placeholder="Parcel Detail" ng-model="job.parcel_detail" ng-required="hasPickup"
+                                                           required="required">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <input type="text" name="note"
+                                                           class="form-control ng-dirty ng-valid-parse ng-invalid ng-invalid-required ng-touched"
+                                                           placeholder="Note" ng-model="job.note" ng-required="hasPickup"
+                                                           required="required">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="panelDemo1" class="panel panel-default custom-panel">
+                            <div class="panel-heading">
+                                <label>Payment Details</label>
+                                <input class="pull-right ng-valid ng-dirty ng-valid-parse ng-touched" type="checkbox" ng-model="panelDemo1">
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <div collapse="!panelDemo1" ng-init="panelDemo1=false" class="panel-wrapper">
+                                        <div class="">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <input type="text" name="subscription_id"
+                                                           class="form-control ng-dirty ng-valid-parse ng-invalid ng-invalid-required ng-touched"
+                                                           placeholder="Subscription Id" ng-model="job.subscription_id" ng-required="hasPickup"
+                                                           required="required">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <input type="text" name="amount"
+                                                           class="form-control ng-dirty ng-valid-parse ng-invalid ng-invalid-required ng-touched"
+                                                           placeholder="Amount" ng-model="job.amount" ng-required="hasPickup"
+                                                           required="required">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <input type="text" name="payment_mode"
+                                                           class="form-control ng-dirty ng-valid-parse ng-invalid ng-invalid-required ng-touched"
+                                                           placeholder="Payment Mode" ng-model="job.payment_mode" ng-required="hasPickup"
+                                                           required="required">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <input type="text" name="payment_at"
+                                                           class="form-control ng-dirty ng-valid-parse ng-invalid ng-invalid-required ng-touched"
+                                                           placeholder="Payment At" ng-model="job.payment_at" ng-required="hasPickup"
+                                                           required="required">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <input type="text" name="promo_code"
+                                                           class="form-control ng-dirty ng-valid-parse ng-invalid ng-invalid-required ng-touched"
+                                                           placeholder="Promo Code" ng-model="job.promo_code" ng-required="hasPickup"
+                                                           required="required">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer btn-align">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" ng-click="closeThisDialog(0)" class="btn btn-default">Cancel
+                            </button>
+                            <div ng-show="successMsg" class="alert alert-success text-center" style="margin-top: 10px;">
+                                {{successMsg}}
+                            </div>
+                            <div ng-show="errorMsg" class="alert alert-danger text-center" style="margin-top: 10px;">
+                                {{errorMsg}}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
             </div>
-            <form method="post" ng-submit="subscribe(add)" validate-form="" novalidate="" id="add-promo">
-                <!-- START panel-->
-                <div class="panel-body">
-
-
-                    <div class="form-group">
-                        <label class="control-label">Vehicle</label>
-                        <select id="type" ng-init="add.type='BIKE'" ng-model="add.type"
-                                required="required"
-                                placeholder="Type" name="type" class="form-control">
-                            <option value="BIKE">Bike</option>
-                            <option value="VAN">Van</option>
-                            <option value="TRUCK">Truck</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label">City</label>
-                        <input type="text" name="city" id="city" required="required"
-                               class="form-control"
-                               ng-model="add.city" googleplace/>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Duration</label>
-                        <input type="text" name="duration" required="required" data-parsley-type="number"
-                               class="form-control"
-                               ng-model="add.duration"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Details</label>
-                        <textarea type="text" name="details" required="required"
-                                  class="form-control"
-                                  ng-model="add.details"></textarea>
-                    </div>
-
-                    <div class="form-group" ng-repeat="item in conditionArray">
-                        <label class="control-label" >Conditions</label>
-                        <input type="text" id="choice.id" ng-model="item.name" name="" placeholder="Enter Condition" class="form-control">
-                        <button ng-show="showAddChoice({{length}})" id="{{length}}" type="button" style="margin-top: 10px;float: right;"  ng-click="addNewChoice()">Add More</button>
-                    </div>
-                    <!--<p ng-repeat="item in conditionArray">{{item.name}}</p>-->
-
-
-
-                    <div class="form-group">
-                        <label class="control-label">Credit</label>
-                        <input type="text" name="credit" required="required" numbers-only="numbers-only"
-                               class="form-control"
-                               ng-model="add.credit"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Amount</label>
-                        <input type="text" name="amount" min="1" required="required" numbers-only="numbers-only"
-                               class="form-control"
-                               ng-model="add.amount"/>
+            <div class="col-lg-6" ng-controller="MapCircleController1">
+                <div class="panel widget bg-primary">
+                    <div>
+                        <div class="panel-body map-dashboard">
+                            <div id="map-container" style="height:410px"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="panel-footer">
-                    <button type="submit"  class="btn btn-success">Subscribe</button>
-                </div>
-                <!-- END panel-->
-            </form>
+            </div>
         </div>
-        <button type="button" ng-click="editService()" class="btn btn-success mr"
-                style="margin-left: 25px">Submit
-        </button>
-        <button type="button" ng-click="closeThisDialog('button')" class="btn btn-default">
-            Cancel
-        </button>
     </div>
 </script>
-<!---------------- End Edit Service View--------------------->
+

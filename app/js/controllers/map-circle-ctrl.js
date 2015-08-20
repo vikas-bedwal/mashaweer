@@ -170,6 +170,7 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                                 'paging': true,  // Table pagination
                                 'ordering': true,  // Column ordering
                                 'info': true,  // Bottom left status text
+                                'destroy': true,
                                 oLanguage: {
                                     sSearch: 'Search all columns:',
                                     sLengthMenu: '_MENU_ records per page',
@@ -189,11 +190,11 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                                     dtInstance.fnFilter(this.value, columnInputs.index(this));
                                 });
                         });
-
+/*
                         $scope.$on('$destroy', function () {
                             dtInstance.fnDestroy();
                             $('[class*=ColVis]').remove();
-                        })
+                        })*/
 
                         /*================ Reassigning driver for  ongoing order ===================*/
                         $scope.reAssign = function(){

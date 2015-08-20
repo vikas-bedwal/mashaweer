@@ -3,7 +3,7 @@
  * Created by Vikas on 03/08/15.
  */
 
-App.controller('dashboardController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT,$rootScope,ngDialog) {
+App.controller('dashboardController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT,$rootScope,ngDialog,$log) {
     'use strict';
     $rootScope.test = $cookieStore.get('obj1').adminType;
     $http.get(MY_CONSTANT.url + 'api/admin/statsInfo/' + $cookieStore.get('obj').accesstoken)
@@ -28,7 +28,7 @@ App.controller('dashboardController', function ($scope, $http, $cookies, $cookie
         console.log("Order");
         ngDialog.openConfirm({
             template: 'placeOrder',
-            className: 'ngdialog-theme-default',
+            className: 'ngdialog-theme-default placeOrder',
             scope: $scope
         }).then(function (value) {
         }, function (reason) {

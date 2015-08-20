@@ -15,7 +15,7 @@ App.controller('subscriptionController', function ($scope, $http, $cookies, $coo
     }
     //var markerArr = new Array();
     //var markerArr1 = new Array();
-    $scope.mapContainer = new google.maps.Map(document.getElementById('map-container'), $scope.map);
+    $scope.mapContainer = new google.maps.Map(document.getElementsByClassName('map-container'), $scope.map);
 
     $scope.placeMarker = function(lat,long) {
         var icon = 'app/img/mashaweer-logo.png';
