@@ -159,6 +159,12 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
                 templateUrl: helper.basepath('addPromo.html'),
                 resolve: helper.resolveFor('parsley')
             })
+            .state('app.placeOrder', {
+                url: '/place_order',
+                title: 'Place Order',
+                templateUrl: helper.basepath('placeOrder.html'),
+                resolve: helper.resolveFor('parsley')
+            })
             .state('app.details', {
                 url : "/{id:[0-9]*}",
                 title: 'Details',

@@ -18,7 +18,7 @@ App.controller('subscriptionController', function ($scope, $http, $cookies, $coo
     $scope.mapContainer = new google.maps.Map(document.getElementsByClassName('map-container'), $scope.map);
 
     $scope.placeMarker = function(lat,long) {
-        var icon = 'app/img/mashaweer-logo.png';
+        var icon = 'app/img/smallMarker.jpeg';
         $scope.map = {
             zoom:  10,
             center: new google.maps.LatLng(lat, long),
