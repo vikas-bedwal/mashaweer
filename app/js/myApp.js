@@ -160,10 +160,15 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
                 resolve: helper.resolveFor('parsley')
             })
             .state('app.placeOrder', {
-                url: '/place_order',
-                title: 'Place Order',
-                templateUrl: helper.basepath('placeOrder.html'),
-                resolve: helper.resolveFor('parsley')
+                url: '/add_order',
+                title: 'Add Order',
+                templateUrl: helper.basepath('placeOrder.html')
+            })
+            .state('app.dispatcher', {
+                url: '/dispatcher',
+                title: 'Dispatcher',
+                templateUrl: helper.basepath('dispatcher.html'),
+                resolve: helper.resolveFor('ngDialog')
             })
             .state('app.details', {
                 url : "/{id:[0-9]*}",

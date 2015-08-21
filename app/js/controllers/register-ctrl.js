@@ -7,6 +7,8 @@
 App.controller('RegisterFormController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $state) {
     $scope.account = {};
     $scope.authMsg = '';
+
+
     $scope.register = function () {
         $scope.authMsg = '';
         console.log($scope.account.fullName);

@@ -50,5 +50,11 @@
     "sref": "app.promo",
     "is_super": 1,
     "icon": "icon-note"
+  },
+  {
+    "text": "Dispatcher",
+    "sref": "app.dispatcher",
+    "is_super": 1,
+    "icon": "icon-note"
   }
 ]
