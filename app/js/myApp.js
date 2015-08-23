@@ -162,7 +162,8 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
             .state('app.placeOrder', {
                 url: '/add_order',
                 title: 'Add Order',
-                templateUrl: helper.basepath('placeOrder.html')
+                templateUrl: helper.basepath('placeOrder.html'),
+                resolve: helper.resolveFor('parsley')
             })
             .state('app.dispatcher', {
                 url: '/dispatcher',

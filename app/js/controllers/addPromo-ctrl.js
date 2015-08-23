@@ -1,19 +1,20 @@
 /**
  * Created by Vikas on 13/08/15.
  */
-App.controller('addPromoController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT,$window) {
+App.controller('addPromoController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $window) {
 
     'use strict';
     $scope.choice = '';
     $scope.min_date = new Date();
+    $scope.show = 0;
     /*--------------------------------------------------------------------------
      * --------- Only One Datepicker will display at a time ---------------------------------------
      --------------------------------------------------------------------------*/
-    $scope.datepicker={
-        dt:false,
-        dt2:false
+    $scope.datepicker = {
+        dt: false,
+        dt2: false
     };
-    $scope.openDt1 = function($event) {
+    $scope.openDt1 = function ($event) {
         $event.preventDefault();
         $event.stopPropagation();
 
@@ -21,7 +22,7 @@ App.controller('addPromoController', function ($scope, $http, $cookies, $cookieS
         $scope.datepicker.dt1 = true;
     };
 
-    $scope.openDt2 = function($event) {
+    $scope.openDt2 = function ($event) {
         $event.preventDefault();
         $event.stopPropagation();
 
@@ -33,69 +34,82 @@ App.controller('addPromoController', function ($scope, $http, $cookies, $cookieS
      * --------- Add Promo Code Call ---------------------------------------
      --------------------------------------------------------------------------*/
 
+    $scope.status = function (val) {
+        $scope.show = val;
+    }
+
     $scope.addPromo = function (add) {
         $scope.loc = {};
         $scope.successMsg = '';
         $scope.errorMsg = '';
-        console.log(add);
+        if ($scope.type)
+            var type = "DISCOUNT";
+        else {
+            var type = "CREDIT";
+        }
+        var startDate = moment(add.startTime).format('YYYY-MM-DD');
+        var endDate = moment(add.endTime).format('YYYY-MM-DD');
+        var result = (moment(endDate).isAfter(startDate));
         var sDate = moment.utc(add.startTime).format("YYYY-MM-DD");
         var eDate = moment.utc(add.endTime).format("YYYY-MM-DD");
         $scope.loc.city = add.city;
         $scope.loc.state = "Haryana";
         $scope.loc.latitude = 0;
         $scope.loc.longitude = 0;
-        $.post(MY_CONSTANT.url + 'api/admin/addPromoCode',
-            {
-                accessToken: $cookieStore.get('obj').accesstoken,
-                promoId:  add._id,
-                promoType: "DISCOUNT",
-                vehicleType: add.vehicleType,
-                discount: add.discount,
-                minAmount: add.minAmount,
-                credits: add.credits,
-                location: $scope.loc,
-                startTime: sDate,
-                endTime: eDate
-
-
-            },
-            function (data) {
-                console.log(data);
-                $window.location = "#/app/promotion";
-            });
 
         /*--------------------------------------------------------------------------
          * ---------Validations On datePicker ---------------------------------------
          --------------------------------------------------------------------------*/
-        var start_date = $scope.add.start_date;
-        var end_date = $scope.add.end_date;
-        var days = end_date - start_date;
-        if($scope.add.start_date == '' || $scope.add.start_date == undefined || $scope.add.start_date == null){
+        var startTime = add.startTime;
+        var endTime = add.end_date;
+        var days = endTime - startTime;
+        if (add.startTime == '' || add.startTime == undefined || add.startTime == null) {
             $scope.errorMsg = "Please select start date";
             setTimeout(function () {
                 $scope.errorMsg = "";
                 $scope.$apply();
             }, 3000);
+            return false;
         }
-        else if($scope.add.end_date == '' || $scope.add.end_date == undefined || $scope.add.end_date == null){
+        else if (add.endTime == '' || add.endTime == undefined || add.endTime == null) {
             $scope.errorMsg = "Please select end date";
             setTimeout(function () {
                 $scope.errorMsg = "";
                 $scope.$apply();
             }, 3000);
+            return false;
         }
-        else if (days <= 0) {
+        else if (!result) {
             $scope.errorMsg = "Start date must be less than end date";
             setTimeout(function () {
                 $scope.errorMsg = "";
                 $scope.$apply();
             }, 3000);
+            return false;
         }
         else {
 
-            start_date = $("#start_date").val();
-            end_date = $("#end_date").val();
-            console.log(start_date);   console.log(start_date);
+            startTime = $("#start_date").val();
+            endTime = $("#end_date").val();
         }
+
+        $.post(MY_CONSTANT.url + 'api/admin/addPromoCode',
+            {
+                accessToken: $cookieStore.get('obj').accesstoken,
+                promoId: add._id,
+                promoType: type,
+                vehicleType: add.vehicleType,
+                discount: add.discount,
+                minAmount: add.minAmount,
+                credits: add.credits,
+                location: $scope.loc,
+                startTime: startTime,
+                endTime: endTime
+
+
+            },
+            function (data) {
+                $window.location = "#/app/promotion";
+            });
     };
 });

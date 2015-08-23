@@ -1,258 +1,278 @@
 <!--<div class="modal fade">-->
-
-            <div class="row" ng-controller="MapCircleController1">
-                <div class="col-lg-6">
-                    <form method="post" validate-form="" novalidate="" ng-submit="addOrder(job)">
-                        <div class="panel panel-default">
-
-
-                            <div id="panelDemo4" class="panel panel-default custom-panel">
-                                <div class="panel-heading">
-                                    <label>Personal Details</label>
-                                    <input class="pull-right" type="checkbox" ng-model="panelDemo4">
-                                </div>
-                                <div class="panel-body">
-                                    <div class="form-group">
-                                        <div collapse="!panelDemo4" ng-init="panelDemo4=true" class="panel-wrapper">
-                                            <div class="">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <input type="text" name="vehival_id"
-                                                               class="form-control"
-                                                               placeholder="Vehival Id" ng-model="job.vehival_id" ng-required="hasPickup"
-                                                               required="required">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group"><input type="email" name="pickup_email"
-                                                                                   class="form-control"
-                                                                                   placeholder="Email(Optional)" ng-model="job.pickup_email"></div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <input type="text" name="parcel_detail"
-                                                               class="form-control"
-                                                               placeholder="Parcel Detail" ng-model="job.parcel_detail" ng-required="hasPickup"
-                                                               required="required">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <input type="text" name="note"
-                                                               class="form-control"
-                                                               placeholder="Note" ng-model="job.note" ng-required="hasPickup"
-                                                               required="required">
-                                                    </div>
-                                                </div>
-                                            </div>
+<h3>
+    Add Order
+</h3>
+<div class="row" ng-controller="MapCircleController1">
+    <div class="col-lg-6">
+        <div ng-show="successMsg" class="alert alert-success text-center">{{successMsg}}</div>
+        <div ng-show="errorMsg" class="alert alert-danger text-center">{{errorMsg}}</div>
+        <form method="post" validate-form="" novalidate="" ng-submit="addOrder(job)">
+            <div class="panel panel-default">
+                <div id="panelDemo4" class="panel panel-default custom-panel">
+                    <div class="panel-heading">
+                        <label>Personal Details</label>
+                        <input class="pull-right" type="checkbox" ng-model="panelDemo4" ng-change="checkStatus()">
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div collapse="!panelDemo4" ng-init="panelDemo4=false" class="panel-wrapper">
+                                <div class="">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" name="vehival_id"
+                                                   class="form-control"
+                                                   placeholder="Vehival Id" ng-model="job.vehival_id"
+                                                   ng-required="boxStatus"
+                                                   required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group"><input type="email" name="pickup_email"
+                                                                       class="form-control"
+                                                                       placeholder="Email(Optional)"
+                                                                       ng-model="job.pickup_email"
+                                                                       ng-required="boxStatus"
+                                                                       required>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" name="parcel_detail"
+                                                   class="form-control"
+                                                   placeholder="Parcel Detail" ng-model="job.parcel_detail"
+                                                   ng-required="boxStatus"
+                                                   required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" name="note"
+                                                   class="form-control"
+                                                   placeholder="Note" ng-model="job.note" ng-required="boxStatus"
+                                                   required="required">
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div id="panelDemo3" class="panel panel-default custom-panel">
-                                <div class="panel-heading">
-                                    <label>Pick Up</label>
-                                    <input class="pull-right" type="checkbox" ng-model="panelDemo3">
-                                </div>
-                                <div class="panel-body">
-                                    <div class="form-group">
-                                        <div collapse="!panelDemo3" ng-init="panelDemo3=false" class="panel-wrapper">
-                                            <div class="">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <input type="text" name="phone_no"
-                                                               class="form-control"
-                                                               placeholder="Mobile" ng-model="job.phone_no" ng-required="hasPickup"
-                                                               required="required">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <input type="text" name="sender_name"
-                                                               class="form-control"
-                                                               placeholder="Sender Name" ng-model="job.sender_name" ng-required="hasPickup"
-                                                               required="required">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <input type="text" name="company_name"
-                                                               class="form-control"
-                                                               placeholder="Company Name" ng-model="job.company_name" ng-required="hasPickup"
-                                                               required="required">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <input type="text" name="pick_up_before"
-                                                               class="form-control"
-                                                               placeholder="Pick-up Before" ng-model="job.pick_up_before" ng-required="hasPickup"
-                                                               required="required">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <input type="text" name="pick_up_address"
-                                                               class="form-control"
-                                                               placeholder="Pick-up Address" ng-model="job.pick_up_address" ng-required="hasPickup"
-                                                               required="required" ng-change="clickIt(job.pick_up_address,1)" googleplace="">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <input type="text" name="info"
-                                                               class="form-control"
-                                                               placeholder="Info" ng-model="job.info" ng-required="hasPickup"
-                                                               required="required">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div id="panelDemo2" class="panel panel-default custom-panel">
-                                <div class="panel-heading">
-                                    <label>Delivery</label>
-                                    <input class="pull-right" type="checkbox" ng-model="panelDemo2">
-                                </div>
-                                <div class="panel-body">
-                                    <div class="form-group">
-                                        <div collapse="!panelDemo2" ng-init="panelDemo2=false" class="panel-wrapper">
-                                            <div class="">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <input type="text" name="phone_no"
-                                                               class="form-control"
-                                                               placeholder="Mobile" ng-model="job.d_phone_no" ng-required="hasPickup"
-                                                               required="required">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <input type="text" name="sender_name"
-                                                               class="form-control"
-                                                               placeholder="Sender Name" ng-model="job.d_sender_name" ng-required="hasPickup"
-                                                               required="required">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <input type="text" name="company_name"
-                                                               class="form-control"
-                                                               placeholder="Company Name" ng-model="job.d_company_name" ng-required="hasPickup"
-                                                               required="required">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <input type="text" name="pick_up_before"
-                                                               class="form-control"
-                                                               placeholder="Pick-up Before" ng-model="job.d_drop_off_before" ng-required="hasPickup"
-                                                               required="required">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <input type="text" name="drop_off_address"
-                                                               class="form-control"
-                                                               placeholder="Pick-up Address" ng-model="job.d_drop_off_address" ng-required="hasPickup"
-                                                               required="required" id="drop_off_address" ng-change="clickIt(job.d_drop_off_address,2)" googleplace="">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <input type="text" name="info"
-                                                               class="form-control"
-                                                               placeholder="Info" ng-model="job.d_info" ng-required="hasPickup"
-                                                               required="required">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="panelDemo1" class="panel panel-default custom-panel">
-                                <div class="panel-heading">
-                                    <label>Payment Details</label>
-                                    <input class="pull-right" type="checkbox" ng-model="panelDemo1">
-                                </div>
-                                <div class="panel-body">
-                                    <div class="form-group">
-                                        <div collapse="!panelDemo1" ng-init="panelDemo1=false" class="panel-wrapper">
-                                            <div class="">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <input type="text" name="subscription_id"
-                                                               class="form-control"
-                                                               placeholder="Subscription Id" ng-model="job.subscription_id" ng-required="hasPickup"
-                                                               required="required">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <input type="text" name="amount"
-                                                               class="form-control"
-                                                               placeholder="Amount" ng-model="job.amount" ng-required="hasPickup"
-                                                               required="required">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <input type="text" name="payment_mode"
-                                                               class="form-control"
-                                                               placeholder="Payment Mode" ng-model="job.payment_mode" ng-required="hasPickup"
-                                                               required="required">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <input type="text" name="payment_at"
-                                                               class="form-control"
-                                                               placeholder="Payment At" ng-model="job.payment_at" ng-required="hasPickup"
-                                                               required="required">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <input type="text" name="promo_code"
-                                                               class="form-control"
-                                                               placeholder="Promo Code" ng-model="job.promo_code" ng-required="hasPickup"
-                                                               required="required">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel-footer btn-align">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                                <button type="button" ng-click="closeThisDialog(0)" class="btn btn-default">Cancel
-                                </button>
-                                <div ng-show="successMsg" class="alert alert-success text-center" style="margin-top: 10px;">
-                                    {{successMsg}}
-                                </div>
-                                <div ng-show="errorMsg" class="alert alert-danger text-center" style="margin-top: 10px;">
-                                    {{errorMsg}}
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-
-                </div>
-                <div class="col-lg-6">
-                    <div class="panel widget bg-primary">
-                        <div>
-                            <div class="panel-body map-dashboard">
-                                <div id="map-container" style="height:410px"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div id="panelDemo3" class="panel panel-default custom-panel">
+                    <div class="panel-heading">
+                        <label>Pick Up</label>
+                        <input class="pull-right" type="checkbox" ng-model="panelDemo3">
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div collapse="!panelDemo3" ng-init="panelDemo3=false" class="panel-wrapper">
+                                <div class="">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" name="phone_no"
+                                                   class="form-control"
+                                                   placeholder="Mobile" ng-model="job.phone_no" ng-required="hasPickup"
+                                                   required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" name="sender_name"
+                                                   class="form-control"
+                                                   placeholder="Sender Name" ng-model="job.sender_name"
+                                                   ng-required="hasPickup"
+                                                   required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" name="company_name"
+                                                   class="form-control"
+                                                   placeholder="Company Name" ng-model="job.company_name"
+                                                   ng-required="hasPickup"
+                                                   required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" name="pick_up_before"
+                                                   class="form-control"
+                                                   placeholder="Pick-up Before" ng-model="job.pick_up_before"
+                                                   ng-required="hasPickup"
+                                                   required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <input type="text" name="pick_up_address"
+                                                   class="form-control"
+                                                   placeholder="Pick-up Address" ng-model="job.pick_up_address"
+                                                   ng-required="hasPickup"
+                                                   required="required" ng-change="clickIt(job.pick_up_address,1)"
+                                                   googleplace="">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <input type="text" name="info"
+                                                   class="form-control"
+                                                   placeholder="Info" ng-model="job.info" ng-required="hasPickup"
+                                                   required="required">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="panelDemo2" class="panel panel-default custom-panel">
+                    <div class="panel-heading">
+                        <label>Delivery</label>
+                        <input class="pull-right" type="checkbox" ng-model="panelDemo2">
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div collapse="!panelDemo2" ng-init="panelDemo2=false" class="panel-wrapper">
+                                <div class="">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" name="phone_no"
+                                                   class="form-control"
+                                                   placeholder="Mobile" ng-model="job.d_phone_no"
+                                                   ng-required="hasPickup"
+                                                   required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" name="sender_name"
+                                                   class="form-control"
+                                                   placeholder="Sender Name" ng-model="job.d_sender_name"
+                                                   ng-required="hasPickup"
+                                                   required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" name="company_name"
+                                                   class="form-control"
+                                                   placeholder="Company Name" ng-model="job.d_company_name"
+                                                   ng-required="hasPickup"
+                                                   required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" name="pick_up_before"
+                                                   class="form-control"
+                                                   placeholder="Pick-up Before" ng-model="job.d_drop_off_before"
+                                                   ng-required="hasPickup"
+                                                   required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <input type="text" name="drop_off_address"
+                                                   class="form-control"
+                                                   placeholder="Pick-up Address" ng-model="job.d_drop_off_address"
+                                                   ng-required="hasPickup"
+                                                   required="required" id="drop_off_address"
+                                                   ng-change="clickIt(job.d_drop_off_address,2)" googleplace="">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <input type="text" name="info"
+                                                   class="form-control"
+                                                   placeholder="Info" ng-model="job.d_info" ng-required="hasPickup"
+                                                   required="required">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="panelDemo1" class="panel panel-default custom-panel">
+                    <div class="panel-heading">
+                        <label>Payment Details</label>
+                        <input class="pull-right" type="checkbox" ng-model="panelDemo1">
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div collapse="!panelDemo1" ng-init="panelDemo1=false" class="panel-wrapper">
+                                <div class="">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" name="subscription_id"
+                                                   class="form-control"
+                                                   placeholder="Subscription Id" ng-model="job.subscription_id"
+                                                   ng-required="hasPickup"
+                                                   required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" name="amount"
+                                                   class="form-control"
+                                                   placeholder="Amount" ng-model="job.amount" ng-required="hasPickup"
+                                                   required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" name="payment_mode"
+                                                   class="form-control"
+                                                   placeholder="Payment Mode" ng-model="job.payment_mode"
+                                                   ng-required="hasPickup"
+                                                   required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <input type="text" name="payment_at"
+                                                   class="form-control"
+                                                   placeholder="Payment At" ng-model="job.payment_at"
+                                                   ng-required="hasPickup"
+                                                   required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <input type="text" name="promo_code"
+                                                   class="form-control"
+                                                   placeholder="Promo Code" ng-model="job.promo_code"
+                                                   ng-required="hasPickup"
+                                                   required="required">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer btn-align">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" ng-click="closeThisDialog(0)" class="btn btn-default">Cancel
+                    </button>
+                    <div ng-show="successMsg" class="alert alert-success text-center" style="margin-top: 10px;">
+                        {{successMsg}}
+                    </div>
+                </div>
             </div>
+        </form>
+
+    </div>
+    <div class="col-lg-6">
+        <div class="panel widget bg-primary">
+            <div>
+                <div class="panel-body map-dashboard">
+                    <div id="map-container" style="height:410px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 

@@ -131,10 +131,35 @@ console.log("Outer circle");
             });
 
         }
+$scope.job = {};
+        $scope.checkStatus = function(){
+            console.log("In checkStatus");
+            console.log($scope.job.vehival_id);
+            console.log($scope.job.pickup_email);
+            if($scope.job.vehival_id==undefined || $scope.job.pickup_email==undefined || $scope.job.parcel_detail==undefined || $scope.job.note==undefined
+               || $scope.job.vehival_id=="" || $scope.job.pickup_email=="" || $scope.job.parcel_detail=="" || $scope.job.note==""){
+                console.log("if");
+                $scope.boxStatus = 0;
+            }
+        }
 
+$scope.boxStatus = 0;
         $scope.addOrder = function(data,status){
             console.log("Place It");
             console.log(data);
+            if(!$scope.panelDemo4){
+                console.log("if");
+                console.log($scope.panelDemo4);
+                $scope.errorMsg = "Please Select All Checkboxes";
+                $scope.boxStatus = 1;
+                setTimeout(function () {
+                    $scope.errorMsg = "";
+                    $scope.$apply();
+                }, 3000);
+            }
+            else{
+                console.log("else");
+            }
         }
 
 

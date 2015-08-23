@@ -49,7 +49,7 @@
 
                     <div class="form-group">
                         <label class="control-label">City</label>
-                        <input type="text" name="city" id="city" required="required"
+                        <input type="text" name="city" id="city"  ng-change="clickIt(add.city)" required="required"
                                class="form-control"
                                ng-model="add.city" googleplace/>
                     </div>
@@ -96,7 +96,7 @@
         </div>
     </div>
 
-        <div id="map-container" style="height: 755px;border: double"></div>
+        <div id="map-container" style="height: 725px;border: double"></div>
 
 
 </div>
