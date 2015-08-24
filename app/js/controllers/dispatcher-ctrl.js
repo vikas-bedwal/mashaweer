@@ -29,10 +29,11 @@ App.controller('dispatcherController', function ($scope, $http, $cookies, $cooki
                 email: $scope.account.email,
                 password: "dispatcher",
                 fullName: $scope.account.fullName
-            }).then(
-            function (data,status) {
+            })
+            .success(function (data,status)  {
                 console.log(data)
                 console.log(status)
+                console.log("IN SUCCESS API");
                 if (status != 'success') {
                     console.log("if");
                     $scope.authMsg = data.message;
@@ -58,7 +59,13 @@ App.controller('dispatcherController', function ($scope, $http, $cookies, $cooki
                         showClose: true
                     });
                 }
-            });
+            })
+            .error(function(data, status){
+                console.log(data)
+                console.log(status)
+                console.log("IN Error API");
+            })
+
     };
 
 /*    $scope.pop = {};

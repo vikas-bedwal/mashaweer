@@ -11,45 +11,48 @@
                 <div id="panelDemo4" class="panel panel-default custom-panel">
                     <div class="panel-heading">
                         <label>Personal Details</label>
-                        <input class="pull-right" type="checkbox" ng-model="panelDemo4" ng-change="checkStatus()">
+                        <input class="pull-right" type="checkbox" ng-model="panelDemo4" ng-change="checkStatus(1)">
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <div collapse="!panelDemo4" ng-init="panelDemo4=false" class="panel-wrapper">
+                            <div collapse="!panelDemo4" ng-init="panelDemo4=true" class="panel-wrapper">
                                 <div class="">
                                     <div class="col-lg-6">
+
                                         <div class="form-group">
-                                            <input type="text" name="vehival_id"
-                                                   class="form-control"
-                                                   placeholder="Vehival Id" ng-model="job.vehival_id"
-                                                   ng-required="boxStatus"
-                                                   required="required">
+                                            <select id="vehival_id" ng-init="job.vehival_id='BIKE'" ng-model="job.vehival_id"
+                                                    required="required"
+                                                    placeholder="Vehical" name="vehival_id" class="form-control">
+                                                <option value="BIKE">Bike</option>
+                                                <option value="VAN">Van</option>
+                                                <option value="TRUCK">Truck</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group"><input type="email" name="pickup_email"
                                                                        class="form-control"
-                                                                       placeholder="Email(Optional)"
-                                                                       ng-model="job.pickup_email"
-                                                                       ng-required="boxStatus"
-                                                                       required>
+                                                                       placeholder="Email"
+                                                                       ng-model="job.email"
+                                                                       ng-required="boxStatus1"
+                                                                       required="required">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+
+                                    <div class="col-lg-12">
                                         <div class="form-group">
-                                            <input type="text" name="parcel_detail"
+                                            <input type="text" name="personal_phone_no"
                                                    class="form-control"
-                                                   placeholder="Parcel Detail" ng-model="job.parcel_detail"
-                                                   ng-required="boxStatus"
+                                                   placeholder="Phone No" ng-model="job.personal_phone_no" ng-required="boxStatus1"
                                                    required="required">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+
+                                    <div class="col-lg-12">
+
                                         <div class="form-group">
-                                            <input type="text" name="note"
-                                                   class="form-control"
-                                                   placeholder="Note" ng-model="job.note" ng-required="boxStatus"
-                                                   required="required">
+                                            <textarea type="text" id="parcel_detail" name="parcel_detail" required="required"
+                                                      class="form-control" ng-model="job.parcel_detail" ng-required="boxStatus1" placeholder="Parcel Detail" required="required"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -61,17 +64,17 @@
                 <div id="panelDemo3" class="panel panel-default custom-panel">
                     <div class="panel-heading">
                         <label>Pick Up</label>
-                        <input class="pull-right" type="checkbox" ng-model="panelDemo3">
+                        <input class="pull-right" type="checkbox" ng-model="panelDemo3" ng-change="checkStatus(2)">
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <div collapse="!panelDemo3" ng-init="panelDemo3=false" class="panel-wrapper">
+                            <div collapse="!panelDemo3" ng-init="panelDemo3=true" class="panel-wrapper">
                                 <div class="">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <input type="text" name="phone_no"
+                                            <input type="text" id="p_mobile-number" name="phone_no"
                                                    class="form-control"
-                                                   placeholder="Mobile" ng-model="job.phone_no" ng-required="hasPickup"
+                                                   placeholder="Phone No" ng-model="job.phone_no" ng-required="boxStatus2"
                                                    required="required">
                                         </div>
                                     </div>
@@ -80,25 +83,25 @@
                                             <input type="text" name="sender_name"
                                                    class="form-control"
                                                    placeholder="Sender Name" ng-model="job.sender_name"
-                                                   ng-required="hasPickup"
+                                                   ng-required="boxStatus2"
                                                    required="required">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                 <!--   <div class="col-lg-6">
                                         <div class="form-group">
                                             <input type="text" name="company_name"
                                                    class="form-control"
                                                    placeholder="Company Name" ng-model="job.company_name"
-                                                   ng-required="hasPickup"
+                                                   ng-required="boxStatus2"
                                                    required="required">
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6">
+                                    </div>-->
+                                    <div class="col-lg-12">
                                         <div class="form-group">
-                                            <input type="text" name="pick_up_before"
+                                            <input type="text" id="datetimepicker" name="pick_up_before"
                                                    class="form-control"
-                                                   placeholder="Pick-up Before" ng-model="job.pick_up_before"
-                                                   ng-required="hasPickup"
+                                                   placeholder="Pick-up Time" ng-model="job.pick_up_before"
+                                                   ng-required="boxStatus2"
                                                    required="required">
                                         </div>
                                     </div>
@@ -107,7 +110,7 @@
                                             <input type="text" name="pick_up_address"
                                                    class="form-control"
                                                    placeholder="Pick-up Address" ng-model="job.pick_up_address"
-                                                   ng-required="hasPickup"
+                                                   ng-required="boxStatus2"
                                                    required="required" ng-change="clickIt(job.pick_up_address,1)"
                                                    googleplace="">
                                         </div>
@@ -116,7 +119,7 @@
                                         <div class="form-group">
                                             <input type="text" name="info"
                                                    class="form-control"
-                                                   placeholder="Info" ng-model="job.info" ng-required="hasPickup"
+                                                   placeholder="Address Detail" ng-model="job.info" ng-required="boxStatus2"
                                                    required="required">
                                         </div>
                                     </div>
@@ -129,18 +132,18 @@
                 <div id="panelDemo2" class="panel panel-default custom-panel">
                     <div class="panel-heading">
                         <label>Delivery</label>
-                        <input class="pull-right" type="checkbox" ng-model="panelDemo2">
+                        <input class="pull-right" type="checkbox" ng-model="panelDemo2" ng-change="checkStatus(3)">
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <div collapse="!panelDemo2" ng-init="panelDemo2=false" class="panel-wrapper">
+                            <div collapse="!panelDemo2" ng-init="panelDemo2=true" class="panel-wrapper">
                                 <div class="">
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <input type="text" name="phone_no"
-                                                   class="form-control"
-                                                   placeholder="Mobile" ng-model="job.d_phone_no"
-                                                   ng-required="hasPickup"
+                                                   class="form-control" id="d_mobile-number"
+                                                   placeholder="Phone No" ng-model="job.d_phone_no"
+                                                   ng-required="boxStatus3"
                                                    required="required">
                                         </div>
                                     </div>
@@ -149,25 +152,16 @@
                                             <input type="text" name="sender_name"
                                                    class="form-control"
                                                    placeholder="Sender Name" ng-model="job.d_sender_name"
-                                                   ng-required="hasPickup"
+                                                   ng-required="boxStatus3"
                                                    required="required">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div class="form-group">
-                                            <input type="text" name="company_name"
+                                            <input type="text" name="drop_off_before" id="datetimepicker1"
                                                    class="form-control"
-                                                   placeholder="Company Name" ng-model="job.d_company_name"
-                                                   ng-required="hasPickup"
-                                                   required="required">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <input type="text" name="pick_up_before"
-                                                   class="form-control"
-                                                   placeholder="Pick-up Before" ng-model="job.d_drop_off_before"
-                                                   ng-required="hasPickup"
+                                                   placeholder="Drop-Off Time" ng-model="job.d_drop_off_before"
+                                                   ng-required="boxStatus3"
                                                    required="required">
                                         </div>
                                     </div>
@@ -175,8 +169,8 @@
                                         <div class="form-group">
                                             <input type="text" name="drop_off_address"
                                                    class="form-control"
-                                                   placeholder="Pick-up Address" ng-model="job.d_drop_off_address"
-                                                   ng-required="hasPickup"
+                                                   placeholder="Drop-Off Address" ng-model="job.d_drop_off_address"
+                                                   ng-required="boxStatus3"
                                                    required="required" id="drop_off_address"
                                                    ng-change="clickIt(job.d_drop_off_address,2)" googleplace="">
                                         </div>
@@ -185,7 +179,7 @@
                                         <div class="form-group">
                                             <input type="text" name="info"
                                                    class="form-control"
-                                                   placeholder="Info" ng-model="job.d_info" ng-required="hasPickup"
+                                                   placeholder="Address Detail" ng-model="job.d_info" ng-required="boxStatus3"
                                                    required="required">
                                         </div>
                                     </div>
@@ -197,18 +191,18 @@
                 <div id="panelDemo1" class="panel panel-default custom-panel">
                     <div class="panel-heading">
                         <label>Payment Details</label>
-                        <input class="pull-right" type="checkbox" ng-model="panelDemo1">
+                        <input class="pull-right" type="checkbox" ng-model="panelDemo1" ng-change="checkStatus(4)">
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <div collapse="!panelDemo1" ng-init="panelDemo1=false" class="panel-wrapper">
+                            <div collapse="!panelDemo1" ng-init="panelDemo1=true" class="panel-wrapper">
                                 <div class="">
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <input type="text" name="subscription_id"
                                                    class="form-control"
                                                    placeholder="Subscription Id" ng-model="job.subscription_id"
-                                                   ng-required="hasPickup"
+                                                   ng-required="boxStatus4"
                                                    required="required">
                                         </div>
                                     </div>
@@ -216,17 +210,19 @@
                                         <div class="form-group">
                                             <input type="text" name="amount"
                                                    class="form-control"
-                                                   placeholder="Amount" ng-model="job.amount" ng-required="hasPickup"
+                                                   placeholder="Amount" ng-model="job.amount" ng-required="boxStatus4"
                                                    required="required">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <input type="text" name="payment_mode"
-                                                   class="form-control"
-                                                   placeholder="Payment Mode" ng-model="job.payment_mode"
-                                                   ng-required="hasPickup"
-                                                   required="required">
+                                            <select id="payment_mode" ng-init="job.payment_mode='BIKE'" ng-model="job.payment_mode"
+                                                    required="required"
+                                                    placeholder="Payment Mode" name="payment_mode" class="form-control">
+                                                <option value="BIKE">Credit</option>
+                                                <option value="VAN">Card</option>
+                                                <option value="TRUCK">Cash</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -234,7 +230,7 @@
                                             <input type="text" name="payment_at"
                                                    class="form-control"
                                                    placeholder="Payment At" ng-model="job.payment_at"
-                                                   ng-required="hasPickup"
+                                                   ng-required="boxStatus4"
                                                    required="required">
                                         </div>
                                     </div>
@@ -243,7 +239,7 @@
                                             <input type="text" name="promo_code"
                                                    class="form-control"
                                                    placeholder="Promo Code" ng-model="job.promo_code"
-                                                   ng-required="hasPickup"
+                                                   ng-required="boxStatus4"
                                                    required="required">
                                         </div>
                                     </div>
@@ -274,5 +270,17 @@
         </div>
     </div>
 </div>
+
+<!-- **************************************************************************
+******************* Modal to display msg **************************************
+*******************************************************************************-->
+<script type="text/ng-template" id="display_msg">
+    <div class="ngdialog-message">
+        <h4>Dispatcher Added Successfully</h4>
+        <button type="submit" ng-click="close()" class="btn btn-primary"
+                style="margin-top:20px;float:right;">OK</button>
+        <div style="clear: both;"></div>
+    </div>
+</script>
 
 

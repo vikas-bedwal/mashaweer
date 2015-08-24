@@ -163,7 +163,7 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
                 url: '/add_order',
                 title: 'Add Order',
                 templateUrl: helper.basepath('placeOrder.html'),
-                resolve: helper.resolveFor('parsley')
+                resolve: helper.resolveFor('parsley','ngDialog')
             })
             .state('app.dispatcher', {
                 url: '/dispatcher',
