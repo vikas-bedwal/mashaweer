@@ -1,4 +1,17 @@
 
+/*Common CSS*/
+
+.padding-left {
+    padding-left: 0;
+}
+.padding-right {
+    padding-right: 0;
+}
+.padding-left-right{
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .btn-success {
     background-color: #f4bf00;
     border-color: #f4bf00;
@@ -379,4 +392,22 @@ width: 400px !important;
 }
 #add-promo{
     margin-top: -30px;
+}
+.subscribeForm{
+    border: 1px solid #DDE6E9;
+    padding: 10px;
+}
+/*.subscribeFormLeftLabel{
+     padding-left: 0px;
+ }
+.subscribeFormRightLabel{
+    padding-right: 0px;
+}
+.subscribeFormLabel{
+    padding-right: 0px;
+    padding-left: 0px;
+}*/
+.subscribeLabels{
+    font-weight: normal;
+    margin-bottom: 4px;
 }
