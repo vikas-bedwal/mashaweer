@@ -31,7 +31,7 @@ App.run(["$log", function ($log) {
 }]);
 
 App.constant("MY_CONSTANT", {
-    "url": " http://52.6.230.125:8000/"
+    "url": " http://52.6.230.125:8002/"
 });
 App.constant("MY_CONSTANT1", {
     "url": "http://maps.googleapis.com/maps/api/geocode/json"
@@ -145,6 +145,12 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
                 url: '/subscription',
                 title: 'Subscription',
                 templateUrl: helper.basepath('subscription.html'),
+                resolve: helper.resolveFor('datatables', 'datatables-pugins')
+            })
+            .state('app.addSubscription', {
+                url: '/add_subscription',
+                title: 'Subscription',
+                templateUrl: helper.basepath('addSubscription.html'),
                 resolve: helper.resolveFor('parsley')
             })
             .state('app.promo', {
@@ -169,7 +175,7 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
                 url: '/dispatcher',
                 title: 'Dispatcher',
                 templateUrl: helper.basepath('dispatcher.html'),
-                resolve: helper.resolveFor('ngDialog')
+                resolve: helper.resolveFor('ngDialog','datatables', 'datatables-pugins')
             })
             .state('app.details', {
                 url : "/{id:[0-9]*}",

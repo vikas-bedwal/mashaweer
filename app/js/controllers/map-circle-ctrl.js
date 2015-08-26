@@ -125,6 +125,7 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
         $scope.drawMap = function () {
             $http.get(MY_CONSTANT.url + 'api/admin/getLiveView/' + $cookieStore.get('obj').accesstoken)
                 .success(function (response, status) {
+                    console.log(response);
                     if (status == 200) {
                         var dataArray = [];
                         var dataArray1 = [];

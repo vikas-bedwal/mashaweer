@@ -18,6 +18,7 @@ App.controller('LoginController', function ($scope, $http, $cookies, $cookieStor
                 password: $scope.account.password
             }).then(
             function (data,status) {
+                console.log(data);
                 if (status != 'success') {
                     $scope.authMsg = data.message;
                     setTimeout(function () {

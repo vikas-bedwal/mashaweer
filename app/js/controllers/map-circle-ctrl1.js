@@ -11,11 +11,15 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
         jQuery('#datetimepicker').datetimepicker();
         jQuery('#datetimepicker1').datetimepicker();
         $("#p_mobile-number").intlTelInput({
-            utilsScript: "lib/intl-tel-input/lib/libphonenumber/build/utils.js?3"
+            utilsScript: "vendor/utils.js"
         });
+        $("#p_mobile-number").intlTelInput("selectCountry", "ae");
+
         $("#d_mobile-number").intlTelInput({
-            utilsScript: "lib/intl-tel-input/lib/libphonenumber/build/utils.js?3"
+            utilsScript: "vendor/utils.js"
         });
+        $("#d_mobile-number").intlTelInput("selectCountry", "ae");
+
         $log.currentLevel = $log.LEVELS.debug;
 
         var center = {

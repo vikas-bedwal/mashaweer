@@ -1,0 +1,385 @@
+<h3>
+    Subscription Form
+</h3>
+<div class="row" ng-controller="addSubscriptionController">
+    <div class="col-lg-6">
+
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                <form method="post" ng-submit="subscribe(add)" validate-form="" novalidate="">
+                    <div ng-show="successMsg" class="alert alert-success text-center">{{successMsg}}</div>
+                    <div ng-show="errorMsg" class="alert alert-danger text-center">{{errorMsg}}</div>
+
+                    <div class="clearfix subscribeForm">
+                        <div class="col-lg-6 padding-left">
+                            <div class="form-group">
+                                <label class="control-label subscribeLabels">Amount</label>
+                                <input type="text" name="amount" min="1" required="required" numbers-only="numbers-only"
+                                       class="form-control"
+                                       ng-model="add.amount"/>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 padding-right">
+                            <div class="form-group">
+                                <label class="control-label subscribeLabels">Validity (Days)</label>
+                                <input type="text" name="amount" min="1" required="required" numbers-only="numbers-only"
+                                       class="form-control"
+                                       ng-model="add.validity"/>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 padding-left">
+                            <div class="form-group">
+                                <label class="control-label subscribeLabels">Heading</label>
+                                <input type="text" ng-model="add.heading" name=""
+                                       required="required"
+                                       class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 padding-right">
+                            <label class="control-label subscribeLabels">Valid Upto</label>
+                            <div class="form-group">
+                                <input type="text" name="drop_off_before" id="datetimepicker"
+                                       class="form-control"
+                                       readonly
+                                      ng-model="add.validUpto"
+                                       required="required">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 padding-left-right">
+                            <div class="form-group" ng-repeat="item in conditionArray">
+                                <label class="control-label subscribeLabels">Conditions</label>
+                                <input type="text" id="choice.id" ng-model="item.name" name=""
+                                       class="form-control">
+                                <em class="fa icon-plus" ng-show="showAddChoice({{length}})" id="{{length}}"
+                                    type="button"
+                                    style="margin-top: 10px;float: right;" ng-click="addNewChoice()"></em>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix subscribeForm">
+                        <div class="col-lg-6 padding-left">
+                            <div class="form-group">
+                                <label class="control-label subscribeLabels">Vehicle</label>
+                                <select id="vehicleType" ng-init="add.vehicleType='BIKE'" ng-model="add.vehicleType"
+                                        required="required"
+                                        name="vehicleType"
+                                        class="form-control">
+                                    <option value="BIKE">Bike</option>
+                                    <option value="VAN">Van</option>
+                                    <option value="TRUCK">Truck</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 padding-right">
+                            <div class="form-group">
+                                <label class="control-label subscribeLabels">Credit</label>
+                                <input type="text" name="credit" ng-init="add.credit='0'"  required="required" numbers-only="numbers-only"
+                                       class="form-control"
+                                       ng-model="add.credit"/>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 padding-left-right">
+                            <div class="form-group">
+                                <label class="control-label subscribeLabels">Subscription Type</label>
+                                <select id="subscriptionType" ng-init="add.subscriptionType='WITHIN_CITY'"
+                                        ng-model="add.subscriptionType"
+                                        required="required"
+                                        ng-change="status(add.subscriptionType)"
+                                        name="subscriptionType" class="form-control">
+                                    <option value="WITHIN_CITY">With in City</option>
+                                    <option value="WITHIN_RADIUS">Radius</option>
+                                    <option value="INTER_CITY">Intercity</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 padding-left-right" ng-show="showCity">
+                            <div class="form-group">
+                                <label class="control-label subscribeLabels">City</label>
+                                <select id="city" ng-init="add.city='Dubai'" ng-model="add.city"
+                                        required="required"
+                                        placeholder="City" name="city" class="form-control">
+                                    <option value="Dubai">Dubai</option>
+                                    <option value="Abu Dhabi">Abu Dhabi</option>
+                                    <option value="Sharjah">Sharjah</option>
+                                    <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                                    <option value="Fujairah">Fujairah</option>
+                                    <option value="Ajman">Ajman</option>
+                                    <option value="Umm Al Quwain">Umm Al Quwain</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 padding-left-right" ng-show="showRadius">
+                            <div class="form-group">
+                                <label class="control-label subscribeLabels">Radius</label>
+                                <input type="text" name="radius" id="radius" ng-init="add.radius='0'"
+                                       required="required"
+                                       class="form-control"
+                                       ng-required="showRadius"
+                                       ng-model="add.radius" googleplace/>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 padding-left" ng-show="showFromTo">
+                            <div class="form-group">
+                                <label class="control-label subscribeLabels">From</label>
+                                <select id="from" ng-init="add.from='Dubai'" ng-model="add.from"
+                                        required="required"
+                                        placeholder="from" name="from" class="form-control">
+                                    <option value="Dubai">Dubai</option>
+                                    <option value="Abu Dhabi">Abu Dhabi</option>
+                                    <option value="Sharjah">Sharjah</option>
+                                    <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                                    <option value="Fujairah">Fujairah</option>
+                                    <option value="Ajman">Ajman</option>
+                                    <option value="Umm Al Quwain">Umm Al Quwain</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 padding-right" ng-show="showFromTo">
+                            <div class="form-group">
+                                <label class="control-label subscribeLabels">To</label>
+                                <select id="to" ng-init="add.to='Abu Dhabi'" ng-model="add.to"
+                                        required="required"
+                                        placeholder="to" name="to" class="form-control">
+                                    <option value="Dubai">Dubai</option>
+                                    <option value="Abu Dhabi">Abu Dhabi</option>
+                                    <option value="Sharjah">Sharjah</option>
+                                    <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                                    <option value="Fujairah">Fujairah</option>
+                                    <option value="Ajman">Ajman</option>
+                                    <option value="Umm Al Quwain">Umm Al Quwain</option>
+                                </select>
+                            </div>
+                        </div>
+                        <em class="fa icon-plus" ng-hide="btnChange" type="button"
+                            style="margin-top: 10px;float: right;" ng-click="addNewForm(len)"></em>
+                        <em class="fa fa-times-circle-o" ng-show="btnChange" type="button"
+                            style="margin-top: 10px;float: right;" ng-click="deleteForm(len)"></em>
+                    </div>
+
+                    <div class="clearfix subscribeForm" ng-show="second">
+                        <div class="col-lg-6 padding-left">
+                            <div class="form-group">
+                                <label class="control-label subscribeLabels">Vehicle</label>
+                                <select id="vehicleType2" ng-init="add.vehicleType2='BIKE'" ng-model="add.vehicleType2"
+                                        required="required"
+                                        ng-required="second"
+                                        name="vehicleType2" class="form-control">
+                                    <option value="BIKE">Bike</option>
+                                    <option value="VAN">Van</option>
+                                    <option value="TRUCK">Truck</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 padding-right">
+                            <div class="form-group">
+                                <label class="control-label subscribeLabels">Credit</label>
+                                <input type="text" name="credit2" ng-init="add.credit2='0'" required="required" numbers-only="numbers-only"
+                                       class="form-control"
+                                       ng-required="second"
+                                       ng-model="add.credit2"/>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 padding-left-right">
+                            <div class="form-group">
+                                <label class="control-label subscribeLabels">Subscription Type</label>
+                                <select id="subscriptionType2" ng-init="add.subscriptionType2='WITHIN_CITY'"
+                                        ng-model="add.subscriptionType2"
+                                        required="required"
+                                        ng-required="second"
+                                        ng-change="status2(add.subscriptionType2)"
+                                        name="subscriptionType2" class="form-control">
+                                    <option value="WITHIN_CITY">With in City</option>
+                                    <option value="WITHIN_RADIUS">Radius</option>
+                                    <option value="INTER_CITY">Intercity</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-12 padding-left-right" ng-show="showCity2">
+                            <div class="form-group">
+                                <label class="control-label">City</label>
+                                <select id="city2" ng-init="add.city2='Dubai'" ng-model="add.city2"
+                                        required="required"
+                                        placeholder="City" name="city2" class="form-control">
+                                    <option value="Dubai">Dubai</option>
+                                    <option value="Abu Dhabi">Abu Dhabi</option>
+                                    <option value="Sharjah">Sharjah</option>
+                                    <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                                    <option value="Fujairah">Fujairah</option>
+                                    <option value="Ajman">Ajman</option>
+                                    <option value="Umm Al Quwain">Umm Al Quwain</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 padding-left-right" ng-show="showRadius2">
+                            <div class="form-group">
+                                <label class="control-label subscribeLabels">Radius</label>
+                                <input type="text" name="radius2" id="radius2" ng-init="add.radius2 = '0'"
+                                       required="required"
+                                       ng-required="second"
+                                       class="form-control"
+                                       ng-model="add.radius2" googleplace/>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 padding-left" ng-show="showFromTo2">
+                            <div class="form-group">
+                                <label class="control-label">From</label>
+                                <select id="from2" ng-init="add.from2='Dubai'" ng-model="add.from2"
+                                        required="required"
+                                        placeholder="City" name="from2" class="form-control">
+                                    <option value="Dubai">Dubai</option>
+                                    <option value="Abu Dhabi">Abu Dhabi</option>
+                                    <option value="Sharjah">Sharjah</option>
+                                    <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                                    <option value="Fujairah">Fujairah</option>
+                                    <option value="Ajman">Ajman</option>
+                                    <option value="Umm Al Quwain">Umm Al Quwain</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 padding-right" ng-show="showFromTo2">
+                            <div class="form-group">
+                                <label class="control-label">To</label>
+                                <select id="to2" ng-init="add.to2='Abu Dhabi'" ng-model="add.to2"
+                                        required="required"
+                                        placeholder="City" name="to2" class="form-control">
+                                    <option value="Dubai">Dubai</option>
+                                    <option value="Abu Dhabi">Abu Dhabi</option>
+                                    <option value="Sharjah">Sharjah</option>
+                                    <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                                    <option value="Fujairah">Fujairah</option>
+                                    <option value="Ajman">Ajman</option>
+                                    <option value="Umm Al Quwain">Umm Al Quwain</option>
+                                </select>
+                            </div>
+                        </div>
+                        <em class="fa icon-plus" ng-hide="btnChange2" type="button"
+                            style="margin-top: 10px;float: right;" ng-click="addNewForm(len)"></em>
+                        <em class="fa fa-times-circle-o" ng-show="btnChange2" type="button"
+                            style="margin-top: 10px;float: right;" ng-click="deleteForm(len)"></em>
+                    </div>
+
+                    <div class="clearfix subscribeForm" ng-show="third">
+                        <div class="col-lg-6 padding-left">
+                            <div class="form-group">
+                                <label class="control-label subscribeLabels">Vehicle</label>
+                                <select id="vehicleType3" ng-init="add.vehicleType3='BIKE'" ng-model="add.vehicleType3"
+                                        required="required"
+                                        ng-required="third"
+                                        name="vehicleType3" class="form-control">
+                                    <option value="BIKE">Bike</option>
+                                    <option value="VAN">Van</option>
+                                    <option value="TRUCK">Truck</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 padding-right">
+                            <div class="form-group">
+                                <label class="control-label subscribeLabels">Credit</label>
+                                <input type="text" name="credit3" ng-init="add.credit3='0'" required="required" numbers-only="numbers-only"
+                                       class="form-control"
+                                       ng-required="third"
+                                       ng-model="add.credit3"/>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 padding-left-right">
+                            <div class="form-group">
+                                <label class="control-label subscribeLabels">Subscription Type</label>
+                                <select id="subscriptionType3" ng-init="add.subscriptionType3='WITHIN_CITY'"
+                                        ng-model="add.subscriptionType3"
+                                        required="required"
+                                        ng-required="third"
+                                        ng-change="status3(add.subscriptionType3)"
+                                        placeholder="Subscription Type" name="subscriptionType3" class="form-control">
+                                    <option value="WITHIN_CITY">With in City</option>
+                                    <option value="WITHIN_RADIUS">Radius</option>
+                                    <option value="INTER_CITY">Intercity</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 padding-left-right" ng-show="showCity3">
+                            <div class="form-group">
+                                <label class="control-label">City</label>
+                                <select id="city3" ng-init="add.city3='Dubai'" ng-model="add.city3"
+                                        required="required"
+                                        placeholder="City" name="city3" class="form-control">
+                                    <option value="Dubai">Dubai</option>
+                                    <option value="Abu Dhabi">Abu Dhabi</option>
+                                    <option value="Sharjah">Sharjah</option>
+                                    <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                                    <option value="Fujairah">Fujairah</option>
+                                    <option value="Ajman">Ajman</option>
+                                    <option value="Umm Al Quwain">Umm Al Quwain</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 padding-left-right" ng-show="showRadius3">
+                            <div class="form-group">
+                                <label class="control-label subscribeLabels">Radius</label>
+                                <input type="text" name="radius3" id="radius3" ng-init="add.radius3='0'"
+                                       required="required"
+                                       ng-required="third"
+                                       class="form-control"
+                                       ng-model="add.radius3" googleplace/>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 padding-left" ng-show="showFromTo3">
+
+                            <div class="form-group">
+                                <label class="control-label">From</label>
+                                <select id="from3" ng-init="add.from3='Dubai'" ng-model="add.from3"
+                                        required="required"
+                                        placeholder="City" name="from3" class="form-control">
+                                    <option value="Dubai">Dubai</option>
+                                    <option value="Abu Dhabi">Abu Dhabi</option>
+                                    <option value="Sharjah">Sharjah</option>
+                                    <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                                    <option value="Fujairah">Fujairah</option>
+                                    <option value="Ajman">Ajman</option>
+                                    <option value="Umm Al Quwain">Umm Al Quwain</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 padding-right" ng-show="showFromTo3">
+                            <div class="form-group">
+                                <label class="control-label">To</label>
+                                <select id="to3" ng-init="add.to3='Abu Dhabi'" ng-model="add.to3"
+                                        required="required"
+                                        placeholder="City" name="to3" class="form-control">
+                                    <option value="Dubai">Dubai</option>
+                                    <option value="Abu Dhabi">Abu Dhabi</option>
+                                    <option value="Sharjah">Sharjah</option>
+                                    <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                                    <option value="Fujairah">Fujairah</option>
+                                    <option value="Ajman">Ajman</option>
+                                    <option value="Umm Al Quwain">Umm Al Quwain</option>
+                                </select>
+                            </div>
+                        </div>
+                        <em class="fa fa-times-circle-o" type="button"
+                            style="margin-top: 10px;float: right;" ng-click="deleteForm(len)"></em>
+                    </div>
+
+
+                    <div style="background: #fff">
+                        <button type="submit" class="btn btn-success">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

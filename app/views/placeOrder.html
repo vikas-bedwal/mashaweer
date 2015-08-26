@@ -17,6 +17,20 @@
                         <div class="form-group">
                             <div collapse="!panelDemo4" ng-init="panelDemo4=true" class="panel-wrapper">
                                 <div class="">
+
+                                    <div class="col-lg-6">
+
+                                        <div class="form-group">
+                                            <select id="search"  ng-model="job.search"
+                                                    required="required"
+                                                    placeholder="Search for customer" name="vehival_id" class="form-control">
+                                                <option value="BIKE">Bike</option>
+                                                <option value="VAN">Van</option>
+                                                <option value="TRUCK">Truck</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <div class="col-lg-6">
 
                                         <div class="form-group">
@@ -74,7 +88,7 @@
                                         <div class="form-group">
                                             <input type="text" id="p_mobile-number" name="phone_no"
                                                    class="form-control"
-                                                   placeholder="Phone No" ng-model="job.phone_no" ng-required="boxStatus2"
+                                                    ng-model="job.phone_no" ng-required="boxStatus2"
                                                    required="required">
                                         </div>
                                     </div>
@@ -142,7 +156,7 @@
                                         <div class="form-group">
                                             <input type="text" name="phone_no"
                                                    class="form-control" id="d_mobile-number"
-                                                   placeholder="Phone No" ng-model="job.d_phone_no"
+                                                    ng-model="job.d_phone_no"
                                                    ng-required="boxStatus3"
                                                    required="required">
                                         </div>
