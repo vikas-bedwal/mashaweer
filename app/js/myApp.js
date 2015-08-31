@@ -145,7 +145,7 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
                 url: '/subscription',
                 title: 'Subscription',
                 templateUrl: helper.basepath('subscription.html'),
-                resolve: helper.resolveFor('datatables', 'datatables-pugins')
+                resolve: helper.resolveFor('datatables', 'datatables-pugins','ngDialog')
             })
             .state('app.addSubscription', {
                 url: '/add_subscription',
@@ -169,7 +169,7 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
                 url: '/add_order',
                 title: 'Add Order',
                 templateUrl: helper.basepath('placeOrder.html'),
-                resolve: helper.resolveFor('parsley','ngDialog')
+                resolve: helper.resolveFor('parsley','ngDialog','ui.select')
             })
             .state('app.dispatcher', {
                 url: '/dispatcher',

@@ -16,7 +16,7 @@
                         <div class="col-lg-6 padding-left">
                             <div class="form-group">
                                 <label class="control-label subscribeLabels">Amount</label>
-                                <input type="text" name="amount" min="1" required="required" numbers-only="numbers-only"
+                                <input type="text" name="amount" min="1" required="required" data-parsley-type="number"
                                        class="form-control"
                                        ng-model="add.amount"/>
                             </div>
@@ -24,7 +24,7 @@
                         <div class="col-lg-6 padding-right">
                             <div class="form-group">
                                 <label class="control-label subscribeLabels">Validity (Days)</label>
-                                <input type="text" name="amount" min="1" required="required" numbers-only="numbers-only"
+                                <input type="text" name="amount" min="1" required="required" data-parsley-type="number"
                                        class="form-control"
                                        ng-model="add.validity"/>
                             </div>
@@ -41,7 +41,7 @@
                         <div class="col-lg-6 padding-right">
                             <label class="control-label subscribeLabels">Valid Upto</label>
                             <div class="form-group">
-                                <input type="text" name="drop_off_before" id="datetimepicker"
+                                <input type="text" name="validUpto" id="datetimepicker"
                                        class="form-control"
                                        readonly
                                       ng-model="add.validUpto"
@@ -79,7 +79,7 @@
                         <div class="col-lg-6 padding-right">
                             <div class="form-group">
                                 <label class="control-label subscribeLabels">Credit</label>
-                                <input type="text" name="credit" ng-init="add.credit='0'"  required="required" numbers-only="numbers-only"
+                                <input type="text" name="credit" ng-init="add.credit='0'"  required="required" data-parsley-type="number"
                                        class="form-control"
                                        ng-model="add.credit"/>
                             </div>
@@ -121,8 +121,9 @@
                                 <input type="text" name="radius" id="radius" ng-init="add.radius='0'"
                                        required="required"
                                        class="form-control"
+                                       data-parsley-type="number"
                                        ng-required="showRadius"
-                                       ng-model="add.radius" googleplace/>
+                                       ng-model="add.radius">
                             </div>
                         </div>
 
@@ -181,7 +182,7 @@
                         <div class="col-lg-6 padding-right">
                             <div class="form-group">
                                 <label class="control-label subscribeLabels">Credit</label>
-                                <input type="text" name="credit2" ng-init="add.credit2='0'" required="required" numbers-only="numbers-only"
+                                <input type="text" name="credit2" ng-init="add.credit2='0'" required="required" data-parsley-type="number"
                                        class="form-control"
                                        ng-required="second"
                                        ng-model="add.credit2"/>
@@ -227,8 +228,9 @@
                                 <input type="text" name="radius2" id="radius2" ng-init="add.radius2 = '0'"
                                        required="required"
                                        ng-required="second"
+                                       data-parsley-type="number"
                                        class="form-control"
-                                       ng-model="add.radius2" googleplace/>
+                                       ng-model="add.radius2">
                             </div>
                         </div>
 
@@ -287,7 +289,7 @@
                         <div class="col-lg-6 padding-right">
                             <div class="form-group">
                                 <label class="control-label subscribeLabels">Credit</label>
-                                <input type="text" name="credit3" ng-init="add.credit3='0'" required="required" numbers-only="numbers-only"
+                                <input type="text" name="credit3" ng-init="add.credit3='0'" required="required" data-parsley-type="number"
                                        class="form-control"
                                        ng-required="third"
                                        ng-model="add.credit3"/>
@@ -332,8 +334,9 @@
                                 <input type="text" name="radius3" id="radius3" ng-init="add.radius3='0'"
                                        required="required"
                                        ng-required="third"
+                                       data-parsley-type="number"
                                        class="form-control"
-                                       ng-model="add.radius3" googleplace/>
+                                       ng-model="add.radius3">
                             </div>
                         </div>
 

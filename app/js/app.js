@@ -152,6 +152,8 @@ App
                 'vendor/ngDialog/css/ngDialog-theme-default.min.css'] },
             {name: 'xeditable',                 files: ['vendor/angular-xeditable/dist/js/xeditable.js',
                 'vendor/angular-xeditable/dist/css/xeditable.css']},
+            {name: 'ui.select',                 files: ['vendor/angular-ui-select/dist/select.js',
+                'vendor/angular-ui-select/dist/select.css']},
         ]
 
     })

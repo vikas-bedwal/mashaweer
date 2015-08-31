@@ -18,23 +18,40 @@
                             <div collapse="!panelDemo4" ng-init="panelDemo4=true" class="panel-wrapper">
                                 <div class="">
 
-                                    <div class="col-lg-6">
+                                    <!-- <div class="col-lg-6">
 
+                                         <div class="form-group">
+                                             <select id="search"  ng-model="job.search"
+                                                     required="required"
+                                                     placeholder="Search for customer" name="vehival_id" class="form-control">
+                                                 <option value="BIKE">Bike</option>
+                                                 <option value="VAN">Van</option>
+                                                 <option value="TRUCK">Truck</option>
+                                             </select>
+                                         </div>
+                                     </div>-->
+                                    <div class="col-lg-12">
                                         <div class="form-group">
-                                            <select id="search"  ng-model="job.search"
-                                                    required="required"
-                                                    placeholder="Search for customer" name="vehival_id" class="form-control">
-                                                <option value="BIKE">Bike</option>
-                                                <option value="VAN">Van</option>
-                                                <option value="TRUCK">Truck</option>
-                                            </select>
+                                                <ui-select ng-model="person.selected" theme="bootstrap"
+                                                           ng-disabled="disabled" ng-click="cust(person.selected)">
+                                                    <ui-select-match placeholder="Select or search a customer...">
+                                                        {{$select.selected.name}}
+                                                    </ui-select-match>
+                                                    <ui-select-choices
+                                                            repeat="person in list | propsFilter: {name: $select.search, credits: $select.search}">
+                                                        <div ng-bind-html="person.name | highlight: $select.search"></div>
+                                                        <small>email: {{person.email}} Credits:
+                                                            <span ng-bind-html="''+person.credits | highlight: $select.search"></span>
+                                                        </small>
+                                                    </ui-select-choices>
+                                                </ui-select>
                                         </div>
                                     </div>
-
                                     <div class="col-lg-6">
 
                                         <div class="form-group">
-                                            <select id="vehival_id" ng-init="job.vehival_id='BIKE'" ng-model="job.vehival_id"
+                                            <select id="vehival_id" ng-init="job.vehival_id='BIKE'"
+                                                    ng-model="job.vehival_id"
                                                     required="required"
                                                     placeholder="Vehical" name="vehival_id" class="form-control">
                                                 <option value="BIKE">Bike</option>
@@ -57,7 +74,8 @@
                                         <div class="form-group">
                                             <input type="text" name="personal_phone_no"
                                                    class="form-control"
-                                                   placeholder="Phone No" ng-model="job.personal_phone_no" ng-required="boxStatus1"
+                                                   placeholder="Phone No" ng-model="job.personal_phone_no"
+                                                   ng-required="boxStatus1"
                                                    required="required">
                                         </div>
                                     </div>
@@ -65,8 +83,11 @@
                                     <div class="col-lg-12">
 
                                         <div class="form-group">
-                                            <textarea type="text" id="parcel_detail" name="parcel_detail" required="required"
-                                                      class="form-control" ng-model="job.parcel_detail" ng-required="boxStatus1" placeholder="Parcel Detail" required="required"></textarea>
+                                            <textarea type="text" id="parcel_detail" name="parcel_detail"
+                                                      required="required"
+                                                      class="form-control" ng-model="job.parcel_detail"
+                                                      ng-required="boxStatus1" placeholder="Parcel Detail"
+                                                      required="required"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -88,7 +109,7 @@
                                         <div class="form-group">
                                             <input type="text" id="p_mobile-number" name="phone_no"
                                                    class="form-control"
-                                                    ng-model="job.phone_no" ng-required="boxStatus2"
+                                                   ng-model="job.phone_no" ng-required="boxStatus2"
                                                    required="required">
                                         </div>
                                     </div>
@@ -101,15 +122,15 @@
                                                    required="required">
                                         </div>
                                     </div>
-                                 <!--   <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <input type="text" name="company_name"
-                                                   class="form-control"
-                                                   placeholder="Company Name" ng-model="job.company_name"
-                                                   ng-required="boxStatus2"
-                                                   required="required">
-                                        </div>
-                                    </div>-->
+                                    <!--   <div class="col-lg-6">
+                                           <div class="form-group">
+                                               <input type="text" name="company_name"
+                                                      class="form-control"
+                                                      placeholder="Company Name" ng-model="job.company_name"
+                                                      ng-required="boxStatus2"
+                                                      required="required">
+                                           </div>
+                                       </div>-->
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <input type="text" id="datetimepicker" name="pick_up_before"
@@ -133,7 +154,8 @@
                                         <div class="form-group">
                                             <input type="text" name="info"
                                                    class="form-control"
-                                                   placeholder="Address Detail" ng-model="job.info" ng-required="boxStatus2"
+                                                   placeholder="Address Detail" ng-model="job.info"
+                                                   ng-required="boxStatus2"
                                                    required="required">
                                         </div>
                                     </div>
@@ -156,7 +178,7 @@
                                         <div class="form-group">
                                             <input type="text" name="phone_no"
                                                    class="form-control" id="d_mobile-number"
-                                                    ng-model="job.d_phone_no"
+                                                   ng-model="job.d_phone_no"
                                                    ng-required="boxStatus3"
                                                    required="required">
                                         </div>
@@ -193,7 +215,8 @@
                                         <div class="form-group">
                                             <input type="text" name="info"
                                                    class="form-control"
-                                                   placeholder="Address Detail" ng-model="job.d_info" ng-required="boxStatus3"
+                                                   placeholder="Address Detail" ng-model="job.d_info"
+                                                   ng-required="boxStatus3"
                                                    required="required">
                                         </div>
                                     </div>
@@ -230,7 +253,8 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <select id="payment_mode" ng-init="job.payment_mode='BIKE'" ng-model="job.payment_mode"
+                                            <select id="payment_mode" ng-init="job.payment_mode='BIKE'"
+                                                    ng-model="job.payment_mode"
                                                     required="required"
                                                     placeholder="Payment Mode" name="payment_mode" class="form-control">
                                                 <option value="BIKE">Credit</option>
@@ -292,7 +316,8 @@
     <div class="ngdialog-message">
         <h4>Dispatcher Added Successfully</h4>
         <button type="submit" ng-click="close()" class="btn btn-primary"
-                style="margin-top:20px;float:right;">OK</button>
+                style="margin-top:20px;float:right;">OK
+        </button>
         <div style="clear: both;"></div>
     </div>
 </script>

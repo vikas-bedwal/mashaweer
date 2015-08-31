@@ -92,7 +92,6 @@ App.controller('addSubscriptionController', function ($scope, $http, $cookies, $
     $scope.loc = {};
     $scope.text = [];
     $scope.subscribe = function (add) {
-        console.log(add);
         $scope.successMsg = '';
         $scope.errorMsg = '';
         $scope.text = [];
@@ -101,7 +100,6 @@ App.controller('addSubscriptionController', function ($scope, $http, $cookies, $
             if (!$scope.conditionArray[i].name == "")
                 $scope.text.push($scope.conditionArray[i].name);
         }
-        console.log($scope.text);
         $scope.totalCredits = parseInt(add.credit) + parseInt(add.credit2) + parseInt(add.credit3);
         /*--------------------------------------------------------------------------
          * --------- Create required json for hit ---------------------------------------
@@ -119,7 +117,7 @@ App.controller('addSubscriptionController', function ($scope, $http, $cookies, $
                     subscriptionType: add.subscriptionType,
                     credits: add.credit,
                     vehicleType: add.vehicleType,
-                    city: add.radius
+                    radius: add.radius
                 };
             }
             else{
@@ -146,12 +144,12 @@ App.controller('addSubscriptionController', function ($scope, $http, $cookies, $
                 subscriptionType: add.subscriptionType2,
                 credits: add.credit2,
                 vehicleType: add.vehicleType2,
-                city: add.radius2
+                radius: add.radius2
             };
         }
         else{
             var obj2 = {
-                subscriptionType2: add.subscriptionType2,
+                subscriptionType: add.subscriptionType2,
                 credits: add.credit2,
                 vehicleType: add.vehicleType2,
                 fromCity: add.from2,
@@ -172,7 +170,7 @@ App.controller('addSubscriptionController', function ($scope, $http, $cookies, $
                 subscriptionType: add.subscriptionType3,
                 credits: add.credit3,
                 vehicleType: add.vehicleType3,
-                city: add.radius3
+                radius: add.radius3
             };
         }
         else{
@@ -214,12 +212,10 @@ App.controller('addSubscriptionController', function ($scope, $http, $cookies, $
             }
         })
             .then(function(response) {
-                console.log(response)
                 $window.location = "#/app/subscription";
             },
             function(response) { // optional
                 // failed
-                console.log(response)
             });
 
 
@@ -236,7 +232,6 @@ App.controller('addSubscriptionController', function ($scope, $http, $cookies, $
             },
             function (data) {
                 $scope.text = {};
-                console.log(data)
                 $scope.list = data;
                 $scope.$apply();
                 $state.reload();
@@ -270,16 +265,13 @@ App.controller('addSubscriptionController', function ($scope, $http, $cookies, $
     $scope.second = 0;
     $scope.third = 0;
     $scope.addNewForm = function (len) {
-        console.log(len);
         $scope.len = $scope.len + 1;
         if (len == 1) {
-            console.log("If");
             $scope.second = 1;
             $scope.btnChange = 1;
 
         }
         else if (len == 2) {
-            console.log("else if");
             $scope.btnChange2 = 1;
             $scope.second = 1;
             $scope.third = 1;
@@ -291,7 +283,6 @@ App.controller('addSubscriptionController', function ($scope, $http, $cookies, $
     };
 
     $scope.deleteForm = function (formNo) {
-        console.log(formNo);
         if (formNo == 3) {
             $scope.third = 0;
             $scope.len = $scope.len - 1;

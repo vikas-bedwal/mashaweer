@@ -7,6 +7,56 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
 
         console.log("Outer circle");
 
+
+
+
+$scope.cust = function(a){
+    console.log("abc");
+    console.log(a);
+    $scope.job.email = a.email;
+    $scope.job.personal_phone_no = a.phoneNumber;
+}
+        $scope.abcd = function(a){
+            console.log("abcd");
+            console.log(a);
+            $scope.job.email = a.email;
+            $scope.job.personal_phone_no = a.phoneNumber;
+        }
+        $http.get(MY_CONSTANT.url + 'api/admin/customerList/' + $cookieStore.get('obj').accesstoken)
+            .success(function (response, status) {
+                if (status == 200) {
+                    var dataArray = [];
+                    var custList = response.data;
+                    custList.forEach(function (column) {
+                        var d = {};
+                        d._id = column._id;
+                        d.name = column.fullName;
+                        d.email = column.email;
+                        d.phoneNumber = column.phoneNumber
+                        d.credits = column.credits;
+                        if(column.isDeleted == false)
+                            d.isDeleted = 'Active';
+                        else
+                            d.isDeleted = 'Inactive';
+                        if(column.isBlocked == false)
+                            d.isBlocked = 0;
+                        else
+                            d.isBlocked = 1;
+                        dataArray.push(d);
+                    });
+                    $scope.list = dataArray;
+                    $scope.excelList = dataArray;
+
+                } else {
+                    alert("Something went wrong, please try again later.");
+                    return false;
+                }
+            })
+            .error(function (error) {
+                console.log(error);
+            });
+
+
         // Below line is for datetime picker
         jQuery('#datetimepicker').datetimepicker();
         jQuery('#datetimepicker1').datetimepicker();
@@ -410,5 +460,41 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
 
         };
 
+        /**
+         * AngularJS default filter with the following expression:
+         * "person in people | filter: {name: $select.search, age: $select.search}"
+         * performs a AND between 'name: $select.search' and 'age: $select.search'.
+         * We want to perform a OR.
+         */
+        App.filter('propsFilter', function() {
+            return function(items, props) {
+                var out = [];
+
+                if (angular.isArray(items)) {
+                    items.forEach(function(item) {
+                        var itemMatches = false;
+
+                        var keys = Object.keys(props);
+                        for (var i = 0; i < keys.length; i++) {
+                            var prop = keys[i];
+                            var text = props[prop].toLowerCase();
+                            if (item[prop].toString().toLowerCase().indexOf(text) !== -1) {
+                                itemMatches = true;
+                                break;
+                            }
+                        }
+
+                        if (itemMatches) {
+                            out.push(item);
+                        }
+                    });
+                } else {
+                    // Let the output be the input untouched
+                    out = items;
+                }
+
+                return out;
+            };
+        });
 
     }]);

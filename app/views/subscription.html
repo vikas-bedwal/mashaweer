@@ -16,7 +16,9 @@
                             <th>Heading</th>
                             <th>Amount</th>
                             <th>Total Credits</th>
-                            <th>Valid Upto</th>
+                            <th>Validity (days)</th>
+                            <th>Subscription Type</th>
+                            <!--<th>Valid Upto</th>-->
                         </tr>
                         </thead>
                         <tbody>
@@ -28,6 +30,8 @@
                             <td>{{data.amount}}</td>
                             <td>{{data.totalCredits}}</td>
                             <td>{{data.validity}}</td>
+                            <td ng-click="subscriptionInfoDialog(data.subscriptionType)">Click It</td>
+                            <!--<td>{{data.validUpto}}</td>-->
                         </tr>
                         </tbody>
                     </table>
@@ -36,3 +40,30 @@
         </div>
     </div>
 </div>
+
+<!-- **************************************************************************
+******************* Modal to display Subscription Info ***********************************
+*******************************************************************************-->
+<script type="text/ng-template" id="subInfo">
+    <div class="ngdialog-message">
+        <h3>Subscription Details</h3>
+            <table style="width:100%;border: none" border="none">
+                <tr>
+                    <th>Type</th>
+                    <th>Vehical</th>
+                    <th>Credits</th>
+                    <th>City/Radius</th>
+                </tr>
+                <tr ng-repeat="data in list1">
+                    <td>{{data.subscriptionType}}</td>
+                    <td>{{data.vehicleType}}</td>
+                    <td>{{data.credits}}</td>
+                    <td>{{data.des}}</td>
+                </tr>
+            </table>
+
+
+    </div>
+
+
+</script>
