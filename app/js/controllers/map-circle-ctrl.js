@@ -2,8 +2,8 @@
  * Created by Vikas on 05/08/15.
  */
 
-App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLogger', 'uiGmapGoogleMapApi', '$cookies', '$cookieStore', 'MY_CONSTANT'
-    , function ($scope, $timeout, $http, $log, GoogleMapApi, $cookies, $cookieStore, MY_CONSTANT) {
+App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLogger','uiGmapGoogleMapApi', '$cookies', '$cookieStore', 'MY_CONSTANT','ngDialog'
+    , function ($scope, $timeout, $http, $log, GoogleMapApi, $cookies, $cookieStore, MY_CONSTANT,ngDialog) {
 
         $log.currentLevel = $log.LEVELS.debug;
 
@@ -70,7 +70,7 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
             });
 
             marker.content = '<div class="infoWindowContent">' +
-            '<center>Driver Info</center>' +
+            '<center>Order Info</center>' +
             '<span> Address - ' + info.driverFullName + '</span><br>' +
             '<span> Drop Off Address - ' + info.dropUpAddress + '</span><br>' +
             '<span> Phone - ' + info.pickupPhoneNo + '</span><br>' +
@@ -198,10 +198,94 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                         })*/
 
                         /*================ Reassigning driver for  ongoing order ===================*/
-                        $scope.reAssign = function(){
-
+                        $scope.reAssignList = function(id){
+                            $scope.orderId = id;
+                            $http.get(MY_CONSTANT.url + 'api/admin/' + $cookieStore.get('obj').accesstoken + '/fetchNearestDrivers/' + id)
+                                .success(function (response, status) {
+                                    if (status == 200) {
+                                        console.log(response);
+                                        var dataArray = [];
+                                        var nearDriverList = response.data.results;
+                                        nearDriverList.forEach(function (column) {
+                                            var d = {};
+                                            d._id = column._id;
+                                            d.fullName = column.fullName;
+                                            d.isDedicated = column.isDedicated;
+                                            dataArray.push(d);
+                                        });
+                                        $scope.nearDriverList = dataArray;
+                                        $scope.changedDriver = $scope.nearDriverList[0]._id;
+                                        ngDialog.open({
+                                            template: 'display_driver_list',
+                                            className: 'ngdialog-theme-default',
+                                            scope: $scope,
+                                            showClose: true
+                                        });
+                                    } else {
+                                        alert("Something went wrong, please try again later.");
+                                        return false;
+                                    }
+                                })
+                                .error(function (error) {
+                                    ngDialog.open({
+                                        template: 'display_no_driver',
+                                        className: 'ngdialog-theme-default',
+                                        scope: $scope,
+                                        showClose: true
+                                    });
+                                    console.log(error);
+                                });
                         }
 
+                        $scope.changeDriver = function(i){
+                            $scope.changedDriver = $scope.nearDriverList[i-1]._id;
+                    }
+
+
+                        $scope.reAssign = function() {
+                            console.log("Reassign...");
+                            $http({
+                                method: 'POST',
+                                url: MY_CONSTANT.url + 'api/admin/orderAssignDriver',
+                                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                                transformRequest: function (obj) {
+                                    var str = [];
+                                    for (var p in obj)
+                                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                                    return str.join("&");
+                                },
+                                data: {accessToken: $cookieStore.get('obj').accesstoken, orderId: $scope.orderId, driverId: $scope.changedDriver}
+
+                            })
+                                .success(function (response, status) {
+                                    console.log("success")
+                                    ngDialog.open({
+                                        template: 'display_reAssign_msg',
+                                        className: 'ngdialog-theme-default',
+                                        scope: $scope,
+                                        showClose: false,
+                                        overlay: false
+                                    });
+                                    //$window.location="#/app/recoverPassword"
+                                    console.log(response)
+                                })
+                                .error(function (response, status) {
+                                    if (status == 401) {
+                                     /*   ngDialog.open({
+                                            template: 'display_validation_msg',
+                                            className: 'ngdialog-theme-default',
+                                            scope: $scope,
+                                            showClose: false,
+                                            overlay: false
+                                        });*/
+                                    }
+
+                                    console.log(response);
+                                    //$window.location="/recoverPassword"
+                                    $scope.displaymsg = response.error;
+
+                                })
+                        }
 
                         /*================Calling Live driver marker set function===================*/
                         if (driverLength) {
