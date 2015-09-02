@@ -39,6 +39,7 @@ App.controller('addPromoController', function ($scope, $http, $cookies, $cookieS
     }
 
     $scope.addPromo = function (add) {
+        console.log(add);
         $scope.loc = {};
         $scope.successMsg = '';
         $scope.errorMsg = '';
@@ -98,6 +99,7 @@ App.controller('addPromoController', function ($scope, $http, $cookies, $cookieS
                 accessToken: $cookieStore.get('obj').accesstoken,
                 promoId: add._id,
                 promoType: type,
+                promoCode: add.name,
                 vehicleType: add.vehicleType,
                 discount: add.discount,
                 minAmount: add.minAmount,

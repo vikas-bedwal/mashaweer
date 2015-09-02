@@ -23,7 +23,7 @@
         <tr ng-repeat="distanceFareBike in distanceFareBike">
             <td>
                 <!-- editable username (text with validation)-->
-                <span editable-text="distanceFareBike.from" e-name="from" e-form="rowform" onbeforesave="checkName($data, distanceFareBike.id)" e-required="">{{ distanceFareBike.from || &apos;empty&apos; }}</span>
+                <span editable-text="distanceFareBike.from" e-name="from" e-form="rowform" onbeforesave="checkName($data, distanceFareBike.id)" e-required="">{{ distanceFareBike.from }}</span>
             </td>
             <td>
                 <!-- editable username (text with validation)-->
@@ -36,12 +36,12 @@
             <td style="white-space: nowrap">
                 <!-- form-->
                 <form editable-form="" name="rowform" onbeforesave="saveUser($data)" ng-show="rowform.$visible" shown="inserted == distanceFareBike" class="form-buttons form-inline">
-                    <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-info">
+                    <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-success">
                         <em class="fa fa-save"></em>
                     </button>
-                    <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
+                   <!-- <button type="submit" ng-disabled="rowform.$waiting"  title="Cancel" class="btn btn-sm btn-default">
                         <em class="fa fa-times"></em>
-                    </button>
+                    </button>-->
                 </form>
                 <div ng-show="!rowform.$visible" class="buttons">
                     <!--<button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
@@ -69,7 +69,7 @@
                 <tr ng-repeat="waitFareBike in waitFareBike">
                     <td>
                         <!-- editable username (text with validation)-->
-                        <span editable-text="waitFareBike.from" e-name="from" e-form="rowform" onbeforesave="checkName($data, waitFareBike.id)" e-required="">{{ waitFareBike.from || &apos;empty&apos; }}</span>
+                        <span editable-text="waitFareBike.from" e-name="from" e-form="rowform" onbeforesave="checkName($data, waitFareBike.id)" e-required="">{{ waitFareBike.from }}</span>
                     </td>
                     <td>
                         <!-- editable username (text with validation)-->
@@ -82,12 +82,12 @@
                     <td style="white-space: nowrap">
                         <!-- form-->
                         <form editable-form="" name="rowform" onbeforesave="saveUser($data, waitFareBike.id)" ng-show="rowform.$visible" shown="inserted == waitFareBike" class="form-buttons form-inline">
-                            <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-info">
+                            <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-success">
                                 <em class="fa fa-save"></em>
                             </button>
-                            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
+                          <!--  <button type="submit" ng-disabled="rowform.$waiting"  title="Cancel" class="btn btn-sm btn-default">
                                 <em class="fa fa-times"></em>
-                            </button>
+                            </button>-->
                         </form>
                         <div ng-show="!rowform.$visible" class="buttons">
                             <!--<button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
@@ -122,7 +122,7 @@
                 <tr ng-repeat="distanceFareVan in distanceFareVan">
                     <td>
                         <!-- editable username (text with validation)-->
-                        <span editable-text="distanceFareVan.from" e-name="from" e-form="rowform" onbeforesave="checkName($data, distanceFareVan.id)" e-required="">{{ distanceFareVan.from || &apos;empty&apos; }}</span>
+                        <span editable-text="distanceFareVan.from" e-name="from" e-form="rowform" onbeforesave="checkName($data, distanceFareVan.id)" e-required="">{{ distanceFareVan.from }}</span>
                     </td>
                     <td>
                         <!-- editable username (text with validation)-->
@@ -135,12 +135,12 @@
                     <td style="white-space: nowrap">
                         <!-- form-->
                         <form editable-form="" name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" shown="inserted == distanceFareVan" class="form-buttons form-inline">
-                            <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-info">
+                            <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-success">
                                 <em class="fa fa-save"></em>
                             </button>
-                            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
+                           <!-- <button type="submit" ng-disabled="rowform.$waiting"  title="Cancel" class="btn btn-sm btn-default">
                                 <em class="fa fa-times"></em>
-                            </button>
+                            </button>-->
                         </form>
                         <div ng-show="!rowform.$visible" class="buttons">
                             <!--<button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
@@ -168,7 +168,7 @@
                 <tr ng-repeat="waitFareVan in waitFareVan">
                     <td>
                         <!-- editable username (text with validation)-->
-                        <span editable-text="waitFareVan.from" e-name="from" e-form="rowform" onbeforesave="checkName($data, waitFareVan.id)" e-required="">{{ waitFareVan.from || &apos;empty&apos; }}</span>
+                        <span editable-text="waitFareVan.from" e-name="from" e-form="rowform" onbeforesave="checkName($data, waitFareVan.id)" e-required="">{{ waitFareVan.from  }}</span>
                     </td>
                     <td>
                         <!-- editable username (text with validation)-->
@@ -181,12 +181,12 @@
                     <td style="white-space: nowrap">
                         <!-- form-->
                         <form editable-form="" name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" shown="inserted == waitFareVan" class="form-buttons form-inline">
-                            <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-info">
+                            <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-success">
                                 <em class="fa fa-save"></em>
                             </button>
-                            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
+                           <!-- <button type="submit" ng-disabled="rowform.$waiting" title="Cancel" class="btn btn-sm btn-default">
                                 <em class="fa fa-times"></em>
-                            </button>
+                            </button>-->
                         </form>
                         <div ng-show="!rowform.$visible" class="buttons">
                            <!-- <button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
@@ -221,7 +221,7 @@
                 <tr ng-repeat="distanceFareTruck in distanceFareTruck">
                     <td>
                         <!-- editable username (text with validation)-->
-                        <span editable-text="distanceFareTruck.from" e-name="from" e-form="rowform" onbeforesave="checkName($data, distanceFareTruck.id)" e-required="">{{ distanceFareTruck.from || &apos;empty&apos; }}</span>
+                        <span editable-text="distanceFareTruck.from" e-name="from" e-form="rowform" onbeforesave="checkName($data, distanceFareTruck.id)" e-required="">{{ distanceFareTruck.from }}</span>
                     </td>
                     <td>
                         <!-- editable username (text with validation)-->
@@ -234,12 +234,12 @@
                     <td style="white-space: nowrap">
                         <!-- form-->
                         <form editable-form="" name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" shown="inserted == distanceFareTruck" class="form-buttons form-inline">
-                            <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-info">
+                            <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-success">
                                 <em class="fa fa-save"></em>
                             </button>
-                            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
+                           <!-- <button type="submit" ng-disabled="rowform.$waiting" title="Cancel" class="btn btn-sm btn-default">
                                 <em class="fa fa-times"></em>
-                            </button>
+                            </button>-->
                         </form>
                         <div ng-show="!rowform.$visible" class="buttons">
                            <!-- <button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
@@ -267,7 +267,7 @@
                 <tr ng-repeat="waitFaretruck in waitFaretruck">
                     <td>
                         <!-- editable username (text with validation)-->
-                        <span editable-text="waitFaretruck.from" e-name="from" e-form="rowform" onbeforesave="checkName($data, waitFaretruck.id)" e-required="">{{ waitFaretruck.from || &apos;empty&apos; }}</span>
+                        <span editable-text="waitFaretruck.from" e-name="from" e-form="rowform" onbeforesave="checkName($data, waitFaretruck.id)" e-required="">{{ waitFaretruck.from }}</span>
                     </td>
                     <td>
                         <!-- editable username (text with validation)-->
@@ -280,12 +280,12 @@
                     <td style="white-space: nowrap">
                         <!-- form-->
                         <form editable-form="" name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" shown="inserted == waitFaretruck" class="form-buttons form-inline">
-                            <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-info">
+                            <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-success">
                                 <em class="fa fa-save"></em>
                             </button>
-                            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
+                           <!-- <button type="submit" ng-disabled="rowform.$waiting" title="Cancel" class="btn btn-sm btn-default">
                                 <em class="fa fa-times"></em>
-                            </button>
+                            </button>-->
                         </form>
                         <div ng-show="!rowform.$visible" class="buttons">
                             <!--<button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
@@ -310,8 +310,21 @@
     <div class="ngdialog-message">
         <h4 class="text-center">Are you sure you want to delete this customer ?</h4>
         <div class="text-right">
-            <button type="submit" class="btn btn-primary" ng-click="confirmDelete(); closeThisDialog(0)">Yes</button>
+            <button type="submit" class="btn btn-success" ng-click="confirmDelete(); closeThisDialog(0)">Yes</button>
             <button type="button" ng-click="closeThisDialog(0)" class="btn btn-default">No</button>
         </div>
+    </div>
+</script>
+
+<!-- **************************************************************************
+******************* Modal to display msg for invalid entry **************************************
+*******************************************************************************-->
+<script type="text/ng-template" id="display_failure_validation_msg">
+    <div class="ngdialog-message">
+        <h4>Oops... that was invalid entry</h4>
+         <button type="submit" ng-click="$state.reload();closeThisDialog(0)" class="btn btn-success"
+                 style="margin-top:20px;float:right;">OK
+         </button>
+        <div style="clear: both;"></div>
     </div>
 </script>

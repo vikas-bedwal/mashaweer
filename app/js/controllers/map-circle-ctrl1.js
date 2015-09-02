@@ -5,23 +5,6 @@
 App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLogger', 'uiGmapGoogleMapApi', '$cookies', '$cookieStore', 'MY_CONSTANT'
     , function ($scope, $timeout, $http, $log, GoogleMapApi, $cookies, $cookieStore, MY_CONSTANT,ngDialog) {
 
-        console.log("Outer circle");
-
-
-
-
-$scope.cust = function(a){
-    console.log("abc");
-    console.log(a);
-    $scope.job.email = a.email;
-    $scope.job.personal_phone_no = a.phoneNumber;
-}
-        $scope.abcd = function(a){
-            console.log("abcd");
-            console.log(a);
-            $scope.job.email = a.email;
-            $scope.job.personal_phone_no = a.phoneNumber;
-        }
         $http.get(MY_CONSTANT.url + 'api/admin/customerList/' + $cookieStore.get('obj').accesstoken)
             .success(function (response, status) {
                 if (status == 200) {
@@ -105,7 +88,6 @@ $scope.cust = function(a){
 
 
         $scope.placeMarker = function (lat, long) {
-            console.log("placeMarker");
             var icon = 'app/img/mapMarker.png';
             $scope.map = {
                 zoom: 10,
@@ -129,9 +111,25 @@ $scope.cust = function(a){
             });
             markerArr.push(marker);
 
+            google.maps.event.addListener(marker, 'drag', function () {
+                if ($scope.poly) {
+                    poly = $scope.poly;
+                    poly.setMap(null);   //destrying the already created path;
+                }
+                $scope.reverseGeocode(marker.getPosition(), 0);
+
+
+            });
+            google.maps.event.addListener(marker, 'dragend', function () {
+                //$scope.reverseGeocode(marker.getPosition(), 1);
+                $scope.lat1 = marker.getPosition().lat();
+                $scope.lng1 = marker.getPosition().lng();
+                $scope.reverseGeocode(marker.getPosition(), 0);
+                drawPath($scope.lat1, $scope.lng1, $scope.lat2, $scope.lng2);
+            });
+
         }
         $scope.dropoffmarker = function (lat, long) {
-            console.log("placeMarker");
             var icon = 'app/img/mapMarker.png';
             $scope.map = {
                 zoom: 10,
@@ -155,7 +153,6 @@ $scope.cust = function(a){
             });
             markerArr2.push(marker);
             google.maps.event.addListener(marker, 'drag', function () {
-                console.log("  drag");
                 if ($scope.poly) {
                     poly = $scope.poly;
                     poly.setMap(null);   //destrying the already created path;
@@ -181,7 +178,7 @@ $scope.cust = function(a){
                 if (status == google.maps.GeocoderStatus.OK) {
                     if (results[0]) {
                         if (val == 0) {
-                            $('#address').val(results[0].formatted_address);
+                            $('#pick_up_address').val(results[0].formatted_address);
                         }
                         else {
                             $('#drop_off_address').val(results[0].formatted_address);
@@ -192,78 +189,61 @@ $scope.cust = function(a){
                     }
                 }
             });
-
         }
         $scope.job = {};
         $scope.checkStatus = function (caseNo) {
             switch (caseNo) {
                 case 1:
-                    console.log("Case1");
                     if ($scope.panelDemo4 == 0 && ($scope.job.vehival_id == undefined || $scope.job.email == undefined || $scope.job.parcel_detail == undefined || $scope.job.personal_phone_no == undefined
                         || $scope.job.vehival_id == "" || $scope.job.email == "" || $scope.job.parcel_detail == "" || $scope.job.personal_phone_no == "")) {
-                        console.log("if 1");
                         $scope.boxStatus1 = 0;
                     }
                     else if ($scope.panelDemo4 == 1 && ($scope.job.vehival_id == undefined || $scope.job.email == undefined || $scope.job.parcel_detail == undefined || $scope.job.personal_phone_no == undefined
                         || $scope.job.vehival_id == "" || $scope.job.email == "" || $scope.job.parcel_detail == "" || $scope.job.personal_phone_no == "")) {
-                        console.log("else if 1");
                         $scope.boxStatus1 = 1;
                     }
                     else {
-                        console.log("else 1");
                         $scope.successHit1 = 1;
                     }
                     break;
 
                 case 2:
-                    console.log("Case2");
                     if ($scope.panelDemo3 == 0 && ($scope.job.phone_no == undefined || $scope.job.sender_name == undefined || $scope.job.company_name == undefined || $scope.job.pick_up_before == undefined || $scope.job.pick_up_address == undefined || $scope.job.info == undefined
                         || $scope.job.phone_no == "" || $scope.job.sender_name == "" || $scope.job.company_name == "" || $scope.job.pick_up_before == "" || $scope.job.pick_up_address == "" || $scope.job.info == "")) {
-                        console.log("if 2");
                         $scope.boxStatus2 = 0;
                     }
                     else if ($scope.panelDemo3 == 1 && ($scope.job.phone_no == undefined || $scope.job.sender_name == undefined || $scope.job.company_name == undefined || $scope.job.pick_up_before == undefined || $scope.job.pick_up_address == undefined || $scope.job.info == undefined
                         || $scope.job.phone_no == "" || $scope.job.sender_name == "" || $scope.job.company_name == "" || $scope.job.pick_up_before == "" || $scope.job.pick_up_address == "" || $scope.job.info == "")) {
-                        console.log("else if 2");
                         $scope.boxStatus2 = 1;
                     }
                     else {
-                        console.log("else 2");
                         $scope.successHit2 = 1;
                     }
                     break;
 
                 case 3:
-                    console.log("Case3");
                     if ($scope.panelDemo2 == 0 && ($scope.job.d_phone_no == undefined || $scope.job.d_sender_name == undefined || $scope.job.d_company_name == undefined || $scope.job.d_drop_off_before == undefined || $scope.job.d_drop_off_address == undefined || $scope.job.d_info == undefined
                         || $scope.job.d_phone_no == "" || $scope.job.d_sender_name == "" || $scope.job.d_company_name == "" || $scope.job.d_drop_off_before == "" || $scope.job.d_drop_off_address == "" || $scope.job.d_info == "")) {
-                        console.log("if 3");
                         $scope.boxStatus3 = 0;
                     }
                     else if ($scope.panelDemo2 == 1 && ($scope.job.d_phone_no == undefined || $scope.job.d_sender_name == undefined || $scope.job.d_company_name == undefined || $scope.job.d_drop_off_before == undefined || $scope.job.d_drop_off_address == undefined || $scope.job.d_info == undefined
                         || $scope.job.d_phone_no == "" || $scope.job.d_sender_name == "" || $scope.job.d_company_name == "" || $scope.job.d_drop_off_before == "" || $scope.job.d_drop_off_address == "" || $scope.job.d_info == "")) {
-                        console.log("else if 3");
                         $scope.boxStatus3 = 1;
                     }
                     else {
-                        console.log("else 3");
                         $scope.successHit3 = 1;
                     }
                     break;
                 case 4:
-                    console.log("Case4");
                     if ($scope.panelDemo1 == 0 && ($scope.job.subscription_id == undefined || $scope.job.amount == undefined || $scope.job.payment_mode == undefined || $scope.job.payment_at == undefined || $scope.job.promo_code == undefined
                         || $scope.job.subscription_id == "" || $scope.job.amount == "" || $scope.job.payment_mode == "" || $scope.job.payment_at == "" || $scope.job.promo_code == "")) {
-                        console.log("if 4");
                         $scope.boxStatus4 = 0;
                     }
                     else if ($scope.panelDemo1 == 1 && ($scope.job.subscription_id == undefined || $scope.job.amount == undefined || $scope.job.payment_mode == undefined || $scope.job.payment_at == undefined || $scope.job.promo_code == undefined
                         || $scope.job.subscription_id == "" || $scope.job.amount == "" || $scope.job.payment_mode == "" || $scope.job.payment_at == "" || $scope.job.promo_code == "")) {
-                        console.log("else if 4");
                         $scope.boxStatus4 = 1;
                     }
                     else {
-                        console.log("else 4");
                         $scope.successHit4 = 1;
                     }
                     break;
@@ -282,7 +262,7 @@ $scope.cust = function(a){
         $scope.pick_up = {};
         $scope.drop_off = {};
         $scope.addOrder = function (data, status) {
-            console.log("Place It");
+     /*       console.log("Place It");
             console.log(data);
             console.log($scope.successHit4);
             console.log($scope.successHit3);
@@ -292,10 +272,8 @@ $scope.cust = function(a){
             console.log($scope.panelDemo3);
             console.log($scope.panelDemo2);
             console.log($scope.panelDemo1);
-            console.log(!$scope.panelDemo1);
+            console.log(!$scope.panelDemo1);*/
             if ($scope.panelDemo4==1 && $scope.panelDemo3==1 && $scope.panelDemo2==1 && $scope.panelDemo1==1) {
-                console.log("if");
-                console.log($scope.panelDemo4);
                 $scope.pick_up.latitude = $scope.lat1;
                 $scope.pick_up.longitude = $scope.lng1;
                 $scope.pick_up.pickupTime = data.pick_up_before;
@@ -332,11 +310,7 @@ $scope.cust = function(a){
                         promoCode: data.promo_code
                     })
                     .success(function (data,status)  {
-                        console.log(data)
-                        console.log(status)
-                        console.log("IN SUCCESS API");
                         if (status != 'success') {
-                            console.log("if");
                             $scope.authMsg = data.message;
                             setTimeout(function () {
                                 $scope.authMsg = "";
@@ -344,7 +318,6 @@ $scope.cust = function(a){
                             }, 3000);
                             $scope.$apply();
                         } else {
-                            console.log("else");
                             $scope.displaymsg = "Dispatcher Added Successfully";
                             ngDialog.open({
                                 template: 'display_msg',
@@ -355,14 +328,9 @@ $scope.cust = function(a){
                         }
                     })
                     .error(function(data, status){
-                        console.log(data)
-                        console.log(status)
-                        console.log("IN Error API");
                     })
             }
             else {
-                console.log("else....!!!");
-
                 $scope.errorMsg = "Please fill all fields";
                 setTimeout(function () {
                     $scope.errorMsg = "";
@@ -375,23 +343,18 @@ $scope.cust = function(a){
         }
 
 
-        $scope.clickIt = function (add, flag) {
-            console.log("clickIt");
-            console.log(add);
-            console.log(flag);
+        $scope.setMarker = function (add, flag) {
             (new google.maps.Geocoder()).geocode({
                 'address': add
             }, function (results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     if (flag == 1) {
-                        console.log("if")
                         $scope.lat1 = results[0].geometry.location.lat();
                         $scope.lng1 = results[0].geometry.location.lng();
                         $scope.placeMarker($scope.lat1, $scope.lng1);
                         //drawPath( $scope.lat1,$scope.lng1,30.7333148,76.7794179);
                     }
                     else {
-                        console.log("else");
                         $scope.lat2 = results[0].geometry.location.lat();
                         $scope.lng2 = results[0].geometry.location.lng();
                         $scope.dropoffmarker($scope.lat2, $scope.lng2);
@@ -408,15 +371,10 @@ $scope.cust = function(a){
          * --------- funtion to draw path between pick-up location and drop-off ----
          ------------------------------- location ----------------------------------*/
         var drawPath = function (lat1, lng1, lat2, lng2) {
-
-            console.log("DRawpath");
-
             if ($scope.poly) {
                 poly = $scope.poly;
                 poly.setMap(null);   //destrying the already created path;
             }
-
-
             var lat_lng = [];
             var myLatlng = new google.maps.LatLng(lat1, lng1);
             lat_lng.push(myLatlng);
@@ -430,7 +388,6 @@ $scope.cust = function(a){
 
             //Set the Path Stroke Color
             var poly = new google.maps.Polyline({map: $scope.mapContainer, strokeColor: '#4986E7 '});
-
 
             //Loop and Draw Path Route between the Points on MAP
             for (var i = 0; i < lat_lng.length; i++) {
@@ -448,16 +405,11 @@ $scope.cust = function(a){
                             for (var i = 0, len = result.routes[0].overview_path.length; i < len; i++) {
                                 path.push(result.routes[0].overview_path[i]);
                             }
-
-
                         }
                     });
                 }
             }
-
             $scope.poly = poly;
-
-
         };
 
         /**
@@ -469,7 +421,6 @@ $scope.cust = function(a){
         App.filter('propsFilter', function() {
             return function(items, props) {
                 var out = [];
-
                 if (angular.isArray(items)) {
                     items.forEach(function(item) {
                         var itemMatches = false;
@@ -492,7 +443,6 @@ $scope.cust = function(a){
                     // Let the output be the input untouched
                     out = items;
                 }
-
                 return out;
             };
         });

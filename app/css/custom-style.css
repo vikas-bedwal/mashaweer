@@ -411,3 +411,9 @@ width: 400px !important;
     font-weight: normal;
     margin-bottom: 4px;
 }
+.pending {
+    color: red;
+}
+.delivered{
+    color: yellow;
+}

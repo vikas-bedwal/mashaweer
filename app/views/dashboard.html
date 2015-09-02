@@ -187,7 +187,7 @@
                                 <td>{{data.dropUpAddress}}</td>
                                 <td>{{data.driverFullName}}</td>
                                 <td style="text-align: center;">
-                                    <button ng-click="reAssignList(data._id)"
+                                    <button ng-click="reAssignList(data._id,data.driverId)"
                                             title="Reassign" class="btn btn-sm btn-success">Reassign
                                     </button>
                                 </td>
@@ -217,8 +217,8 @@
 <script type="text/ng-template" id="display_no_driver">
     <div class="ngdialog-message">
 
-        <h4>Sorry no driver available.</h4>
-        <button type="submit" ng-click="$state.reload() && closeThisDialog(0)" class="btn btn-primary"
+        <h4>Sorry no other driver available nearby.</h4>
+        <button type="submit" ng-click="closeThisDialog(0)" class="btn btn-success"
                 style="margin-top:20px;float:right;">OK
         </button>
 
@@ -232,7 +232,7 @@
 <script type="text/ng-template" id="display_reAssign_msg">
     <div class="ngdialog-message">
         <h4>Driver Reassigned Successfully.</h4>
-        <button type="submit" ng-click="$state.reload();closeThisDialog(0)" class="btn btn-primary"
+        <button type="submit" ng-click="$state.reload();closeThisDialog(0)" class="btn btn-success"
                 style="margin-top:20px;float:right;">OK
         </button>
         <div style="clear: both;"></div>
@@ -243,13 +243,15 @@
 ******************* Modal to display driver list **************************************
 *******************************************************************************-->
 <script type="text/ng-template" id="display_driver_list">
-    <div class="ngdialog-message">
-        <h3>Driver List</h3>
-        <div class="">
-        <select ng-change="changeDriver(driverId)" ng-model="driverId" ng-init="driverId=1">
+    <div class="ngdialog-message" style="height: 100px">
+        <h4>Driver List</h4>
+        <div class="col-lg-8">
+        <select class="form-control col-sm-8" ng-change="changeDriver(driverId)" ng-model="driverId" ng-init="driverId=1">
             <option ng-repeat="data in nearDriverList" style="height: 22px" value="{{$index+1}}">{{data.fullName}}</option>
         </select>
-        <button class="btn btn-oval" ng-click="reAssign();closeThisDialog(0)">Assign</button>
+        </div>
+        <div class="col-lg-2">
+        <button class="btn btn-success" ng-click="reAssign();closeThisDialog(0)">Assign</button>
         </div>
     </div>
 </script>

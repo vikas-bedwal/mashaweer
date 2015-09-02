@@ -3,14 +3,11 @@
  */
 App.controller('ordersController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $timeout) {
     'use strict';
-    console.log("In order");
     $http.get(MY_CONSTANT.url + 'api/admin/orderList/' + $cookieStore.get('obj').accesstoken)
         .success(function (response, status) {
             if (status == 200) {
-                console.log(response);
                 var dataArray = [];
                 var custList = response.data;
-                console.log(custList);
                 custList.forEach(function (column) {
                     var d = {};
                     d._id = column._id;
@@ -28,6 +25,24 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
                     d.pickupLocation = column.pickupLocation;
                     d.deliveryLocation = column.deliveryLocation
                     d.status = column.status;
+
+                    switch (column.status) {
+                        case 'PENDING':
+                            d.status = 'Pending';
+                            d.text_color = '#FF0000';
+                            break;
+                        case 'ORDER_DELIVERED':
+                            d.status = 'Delivered';
+                            d.text_color = '#1f9c3d';
+
+                            break;
+                        case 'ONGOING':
+                            d.d.status = 'Ongoing';
+                            d.text_color = '#2f80e7';
+
+                            break;
+
+                    }
                     d.createdAt = column.createdAt;
                     dataArray.push(d);
                 });

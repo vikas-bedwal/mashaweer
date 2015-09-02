@@ -37,24 +37,24 @@
     "text": "Pricing",
     "sref": "app.pricing",
     "is_super": 1,
-    "icon": "icon-wallet"
+    "icon": "fa icon-wallet"
   },
   {
     "text": "Subscription",
     "sref": "app.subscription",
     "is_super": 1,
-    "icon": "icon-user-following"
+    "icon": "fa fa-tasks"
   },
   {
     "text": "Promotion",
     "sref": "app.promo",
     "is_super": 1,
-    "icon": "icon-note"
+    "icon": "fa fa-key"
   },
   {
     "text": "Dispatcher",
     "sref": "app.dispatcher",
     "is_super": 1,
-    "icon": "icon-note"
+    "icon": "fa fa-pencil-square-o"
   }
 ]

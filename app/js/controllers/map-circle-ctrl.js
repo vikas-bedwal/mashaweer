@@ -6,12 +6,10 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
     , function ($scope, $timeout, $http, $log, GoogleMapApi, $cookies, $cookieStore, MY_CONSTANT,ngDialog) {
 
         $log.currentLevel = $log.LEVELS.debug;
-
         var center = {
             latitude: "30.7333148",
             longitude: "76.7794179"
         };
-
         $scope.map = {
             center: center,
             pan: true,
@@ -120,8 +118,6 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
             return 1;
         }
 
-
-
         $scope.drawMap = function () {
             $http.get(MY_CONSTANT.url + 'api/admin/getLiveView/' + $cookieStore.get('obj').accesstoken)
                 .success(function (response, status) {
@@ -132,11 +128,9 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                         var liveDriverList = response.data.driverDetailArray;
                         var liveOrderList = response.data.orderDetail;
                         var liveDriverStatusList = response.data.driverStatusArray;
-
                         var orderLength = response.data.orderDetail.length;
                         var driverLength = response.data.driverDetailArray.length;
                         $scope.total_no_of_drivers = driverLength;
-
 
                         /*================ Live driver info window===================*/
                         liveDriverStatusList.forEach(function (column) {
@@ -157,13 +151,13 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                         liveOrderList.forEach(function (column) {
                             var d = {};
                             d._id = column._id;
+                            d.driverId = column.driverId;
                             d.driverFullName = column.driverFullName;
                             d.dropUpAddress = column.dropUpAddress;
                             d.pickupAddress = column.pickupAddress;
                             dataArray1.push(d);
                         });
                         $scope.orderList = dataArray1;
-
                         var dtInstance;
                         $timeout(function () {
                             if (!$.fn.dataTable) return;
@@ -197,96 +191,6 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                             $('[class*=ColVis]').remove();
                         })*/
 
-                        /*================ Reassigning driver for  ongoing order ===================*/
-                        $scope.reAssignList = function(id){
-                            $scope.orderId = id;
-                            $http.get(MY_CONSTANT.url + 'api/admin/' + $cookieStore.get('obj').accesstoken + '/fetchNearestDrivers/' + id)
-                                .success(function (response, status) {
-                                    if (status == 200) {
-                                        console.log(response);
-                                        var dataArray = [];
-                                        var nearDriverList = response.data.results;
-                                        nearDriverList.forEach(function (column) {
-                                            var d = {};
-                                            d._id = column._id;
-                                            d.fullName = column.fullName;
-                                            d.isDedicated = column.isDedicated;
-                                            dataArray.push(d);
-                                        });
-                                        $scope.nearDriverList = dataArray;
-                                        $scope.changedDriver = $scope.nearDriverList[0]._id;
-                                        ngDialog.open({
-                                            template: 'display_driver_list',
-                                            className: 'ngdialog-theme-default',
-                                            scope: $scope,
-                                            showClose: true
-                                        });
-                                    } else {
-                                        alert("Something went wrong, please try again later.");
-                                        return false;
-                                    }
-                                })
-                                .error(function (error) {
-                                    ngDialog.open({
-                                        template: 'display_no_driver',
-                                        className: 'ngdialog-theme-default',
-                                        scope: $scope,
-                                        showClose: true
-                                    });
-                                    console.log(error);
-                                });
-                        }
-
-                        $scope.changeDriver = function(i){
-                            $scope.changedDriver = $scope.nearDriverList[i-1]._id;
-                    }
-
-
-                        $scope.reAssign = function() {
-                            console.log("Reassign...");
-                            $http({
-                                method: 'POST',
-                                url: MY_CONSTANT.url + 'api/admin/orderAssignDriver',
-                                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                                transformRequest: function (obj) {
-                                    var str = [];
-                                    for (var p in obj)
-                                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                                    return str.join("&");
-                                },
-                                data: {accessToken: $cookieStore.get('obj').accesstoken, orderId: $scope.orderId, driverId: $scope.changedDriver}
-
-                            })
-                                .success(function (response, status) {
-                                    console.log("success")
-                                    ngDialog.open({
-                                        template: 'display_reAssign_msg',
-                                        className: 'ngdialog-theme-default',
-                                        scope: $scope,
-                                        showClose: false,
-                                        overlay: false
-                                    });
-                                    //$window.location="#/app/recoverPassword"
-                                    console.log(response)
-                                })
-                                .error(function (response, status) {
-                                    if (status == 401) {
-                                     /*   ngDialog.open({
-                                            template: 'display_validation_msg',
-                                            className: 'ngdialog-theme-default',
-                                            scope: $scope,
-                                            showClose: false,
-                                            overlay: false
-                                        });*/
-                                    }
-
-                                    console.log(response);
-                                    //$window.location="/recoverPassword"
-                                    $scope.displaymsg = response.error;
-
-                                })
-                        }
-
                         /*================Calling Live driver marker set function===================*/
                         if (driverLength) {
                             liveDriverList.forEach(function (column) {
@@ -295,7 +199,6 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                                     e.preventDefault();
                                     google.maps.event.trigger(selectedMarker, 'click');
                                 }
-
                             });
                             $scope.mcOptions = {gridSize: 50, maxZoom: 20};
 
@@ -309,7 +212,6 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                             bound_val = $scope.setBounds();
                         }
                         else {
-
                         }
 
                     /*================Calling marker set function for Live order pickup location===================*/
@@ -333,10 +235,7 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                             //function to get lat long bounds according to marker position
                             bound_val = $scope.setBounds();
                         }
-                        else {
-
-                        }
-
+                        else
 
                         /*================Calling marker set function for Live order drop off location===================*/
                         if (orderLength) {
@@ -346,16 +245,12 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                                     e.preventDefault();
                                     google.maps.event.trigger(selectedMarker, 'click');
                                 }
-
                             });
                             $scope.mcOptions = {gridSize: 50, maxZoom: 20};
-
                             if ($scope.markerClusterer) {
                                 $scope.markerClusterer.clearMarkers();   //clearing the markercluster to add new
                             }
-
                             $scope.markerClusterer = new MarkerClusterer($scope.mapContainer, markerArr, $scope.mcOptions);
-
                             //function to get lat long bounds according to marker position
                             bound_val = $scope.setBounds();
                         }
@@ -371,9 +266,7 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                     console.log(error);
                 });
         };
-
         $scope.drawMap();
-
       /*  $scope.setinterval= setInterval(function(){
             $scope.$on('$destroy', function () {
                 dtInstance.fnDestroy();
@@ -386,4 +279,90 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
         }, 500000);*/
 
 
+        /*================ Listing Reassignable  driver for  ongoing order ===================*/
+        $scope.reAssignList = function(orderId,driverId){
+            $scope.orderId = orderId;
+            $http.get(MY_CONSTANT.url + 'api/admin/' + $cookieStore.get('obj').accesstoken + '/fetchNearestDrivers/' + orderId)
+                .success(function (response, status) {
+                    if (status == 200) {
+                        console.log(response);
+                        var dataArray = [];
+                        var nearDriverList = response.data.results;
+                        nearDriverList.forEach(function (column) {
+                            if (column._id != driverId) {
+                                var d = {};
+                                d._id = column._id;
+                                d.fullName = column.fullName;
+                                d.isDedicated = column.isDedicated;
+                                dataArray.push(d);
+                            }
+                        });
+                        $scope.nearDriverList = dataArray;
+                        console.log($scope.nearDriverList.length);
+                        if ($scope.nearDriverList > 0) {
+                            $scope.changedDriver = $scope.nearDriverList[0]._id;
+                        ngDialog.open({
+                            template: 'display_driver_list',
+                            className: 'ngdialog-theme-default',
+                            scope: $scope,
+                            showClose: true
+                        });
+                    }
+                        else{
+                            ngDialog.open({
+                                template: 'display_no_driver',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope,
+                                showClose: true
+                            });
+                        }
+                    } else {
+                        alert("Something went wrong, please try again later.");
+                        return false;
+                    }
+                })
+                .error(function (error) {
+                    ngDialog.open({
+                        template: 'display_no_driver',
+                        className: 'ngdialog-theme-default',
+                        scope: $scope,
+                        showClose: true
+                    });
+                    console.log(error);
+                });
+        }
+
+        $scope.changeDriver = function(i){
+            $scope.changedDriver = $scope.nearDriverList[i-1]._id;
+        }
+
+        /*================ Reassigning driver for  ongoing order ===================*/
+        $scope.reAssign = function() {
+            console.log("Reassign...");
+            $http({
+                method: 'POST',
+                url: MY_CONSTANT.url + 'api/admin/orderAssignDriver',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj)
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },
+                data: {accessToken: $cookieStore.get('obj').accesstoken, orderId: $scope.orderId, driverId: $scope.changedDriver}
+
+            })
+                .success(function (response, status) {
+                    console.log("success")
+                    ngDialog.open({
+                        template: 'display_reAssign_msg',
+                        className: 'ngdialog-theme-default',
+                        scope: $scope,
+                        showClose: true
+                    });
+                })
+                .error(function (response, status) {
+                    alert("Oops driver not assigned.");
+                })
+        }
     }]);

@@ -46,7 +46,7 @@
                             <td>{{data.vehicleRequired}}</td>
                             <td>{{data.distance}}</td>
                             <td>{{data.amount}}</td>
-                            <td>{{data.status}}</td>
+                            <td ng-style="{'color':data.text_color}">{{data.status}}</td>
                             <!--<td>{{data.isDeleted}}</td>-->
                             <!--<td style="text-align: center;">
                                 <button ng-hide="{{data.is_blocked}}" ng-click="blockCust(data.email)"
@@ -66,3 +66,12 @@
         </div>
     </div>
 </div>
+<!--<script type="text/javascript">
+    if(data.status == "ORDER_DELIVERED")
+    {
+        $('#orderStatus').addClass('delivered');
+    }
+    else{
+        $('#orderStatus').addClass('pending');
+    }
+</script>-->

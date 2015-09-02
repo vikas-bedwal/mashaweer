@@ -146,7 +146,8 @@
                                                    class="form-control"
                                                    placeholder="Pick-up Address" ng-model="job.pick_up_address"
                                                    ng-required="boxStatus2"
-                                                   required="required" ng-change="clickIt(job.pick_up_address,1)"
+                                                   id="pick_up_address"
+                                                   required="required" ng-change="setMarker(job.pick_up_address,1)"
                                                    googleplace="">
                                         </div>
                                     </div>
@@ -208,7 +209,7 @@
                                                    placeholder="Drop-Off Address" ng-model="job.d_drop_off_address"
                                                    ng-required="boxStatus3"
                                                    required="required" id="drop_off_address"
-                                                   ng-change="clickIt(job.d_drop_off_address,2)" googleplace="">
+                                                   ng-change="setMarker(job.d_drop_off_address,2)" googleplace="">
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
