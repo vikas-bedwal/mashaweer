@@ -1,7 +1,7 @@
 /**
  * Created by Vikas on 31/07/15.
  */
-App.controller('addSubscriptionController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, MY_CONSTANT1, $state, $window) {
+App.controller('addSubscriptionController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, MY_CONSTANT1, $state, $window,ngDialog) {
 
     'use strict';
     $scope.showCity = 1;
@@ -92,14 +92,16 @@ App.controller('addSubscriptionController', function ($scope, $http, $cookies, $
     $scope.loc = {};
     $scope.text = [];
     $scope.subscribe = function (add) {
+        $scope.loading = true;
         $scope.successMsg = '';
         $scope.errorMsg = '';
         $scope.text = [];
-
-        for (var i = 0; i < $scope.conditionArray.length; i++) {
+        var str = add.description;
+        var descArray = str.split(",");
+        /*for (var i = 0; i < $scope.conditionArray.length; i++) {
             if (!$scope.conditionArray[i].name == "")
                 $scope.text.push($scope.conditionArray[i].name);
-        }
+        }*/
         $scope.totalCredits = parseInt(add.credit) + parseInt(add.credit2) + parseInt(add.credit3);
         /*--------------------------------------------------------------------------
          * --------- Create required json for hit ---------------------------------------
@@ -196,14 +198,12 @@ App.controller('addSubscriptionController', function ($scope, $http, $cookies, $
                 arrayOfObj[1]=obj2;
                 arrayOfObj[2]=obj3;
             }
-
-
         $http({
             url: MY_CONSTANT.url + 'api/admin/addSubscription',
             method: "POST",
             data: { 'accessToken' : $cookieStore.get('obj').accesstoken,
                     'heading': add.heading,
-                'text': $scope.text,
+                'text': descArray,
                 'amount': add.amount,
                 'expiryDate': add.validUpto,
                 'validity': add.validity,
@@ -213,31 +213,16 @@ App.controller('addSubscriptionController', function ($scope, $http, $cookies, $
         })
             .then(function(response) {
                 $window.location = "#/app/subscription";
+                $scope.loading = false;
             },
             function(response) { // optional
                 // failed
+                ngDialog.open({
+                    template: 'display_msg',
+                    scope: '$scope',
+                    className: 'ngdialog-theme-default'
+                })
             });
-
-
-
-/*        $.post(MY_CONSTANT.url + 'api/admin/addSubscription',
-            {
-                accessToken: $cookieStore.get('obj').accesstoken,
-                heading: add.heading,
-                text: $scope.text,
-                amount: add.amount,
-                expiryDate: add.validUpto,
-                validity: add.validity,
-                conditionsApply: JSON.stringify(arrayOfObj)
-            },
-            function (data) {
-                $scope.text = {};
-                $scope.list = data;
-                $scope.$apply();
-                $state.reload();
-            });*/
-
-
     };
 
     /*--------------------------------------------------------------------------
@@ -299,4 +284,24 @@ App.controller('addSubscriptionController', function ($scope, $http, $cookies, $
         }
     }
 
+});
+
+App.directive('numbersOnly', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, modelCtrl) {
+            modelCtrl.$parsers.push(function (inputValue) {
+                // this next if is necessary for when using ng-required on your input.
+                // In such cases, when a letter is typed first, this parser will be called
+                // again, and the 2nd time, the value will be undefined
+                if (inputValue == undefined) return ''
+                var transformedInput = inputValue.replace(/[^0-9]/g, '');
+                if (transformedInput != inputValue) {
+                    modelCtrl.$setViewValue(transformedInput);
+                    modelCtrl.$render();
+                }
+                return transformedInput;
+            });
+        }
+    };
 });

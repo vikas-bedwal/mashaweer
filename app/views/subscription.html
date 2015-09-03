@@ -1,4 +1,4 @@
-<div ng-controller="subscriptionController" class="ngdialog-message"><h3 ng-bind="name"></h3>
+<div ng-controller="subscriptionController" class="ngdialog-message headerMargin"><h3 ng-bind="name"></h3>
 
     <h3 class="page-header" id="page-header-techServices">Existing Subsciption List
         <a ui-sref="app.addSubscription" class="btn btn-default pull-right">Add Subscription</a>
@@ -14,11 +14,12 @@
                             <th hidden="">Id</th>
                             <th>No</th>
                             <th>Heading</th>
-                            <th>Amount</th>
+                            <th>Amount (AED)</th>
                             <th>Total Credits</th>
                             <th>Validity (days)</th>
-                            <th>Subscription Type</th>
                             <!--<th>Valid Upto</th>-->
+                            <th>Action</th>
+
                         </tr>
                         </thead>
                         <tbody>
@@ -30,8 +31,13 @@
                             <td>{{data.amount}}</td>
                             <td>{{data.totalCredits}}</td>
                             <td>{{data.validity}}</td>
-                            <td ng-click="subscriptionInfoDialog(data.subscriptionType)">Click It</td>
-                            <!--<td>{{data.validUpto}}</td>-->
+                            <td>{{data.validUpto}}</td>
+                            <td>
+                            <button class="btn btn-warning" title="See More Info" ng-click="subscriptionInfoDialog(data.subscriptionType)"><em class="fa fa-eye"></em></button>
+                            <button class="btn btn-success" title="Edit" ng-click="editData(data)"><em class="fa fa-pencil"></em></button>
+                            <button class="btn btn-danger" title="Delete" ng-click="deleteData(data._id)"><em class="fa fa-trash"></em></button>
+                            </td>
+
                         </tr>
                         </tbody>
                     </table>

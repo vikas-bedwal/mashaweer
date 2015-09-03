@@ -1,7 +1,7 @@
 /**
  * Created by Vikas on 13/08/15.
  */
-App.controller('addPromoController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $window) {
+App.controller('addPromoController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $window,ngDialog) {
 
     'use strict';
     $scope.choice = '';
@@ -94,8 +94,10 @@ App.controller('addPromoController', function ($scope, $http, $cookies, $cookieS
             endTime = $("#end_date").val();
         }
 
-        $.post(MY_CONSTANT.url + 'api/admin/addPromoCode',
-            {
+        $.ajax({
+            type: "POST",
+            url: MY_CONSTANT.url + 'api/admin/addPromoCode',
+            data: {
                 accessToken: $cookieStore.get('obj').accesstoken,
                 promoId: add._id,
                 promoType: type,
@@ -107,11 +109,40 @@ App.controller('addPromoController', function ($scope, $http, $cookies, $cookieS
                 location: $scope.loc,
                 startTime: startTime,
                 endTime: endTime
-
-
             },
-            function (data) {
+            success: function(data){
                 $window.location = "#/app/promotion";
+            },
+            error: function(status) {
+                if(status.status == 409){
+                    ngDialog.open({
+                        template: 'display_failure_conflict_msg',
+                        className: 'ngdialog-theme-default',
+                        scope: $scope,
+                        showClose: true
+                    });
+                }
+            }
+        });
+    };
+});
+
+App.directive('numbersOnly', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, modelCtrl) {
+            modelCtrl.$parsers.push(function (inputValue) {
+                // this next if is necessary for when using ng-required on your input.
+                // In such cases, when a letter is typed first, this parser will be called
+                // again, and the 2nd time, the value will be undefined
+                if (inputValue == undefined) return ''
+                var transformedInput = inputValue.replace(/[^0-9]/g, '');
+                if (transformedInput != inputValue) {
+                    modelCtrl.$setViewValue(transformedInput);
+                    modelCtrl.$render();
+                }
+                return transformedInput;
             });
+        }
     };
 });

@@ -20,12 +20,15 @@ App.controller('dispatcherController', function ($scope, $http, $cookies, $cooki
 
     $http.get(MY_CONSTANT.url + 'api/admin/getDispatcher/' + $cookieStore.get('obj').accesstoken)
         .success(function (response, status) {
+            console.log(response);
             if (status == 200) {
                 var dataArray = [];
                 var dispatcherList = response.data;
                 dispatcherList.forEach(function (column) {
                     var d = {};
                     d._id = column._id;
+                    d.firstName = column.firstName,
+                    d.lastName = column.lastName,
                     d.fullName = column.fullName;
                     d.email = column.email;
                     d.type = column.type
@@ -75,13 +78,14 @@ App.controller('dispatcherController', function ($scope, $http, $cookies, $cooki
     $scope.register = function () {
         console.log("In register dispatcher");
         $scope.authMsg = '';
-        console.log($scope.account.fullName);
+        console.log($scope.account.fName);
+        console.log($scope.account.lName);
         console.log($scope.account.email);
         $.post(MY_CONSTANT.url + 'api/admin/createSubAdmin',
             {
                 email: $scope.account.email,
-                password: "dispatcher",
-                fullName: $scope.account.fullName
+                firstName: $scope.account.fName,
+                lastName: $scope.account.lName
             })
             .success(function (data,status)  {
                 console.log(data)
@@ -99,11 +103,7 @@ App.controller('dispatcherController', function ($scope, $http, $cookies, $cooki
                     console.log("else");
                     $scope.displaymsg = "Dispatcher Added Successfully";
                     $state.reload();
-                    ngDialog.close({
-                        template: 'dispatcher',
-                        className: 'ngdialog-theme-default',
-                        scope: $scope
-                    });
+                    ngDialog.close();
 
                     ngDialog.open({
                         template: 'display_msg',
@@ -120,4 +120,68 @@ App.controller('dispatcherController', function ($scope, $http, $cookies, $cooki
             })
 
     };
+
+    $scope.editData = function(data){
+        $scope.popUpData = data;
+        console.log($scope.popUpData);
+        ngDialog.open({
+            template: 'editDispatcher',
+            className: 'ngdialog-theme-default',
+            scope: $scope,
+            showClose: true
+        })
+    }
+
+    $scope.editDispatcher = function(data){
+        console.log(data);
+        console.log(data.fName);
+        console.log(data.lName);
+        $http({
+            url: MY_CONSTANT.url + 'api/admin/editDispatcher',
+            method: "POST",
+            data: { 'accessToken' : $cookieStore.get('obj').accesstoken,
+                '_id': data._id,
+                'email': data.email,
+                'firstName': data.firstName,
+                'lastName': data.lastName
+            }
+        })
+            .then(function(response) {
+                ngDialog.close();
+                $state.reload();
+            },
+            function(response) { // optional
+                // failed
+                alert("Something went wrong");
+            });
+    }
+
+$scope.deleteData = function(dispatcherId){
+    $scope.dispatcherId = dispatcherId;
+    ngDialog.open({
+        template: 'deleteDispatcher',
+        className:'ngdialog-theme-default',
+        scope: $scope
+
+    })
+}
+
+    $scope.deleteDispatcher = function(dispatcherId){
+        $http({
+            url: MY_CONSTANT.url + 'api/admin/deleteDispatcher',
+            method: "POST",
+            data: { 'accessToken' : $cookieStore.get('obj').accesstoken,
+                '_id': dispatcherId
+            }
+        })
+            .then(function(response) {
+                ngDialog.close();
+               $state.reload();
+            },
+            function(response) { // optional
+                // failed
+                alert("Something Went Wrong");
+            });
+    }
+
 });

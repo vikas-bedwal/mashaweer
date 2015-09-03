@@ -31,7 +31,7 @@ App.run(["$log", function ($log) {
 }]);
 
 App.constant("MY_CONSTANT", {
-    "url": " http://52.6.230.125:8002/"
+    "url": " http://52.6.230.125:8000/"
 });
 App.constant("MY_CONSTANT1", {
     "url": "http://maps.googleapis.com/maps/api/geocode/json"
@@ -97,7 +97,7 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
                 abstract: true,
                 templateUrl: helper.basepath('app.html'),
                 controller: 'AppController',
-                resolve: helper.resolveFor('modernizr', 'icons', 'screenfull')
+                resolve: helper.resolveFor('modernizr', 'icons', 'screenfull','ngDialog')
             })
             .state('app.dashboard', {
                 url: '/dashboard',

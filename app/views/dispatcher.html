@@ -1,4 +1,4 @@
-<div ng-controller="dispatcherController" class="ngdialog-message"><h3 ng-bind="name"></h3>
+<div ng-controller="dispatcherController" class="ngdialog-message headerMargin"><h3 ng-bind="name"></h3>
 
     <h3 class="page-header" id="page-header-techServices">Existing Dispatcher List
         <a ng-click="addDispatcher()" class="btn btn-default pull-right">Add Dispatcher</a>
@@ -15,7 +15,7 @@
                             <th>No</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Type</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -25,7 +25,10 @@
                             <td>{{$index + 1}}</td>
                             <td>{{data.fullName}}</td>
                             <td>{{data.email}}</td>
-                            <td>{{data.type}}</td>
+                            <td>
+                                <button class="btn btn-success" title="Edit" ng-click="editData(data)"><em class="fa fa-pencil"></em></button>
+                                <button class="btn btn-danger" title="Delete" ng-click="deleteData(data._id)"><em class="fa fa-trash"></em></button>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -163,11 +166,14 @@
     </form>
 </script>
 
-
-<script type="text/ng-template" id="modalDialogId1">
+<!-- **************************************************************************
+******************* Modal to display delete confimation ***********************************
+*******************************************************************************-->
+<script type="text/ng-template" id="deleteDispatcher">
     <div class="ngdialog-message">
-        <button type="button" ng-click="deleteOffer(id)"
-                class="btn btn-primary mr">Confirm
+        <h4>Are you sure you want to delete it...</h4>
+        <button type="button" ng-click="deleteDispatcher(dispatcherId)"
+                class="btn btn-success mr">Confirm
         </button>
         <button type="button" ng-click="closeThisDialog('button')" class="btn btn-default">
             Cancel
@@ -182,13 +188,16 @@
 <script type="text/ng-template" id="dispatcher">
     <div class="ngdialog-message">
         <h3>Add Dispatcher</h3>
-
-
             <form role="form" validate-form="" novalidate="" ng-submit="register()" class="mb-lg">
                 <div class="form-group has-feedback">
-                    <label for="signupInputFullName" class="text-muted">Full Name</label>
-                    <input id="signupInputFullName" type="text" placeholder="Enter Full Name" autocomplete="off" ng-model="account.fullName" required="required" class="form-control" />
-                    <span class="fa fa-envelope form-control-feedback text-muted"></span>
+                    <label for="signupInputFName" class="text-muted">First Name</label>
+                    <input id="signupInputFName" type="text" placeholder="Enter First Name" autocomplete="off" ng-model="account.fName" required="required" class="form-control" />
+                    <span class="fa fa-user form-control-feedback text-muted"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <label for="signupInputLName" class="text-muted">Last Name</label>
+                    <input id="signupInputLName" type="text" placeholder="Enter Last Name" autocomplete="off" ng-model="account.lName" required="required" class="form-control" />
+                    <span class="fa fa-user form-control-feedback text-muted"></span>
                 </div>
                 <div class="form-group has-feedback">
                     <label for="signupInputEmail1" class="text-muted">Email address</label>
@@ -214,7 +223,7 @@
                         </label>
                     </div>-->
                 </div>
-                <button type="submit" class="btn btn-block btn-primary mt-lg">Add Dispatcher</button>
+                <button type="submit" class="btn btn-block btn-success mt-lg">Add Dispatcher</button>
             </form>
 
 
@@ -227,9 +236,45 @@
 <script type="text/ng-template" id="display_msg">
     <div class="ngdialog-message">
         <h4>Dispatcher Added Successfully</h4>
-        <button type="submit" ng-click="close()" class="btn btn-primary"
-                style="margin-top:20px;float:right;">OK</button>
-        <div style="clear: both;"></div>
+        <!--<button type="button" ng-click="closeThisDialog('button')" class="btn btn-default">
+            Ok
+        </button>-->
     </div>
+</script>
+
+<!-- **************************************************************************
+******************* Modal to edit Dispatcher **************************************
+*******************************************************************************-->
+<script type="text/ng-template" id="editDispatcher">
+    <div class="ngdialog-message">
+        <h3>Edit Dispatcher</h3>
+        <form class="mb-lg" novalidate="" validate-form="" ng-submit="editDispatcher(popUpData)">
+            <div class="form-group has-feedback">
+                <label for="fName" class="text-muted">First Name</label>
+                <input id="fName" type="text" placeholder="Enter First Name" autocomplete="off" ng-model="popUpData.firstName" required="required" class="form-control" />
+                <span class="fa fa-user form-control-feedback text-muted"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <label for="lName" class="text-muted">Last Name</label>
+                <input id="lName" type="text" placeholder="Enter Last Name" autocomplete="off" ng-model="popUpData.lastName" required="required" class="form-control" />
+                <span class="fa fa-user form-control-feedback text-muted"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <label for="email" class="text-muted">Email address</label>
+                <input id="email" type="email" placeholder="Enter email" autocomplete="off" ng-model="popUpData.email" required="required" class="form-control" />
+                <span class="fa fa-envelope form-control-feedback text-muted"></span>
+            </div>
+            <div class="clearfix">
+            </div>
+            <button type="submit" class="btn btn-success">Save</button>
+            <button type="submit" class="btn btn-success" ng-click="closeThisDialog('button')">Cancel</button>
+           <!-- <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Save</button>
+                <button type="submit" class="btn btn-success">Cancel</button>
+            </div>-->
+
+        </form>
+    </div>
+
 </script>
 

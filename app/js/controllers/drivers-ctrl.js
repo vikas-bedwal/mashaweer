@@ -1,7 +1,7 @@
 /**
  * Created by Vikas on 31/07/15.
  */
-App.controller('driversController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $timeout,$state) {
+App.controller('driversController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $timeout,$state,ngDialog) {
     'use strict';
     console.log("In driver");
     $http.get(MY_CONSTANT.url + 'api/admin/driverList/' + $cookieStore.get('obj').accesstoken)
@@ -13,9 +13,12 @@ App.controller('driversController', function ($scope, $http, $cookies, $cookieSt
                 driverList.forEach(function (column) {
                     var d = {};
                     d._id = column._id;
+                    d.firstName = column.firstName;
+                    d.lastName = column.lastName;
                     d.fullName = column.fullName;
                     d.email = column.email;
                     d.title = column.title;
+                    d.vehicleType = column.vehicleType;
                     d.isDedicated = column.isDedicated
                     if(column.isDedicated == false)
                         d.isDedicated = 'Freelancer';
@@ -112,4 +115,79 @@ App.controller('driversController', function ($scope, $http, $cookies, $cookieSt
                 $state.reload();
             });
     };
+
+    /*------------Edit Driver Info Section Starts---------------*/
+    $scope.editData = function (data_get) {
+        $scope.details = data_get;
+        ngDialog.openConfirm({
+            template: 'modalDialogId',
+            className: 'ngdialog-theme-default',
+            scope: $scope
+        }).then(function (value) {
+        }, function (reason) {
+        });
+    };
+
+    $scope.editDriver = function(data){
+        console.log(data);
+/*        $http({
+            url: MY_CONSTANT.url + 'api/admin/editDriverInfo',
+            method: "POST",
+            data: { accessToken : $cookieStore.get('obj').accesstoken,
+                _id: data._id,
+                email: data.email,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                vehicleType: data.vehicleType,
+                flag: false
+            }
+        })
+            .then(function(response) {
+                ngDialog.close();
+                $state.reload();
+            },
+            function(response,status) { // optional
+                console.log(response);
+                console.log(status);
+                // failed
+                alert("Something went wrong");
+            });*/
+
+
+        $.ajax({
+            type: "POST",
+            url: MY_CONSTANT.url + 'api/admin/editDriverInfo',
+            data: {
+                accessToken : $cookieStore.get('obj').accesstoken,
+                _id: data._id,
+                email: data.email,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                vehicleType: data.vehicleType,
+                flag: false
+            },
+            success: function(data){
+                ngDialog.close();
+                $state.reload();
+            },
+            error: function(status) {
+                console.log(status);
+                alert("Something went wrong");
+                if(status.status == 409){
+                    ngDialog.open({
+                        template: 'display_failure_conflict_msg',
+                        className: 'ngdialog-theme-default',
+                        scope: $scope,
+                        showClose: true
+                    });
+                }
+            }
+        });
+
+    }
+
+
+
+    /*------------Edit Promo Section End---------------*/
+
 });

@@ -3,6 +3,7 @@
  */
 App.controller('ordersController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $timeout) {
     'use strict';
+    $scope.loading = true;
     $http.get(MY_CONSTANT.url + 'api/admin/orderList/' + $cookieStore.get('obj').accesstoken)
         .success(function (response, status) {
             if (status == 200) {
@@ -49,11 +50,15 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
                 $scope.list = dataArray;
                 var dtInstance;
                 $timeout(function () {
+                    $scope.loading = false;
                     if (!$.fn.dataTable) return;
                     dtInstance = $('#datatable2').dataTable({
                         'paging': true,  // Table pagination
                         'ordering': true,  // Column ordering
-                        'info': true,  // Bottom left status text
+                        'info': true,
+                        "scrollX": true,
+
+                        // Bottom left status text
                         oLanguage: {
                             sSearch: 'Search all columns:',
                             sLengthMenu: '_MENU_ records per page',
@@ -61,8 +66,8 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
                             zeroRecords: 'Nothing found - sorry',
                             infoEmpty: 'No records available',
                             infoFiltered: '(filtered from _MAX_ total records)'
-                        },
-                        "pageLength": 50
+                        }
+
                     });
                     var inputSearchClass = 'datatable_input_col_search';
                     var columnInputs = $('tfoot .' + inputSearchClass);

@@ -5,6 +5,7 @@
 App.controller('customersController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT,$timeout, $state, ngDialog) {
     'use strict';
     //$scope.excelList = {};
+    $scope.loading = true;
     $scope.init = function () {
         $http.get(MY_CONSTANT.url + 'api/admin/customerList/' + $cookieStore.get('obj').accesstoken)
             .success(function (response, status) {
@@ -32,6 +33,7 @@ App.controller('customersController', function ($scope, $http, $cookies, $cookie
                     $scope.excelList = dataArray;
                     var dtInstance;
                     $timeout(function () {
+                        $scope.loading = false;
                         if (!$.fn.dataTable) return;
                         dtInstance = $('#datatable2').dataTable({
                             'paging': true,  // Table pagination

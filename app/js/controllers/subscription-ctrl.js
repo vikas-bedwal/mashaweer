@@ -19,7 +19,7 @@ App.controller('subscriptionController', function ($scope, $http, $cookies, $coo
                     d.heading = column.heading;
                     d.amount = column.amount;
                     d.validity = column.validity,
-                        d.validUpto = column.validUpto,
+                    d.validUpto = moment.utc(column.expiryDate).format("YYYY-MM-DD");
                         d.subscriptionType = column.conditionsApply,
                         d.totalCredits = column.totalCredits,
 

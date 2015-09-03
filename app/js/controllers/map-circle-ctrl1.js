@@ -4,7 +4,6 @@
 
 App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLogger', 'uiGmapGoogleMapApi', '$cookies', '$cookieStore', 'MY_CONSTANT'
     , function ($scope, $timeout, $http, $log, GoogleMapApi, $cookies, $cookieStore, MY_CONSTANT,ngDialog) {
-
         $http.get(MY_CONSTANT.url + 'api/admin/customerList/' + $cookieStore.get('obj').accesstoken)
             .success(function (response, status) {
                 if (status == 200) {
@@ -446,5 +445,24 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
                 return out;
             };
         });
-
     }]);
+
+App.directive('numbersOnly', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, modelCtrl) {
+            modelCtrl.$parsers.push(function (inputValue) {
+                // this next if is necessary for when using ng-required on your input.
+                // In such cases, when a letter is typed first, this parser will be called
+                // again, and the 2nd time, the value will be undefined
+                if (inputValue == undefined) return ''
+                var transformedInput = inputValue.replace(/[^0-9]/g, '');
+                if (transformedInput != inputValue) {
+                    modelCtrl.$setViewValue(transformedInput);
+                    modelCtrl.$render();
+                }
+                return transformedInput;
+            });
+        }
+    };
+});
