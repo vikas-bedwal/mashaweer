@@ -39,7 +39,6 @@ App.controller('addPromoController', function ($scope, $http, $cookies, $cookieS
     }
 
     $scope.addPromo = function (add) {
-        console.log(add);
         $scope.loc = {};
         $scope.successMsg = '';
         $scope.errorMsg = '';

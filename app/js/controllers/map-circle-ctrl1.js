@@ -14,7 +14,7 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
                         d._id = column._id;
                         d.name = column.fullName;
                         d.email = column.email;
-                        d.phoneNumber = column.phoneNumber
+                        d.phoneNumber = column.phoneNumber;
                         d.credits = column.credits;
                         if(column.isDeleted == false)
                             d.isDeleted = 'Active';
@@ -27,7 +27,6 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
                         dataArray.push(d);
                     });
                     $scope.list = dataArray;
-                    $scope.excelList = dataArray;
 
                 } else {
                     alert("Something went wrong, please try again later.");
@@ -37,6 +36,35 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
             .error(function (error) {
                 console.log(error);
             });
+
+        $scope.cust = function(data){
+            $scope.job.personal_phone_no = data.phoneNumber;
+            $scope.job.email = data.email;
+        }
+
+
+        $scope.cash = 1;
+        $scope.subscription = 0;
+        $scope.card = 0;
+        $scope.minYear = parseInt(new Date().getYear()) + 1900;
+        $scope.maxYear = parseInt(new Date().getYear()) + 1920;
+        $scope.paymentMode = function(mode){
+            if(mode=="cash"){
+                $scope.cash = 1;
+                $scope.subscription = 0;
+                $scope.card = 0;
+            }
+            else if(mode=="card"){
+                $scope.cash = 0;
+                $scope.subscription = 0;
+                $scope.card = 1;
+            }
+            else{
+                $scope.cash = 0;
+                $scope.subscription = 1;
+                $scope.card = 0;
+            }
+        }
 
 
         // Below line is for datetime picker
@@ -113,7 +141,7 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
             google.maps.event.addListener(marker, 'drag', function () {
                 if ($scope.poly) {
                     poly = $scope.poly;
-                    poly.setMap(null);   //destrying the already created path;
+                    poly.setMap(null);   //destroying the already created path;
                 }
                 $scope.reverseGeocode(marker.getPosition(), 0);
 
@@ -154,7 +182,7 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
             google.maps.event.addListener(marker, 'drag', function () {
                 if ($scope.poly) {
                     poly = $scope.poly;
-                    poly.setMap(null);   //destrying the already created path;
+                    poly.setMap(null);   //destroying the already created path;
                 }
                 $scope.reverseGeocode(marker.getPosition(), 1);
 
@@ -261,6 +289,13 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
         $scope.pick_up = {};
         $scope.drop_off = {};
         $scope.addOrder = function (data, status) {
+            console.log(data);
+
+            var country_code = $("#p_mobile-number").intlTelInput("getSelectedCountryData").dialCode;
+            var country_code1 = $("#d_mobile-number").val();
+            console.log(country_code);
+            console.log(country_code1);
+
      /*       console.log("Place It");
             console.log(data);
             console.log($scope.successHit4);

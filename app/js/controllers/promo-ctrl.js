@@ -29,9 +29,11 @@ App.controller('promoController', function ($scope, $http, $cookies, $cookieStor
         $scope.datepicker.dt1 = false;
         $scope.datepicker.dt2 = true;
     };
-
+console.log("try");
     $http.get(MY_CONSTANT.url + 'api/admin/getPromoCode/' + $cookieStore.get('obj').accesstoken)
         .success(function (response, status) {
+            console.log(response);
+            console.log(status);
             if (status == 200) {
                 var dataArray = [];
                 var promoList = response.data;
@@ -45,11 +47,15 @@ App.controller('promoController', function ($scope, $http, $cookies, $cookieStor
                     d.minAmount = column.minAmount;
                     d.vehicleType = column.vehicleType;
                     d.promoType = column.promoType;
-                    var startDate = moment(column.startTime).format('YYYY-MM-DD');
                     var currentDate = moment(new Date()).format('YYYY-MM-DD');
-                    var startResult = (moment(startDate).isAfter(currentDate));
-                    $scope.startResult = startResult;
-                    d.dltShow = startResult;
+                    var startDate = moment(column.startTime).format('YYYY-MM-DD');
+                    var endDate = moment(column.endTime).format('YYYY-MM-DD');
+                    if((moment(endDate).isBefore(currentDate)))
+                        d.dltHide = 0;
+                    else if(moment(startDate).isAfter(currentDate))
+                        d.dltHide = 0;
+                    else
+                        d.dltHide = 1;
                     d.startTime = column.startTime;
                     d.endTime = column.endTime;
                     d.isDeleted = column.isDeleted;
@@ -57,7 +63,6 @@ App.controller('promoController', function ($scope, $http, $cookies, $cookieStor
                     dataArray.push(d);
                 });
                 $scope.list = dataArray;
-
 
                 /*------------Edit Promo Section Starts---------------*/
                 $scope.editData = function (data_get) {
@@ -194,6 +199,7 @@ App.controller('promoController', function ($scope, $http, $cookies, $cookieStor
             }
         })
         .error(function (error) {
+            console.log("error");
             console.log(error);
         });
 });

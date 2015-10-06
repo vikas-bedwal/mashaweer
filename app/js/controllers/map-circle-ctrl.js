@@ -27,9 +27,9 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
         var bound_val =0
 
         $scope.map = {
-            zoom:3,
-            center: new google.maps.LatLng(30.8857, 76.2599),
-            pan : true
+                zoom:3,
+                center: new google.maps.LatLng(30.8857, 76.2599),
+                pan : true
         }
         $scope.mapContainer = new google.maps.Map(document.getElementById('map-container'), $scope.map);
         var infoWindow = new google.maps.InfoWindow();
@@ -38,7 +38,7 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
         /*================Setting marker for Live driver===================*/
         var createMarker = function (info) {
             var marker = new MarkerWithLabel({
-                position: new google.maps.LatLng(info.latitude, info.longitude),
+                position: new google.maps.LatLng(info.longitude, info.latitude),
                 map: $scope.mapContainer
             });
 
@@ -121,11 +121,11 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
         $scope.drawMap = function () {
             $http.get(MY_CONSTANT.url + 'api/admin/getLiveView/' + $cookieStore.get('obj').accesstoken)
                 .success(function (response, status) {
-                    console.log(response);
                     if (status == 200) {
                         var dataArray = [];
                         var dataArray1 = [];
                         var liveDriverList = response.data.driverDetailArray;
+                        console.log(liveDriverList);
                         var liveOrderList = response.data.orderDetail;
                         var liveDriverStatusList = response.data.driverStatusArray;
                         var orderLength = response.data.orderDetail.length;
@@ -285,7 +285,6 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
             $http.get(MY_CONSTANT.url + 'api/admin/' + $cookieStore.get('obj').accesstoken + '/fetchNearestDrivers/' + orderId)
                 .success(function (response, status) {
                     if (status == 200) {
-                        console.log(response);
                         var dataArray = [];
                         var nearDriverList = response.data.results;
                         nearDriverList.forEach(function (column) {
@@ -298,7 +297,6 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                             }
                         });
                         $scope.nearDriverList = dataArray;
-                        console.log($scope.nearDriverList.length);
                         if ($scope.nearDriverList > 0) {
                             $scope.changedDriver = $scope.nearDriverList[0]._id;
                         ngDialog.open({
@@ -338,7 +336,6 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
 
         /*================ Reassigning driver for  ongoing order ===================*/
         $scope.reAssign = function() {
-            console.log("Reassign...");
             $http({
                 method: 'POST',
                 url: MY_CONSTANT.url + 'api/admin/orderAssignDriver',
@@ -353,7 +350,6 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
 
             })
                 .success(function (response, status) {
-                    console.log("success")
                     ngDialog.open({
                         template: 'display_reAssign_msg',
                         className: 'ngdialog-theme-default',

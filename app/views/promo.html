@@ -1,7 +1,7 @@
 <div ng-controller="promoController" class="ngdialog-message headerMargin"><h3 ng-bind="name"></h3>
 
     <h3 class="page-header" id="page-header-techServices">Promo Codes List
-        <a ui-sref="app.addPromo" class="btn btn-default pull-right">Add Promo Code</a>
+        <a ui-sref="app.addPromo" class="btn btn-success pull-right headerButtonMargin">Add Promo Code</a>
     </h3>
     <!-- Start View Add Ons Table -->
     <div class="row">
@@ -15,7 +15,7 @@
                             <th>No.</th>
                             <th>Promo Code</th>
                             <th>Promo Type</th>
-                            <th>Vehical Type</th>
+                            <th>Vehicle Type</th>
                             <th>City</th>
                             <th>Credit</th>
                             <th>Discount</th>
@@ -45,7 +45,7 @@
                                 <button ng-click="editData(data)" title="Edit" class="btn btn-sm btn-success">
                                     <em class="fa fa-pencil"></em>
                                 </button>
-                                <button ng-click="openConfirm(data._id)" title="Delete" ng-disabled="!{{data.dltShow}}" class="btn btn-sm btn-danger">
+                                <button ng-click="openConfirm(data._id)" title="Delete" ng-disabled="{{data.dltHide}}" class="btn btn-sm btn-danger">
                                     <em class="fa fa-trash"></em>
                                 </button>
 
@@ -132,7 +132,7 @@
                             <label class="control-label">Vehicle</label>
                             <select id="vehical_type" ng-init="add.vehical_type='BIKE'" ng-model="pop.vehicleType"
                                     required="required"
-                                    placeholder="Vehical Type" name="vehival_type" class="form-control">
+                                    placeholder="Vehicle Type" name="vehival_type" class="form-control">
                                 <option value="ALL">All</option>
                                 <option value="BIKE">Bike</option>
                                 <option value="VAN">Van</option>
@@ -188,11 +188,14 @@
     </form>
 </script>
 
-
+<!-- **************************************************************************
+******************* Modal to display delete confirmation msg ***********************************
+*******************************************************************************-->
 <script type="text/ng-template" id="modalDialogId1">
     <div class="ngdialog-message">
+        <h4>Are you sure you want to delete it ?</h4>
         <button type="button" ng-click="deleteOffer(id)"
-                class="btn btn-primary mr">Confirm
+                class="btn btn-success mr">Confirm
         </button>
         <button type="button" ng-click="closeThisDialog('button')" class="btn btn-default">
             Cancel

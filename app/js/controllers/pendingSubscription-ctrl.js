@@ -1,27 +1,27 @@
 /**
- * Created by Vikas on 31/07/15.
+ * Created by vikas on 30/09/15.
  */
-App.controller('paymentController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $timeout) {
+App.controller('pendingSubscriptionController', function ($scope, $http, $cookies, $cookieStore, $stateParams,
+                                                   MY_CONSTANT, $timeout, $window, $state, ngDialog, convertdatetime) {
     'use strict';
-    console.log("In payment");
-    $http.get(MY_CONSTANT.url + 'api/admin/paymentList/' + $cookieStore.get('obj').accesstoken)
+
+    $http.get(MY_CONSTANT.url + 'api/admin/pendingSubscriptions/' + $cookieStore.get('obj').accesstoken)
         .success(function (response, status) {
             if (status == 200) {
                 var dataArray = [];
-                var custList = response.data;
-                custList.forEach(function (column) {
+                var suscriptionList = response.data.pendingSubscriptions;
+                suscriptionList.forEach(function (column) {
                     var d = {};
-                    d._id = column._id;
-                    d.customerName = column.customerName;
-                    d.amount = column.amount;
+                    d.subscriptionId = column._id;
+                    d.heading = column.heading;
                     d.paymentMode = column.paymentMode;
-                    var str = moment.utc(column.createdAt).format("Do MMM YYYY hh:mm A");
-                    d.createdAt = str;
-                    dataArray.push(d);
+                        dataArray.push(d);
                 });
                 $scope.list = dataArray;
                 var dtInstance;
                 $timeout(function () {
+                    console.log("datatables");
+
                     if (!$.fn.dataTable) return;
                     dtInstance = $('#datatable2').dataTable({
                         'paging': true,  // Table pagination
@@ -50,7 +50,6 @@ App.controller('paymentController', function ($scope, $http, $cookies, $cookieSt
                     dtInstance.fnDestroy();
                     $('[class*=ColVis]').remove();
                 })
-
             } else {
                 alert("Something went wrong, please try again later.");
                 return false;
@@ -59,4 +58,25 @@ App.controller('paymentController', function ($scope, $http, $cookies, $cookieSt
         .error(function (error) {
             console.log(error);
         });
+
+    /*===========Approve/Reject Packeage Request ============ */
+
+    $scope.action = function (id,flag) {
+        if(flag)
+        var flag = "true";
+        else
+            var flag = "false";
+        $http({
+            method: 'PUT',
+            url: MY_CONSTANT.url + 'api/admin/approveRejectSubscriptions',
+            data: { accessToken: $cookieStore.get('obj').accesstoken,
+                subscriptionId: id,
+                toggleFlag: flag}
+        }).then(function successCallback(response) {
+            console.log(response);
+            $state.reload();
+        }, function errorCallback(response) {
+            console.log(response);
+        });
+    };
 });

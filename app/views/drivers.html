@@ -1,8 +1,9 @@
-<h3>
-    Drivers List
-    <small>Displaying list of all drivers.</small>
-</h3>
-<div ng-controller="driversController" class="container-fluid">
+<div ng-controller="driversController" class="ngdialog-message headerMargin"><h3 ng-bind="name"></h3>
+    <h3 class="page-header" id="page-header-techServices">Driver List
+        <a ng-click="addData()" class="btn btn-success pull-right headerButtonMargin">Add Driver</a>
+    </h3>
+
+<!--<div ng-controller="driversController" class="container-fluid">-->
     <!-- START DATATABLE 2 -->
     <div class="row">
         <div class="col-lg-12">
@@ -15,7 +16,7 @@
                             <th hidden="hidden">Id</th>
                             <th>Driver Name</th>
                             <th>Driver Email</th>
-                            <th>Vehical Type</th>
+                            <th>Vehicle Type</th>
                             <th>Driver Type</th>
                             <th>Action</th>
                         </tr>
@@ -50,56 +51,56 @@
     </div>
 </div>
 
-<!---------------- Start Edit Service View--------------------->
+<!---------------- Start Edit Driver View--------------------->
 
 <script type="text/ng-template" id="modalDialogId">
-    <form method="post" validate-form="" novalidate="" ng-submit="editDriver(details)">
+    <form method="post" validate-form="" novalidate="" ng-submit="editDriver()">
         <div class="ngdialog-message">
             <div class="panel-body">
 
                 <div class="panel-heading" style="font-weight: bolder; color: gray">
                     <h4>Edit Driver Details</h4>
                 </div>
-                <form method="post" ng-submit="editDriver(details)" validate-form=""
+                <form method="post" ng-submit="editDriver(pop)" validate-form=""
                       novalidate="" id="add-promo">
                     <!-- START panel-->
                     <div class="panel-body">
                         <div class="form-group">
                             <div class="col-lg-6 padding-left">
-                                <label class="control-label">FName</label>
-                                <input  name="firstName" required="required" data-parsley-type="number"
+                                <label class="control-label">First Name</label>
+                                <input  name="firstName" required="required"
                                         class="form-control"
-                                        ng-model="details.firstName"/>
+                                        ng-model="pop.firstName"/>
                             </div>
                             <div class="col-lg-6 padding-right">
-                                <label class="control-label">LName</label>
-                                <input  name="lastName" required="required" data-parsley-type="number"
+                                <label class="control-label">Last Name</label>
+                                <input  name="lastName" required="required"
                                         class="form-control"
-                                        ng-model="details.lastName"/>
+                                        ng-model="pop.lastName"/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label">Email</label>
-                            <input name="email" ng-disabled="1" required="required" data-parsley-type="number"
+                            <input name="email" ng-disabled="1" required="required"
                                    class="form-control"
-                                   ng-model="details.email"/>
+                                   ng-model="pop.email"/>
                         </div>
                         <div class="form-group">
                             <label class="control-label">Vehicle</label>
-                            <select id="vehical_type" ng-model="details.vehicleType"
+                            <select id="vehical_type" ng-model="pop.vehicleType"
                                     required="required"
-                                    placeholder="Vehical Type" name="vehival_type" class="form-control">
+                                    placeholder="Vehicle Type" name="vehival_type" class="form-control">
                                 <option value="BIKE">Bike</option>
-                                <option value="VAN">Van</option>
+                                <option value="CAR">Car</option>
                                 <option value="TRUCK">Truck</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label class="control-label">Driver Type</label>
-                            <select id="driver_type" ng-model="details.isDedicated"
+                            <select id="driver_type" ng-model="pop.isDedicated"
                                     required="required"
-                                    placeholder="Vehical Type" name="driver_type" class="form-control">
+                                    placeholder="Vehicle Type" name="driver_type" class="form-control">
                                 <option value="Freelancer">Freelancer</option>
                                 <option value="Dedicated">Dedicated</option>
                             </select>
@@ -111,6 +112,99 @@
 
             </div>
             <button type="submit" class="btn btn-success mr" style="margin-left: 25px">Save
+            </button>
+            <button type="button" ng-click="closeThisDialog('button')" class="btn btn-default">
+                Cancel
+            </button>
+        </div>
+    </form>
+</script>
+
+<!---------------- Start Add Driver View--------------------->
+
+<script type="text/ng-template" id="addDriver">
+    <form method="post" validate-form="" novalidate="" ng-submit="addDriver(pop)">
+        <div class="ngdialog-message">
+            <div class="panel-body">
+
+                <div class="panel-heading" style="font-weight: bolder; color: gray">
+                    <h4>Add Driver Details</h4>
+                </div>
+                <form method="post" ng-submit="addDriver()" validate-form=""
+                      novalidate="">
+                    <!-- START panel-->
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-lg-6 padding-left">
+                                <label class="control-label">First Name</label>
+                                <input  name="firstName" required="required"
+                                        class="form-control"
+                                        ng-model="pop.firstName"/>
+                            </div>
+                            <div class="col-lg-6 padding-right">
+                                <label class="control-label">Last Name</label>
+                                <input  name="lastName" required="required"
+                                        class="form-control"
+                                        ng-model="pop.lastName"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Phone No.</label>
+                            <div>
+
+                                <div class="col-sm-3" style="padding-left: 0;">
+                                    <input id="business_phone_number_prefix" ng-init="pop.prefix='+971'"
+                                           ng-model="pop.prefix" ng-disabled="1"
+                                           required="required"
+                                           numbers-only="numbers-only" class="form-control"/>
+                                </div>
+                                <div class="col-sm-9" style="padding-right: 0">
+                                    <input id="business_phone_number"
+                                           ng-model="add.phone_number"
+                                           required="required" numbers-only="numbers-only"
+                                           class="form-control"/>
+                                </div>
+                                <div style="clear: both;"></div>
+                            </div>
+
+                            <!--<input type="text" name="estimated_time" required="required" numbers-only="numbers-only" class="form-control"
+                                   ng-model="add.estimated_time"/>-->
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Email</label>
+                            <input type="email" name="email" required="required"
+                                   class="form-control"
+                                   ng-model="pop.email"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Vehicle</label>
+                            <select id="pop.add_vehical_type" ng-init="pop.add_vehical_type='BIKE'" ng-model="pop.add_vehical_type"
+                                    required="required"
+                                    placeholder="Vehicle Type" name="vehival_type" class="form-control">
+                                <option value="BIKE">Bike</option>
+                                <option value="CAR">Car</option>
+                                <option value="TRUCK">Truck</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Driver Type</label>
+                            <select id="pop.add_driver_type" ng-init="pop.add_driver_type='Freelancer'" ng-model="pop.add_driver_type"
+                                    required="required"
+                                    placeholder="Vehicle Type" name="driver_type" class="form-control">
+                                <option value="Freelancer">Freelancer</option>
+                                <option value="Dedicated">Dedicated</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- END panel-->
+                </form>
+
+            </div>
+            <button type="submit" class="btn btn-success mr" style="margin-left: 25px">Add
             </button>
             <button type="button" ng-click="closeThisDialog('button')" class="btn btn-default">
                 Cancel

@@ -115,7 +115,7 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
                 url: '/drivers',
                 title: 'Drivers',
                 templateUrl: helper.basepath('drivers.html'),
-                resolve: helper.resolveFor('datatables', 'datatables-pugins')
+                resolve: helper.resolveFor('datatables', 'datatables-pugins','parsley')
             })
             .state('app.orders', {
                 url: '/orders',
@@ -142,17 +142,24 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
                 resolve: helper.resolveFor('xeditable','ngDialog')
             })
             .state('app.subscription', {
-                url: '/subscription',
-                title: 'Subscription',
+                url: '/package',
+                title: 'Package',
                 templateUrl: helper.basepath('subscription.html'),
                 resolve: helper.resolveFor('datatables', 'datatables-pugins','ngDialog')
             })
             .state('app.addSubscription', {
-                url: '/add_subscription',
-                title: 'Subscription',
+                url: '/add_package',
+                title: 'Add Package',
                 templateUrl: helper.basepath('addSubscription.html'),
                 resolve: helper.resolveFor('parsley')
             })
+            .state('app.pendingSubscription', {
+                url: '/pending_package',
+                title: 'Pending Package',
+                templateUrl: helper.basepath('pendingSubscription.html'),
+                resolve: helper.resolveFor('datatables', 'datatables-pugins','parsley')
+            })
+
             .state('app.promo', {
                 url: '/promotion',
                 title: 'Promotion',
@@ -202,6 +209,47 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
 
 
     }]);
+
+App.factory('convertdatetime', function () {
+    return {
+
+        convertDate: function (DateTime) {
+            var _utc = new Date(DateTime);
+            var mnth_var_date = parseInt(_utc.getMonth()) + 1;
+            var mnth_var = mnth_var_date.toString();
+            if (mnth_var.length == 1) {
+                var month = "0" + mnth_var;
+            } else {
+                month = mnth_var;
+            }
+            if (_utc.getDate().toString().length == 1) {
+                var day = "0" + (parseInt(_utc.getDate()));
+            } else {
+                day = parseInt(_utc.getDate());
+            }
+            var _utc = _utc.getFullYear() + "-" + month + "-" + day;
+            return _utc;
+        },
+
+        convertToLocal: function (data) {
+            var date = ConvertUTCTimeToLocalTime(data);
+            var date_time = new Date((date + 'UTC').replace(/-/g, "/"));
+            var date_converted = date_time.toString().replace(/GMT.*/g, "");
+            return date_converted;
+
+            function ConvertUTCTimeToLocalTime(UTCDateString) {
+                var convertdLocalTime = new Date(UTCDateString);
+
+                var hourOffset = convertdLocalTime.getTimezoneOffset() / 60;
+
+                convertdLocalTime.setHours(convertdLocalTime.getHours() + hourOffset);
+
+                return convertdLocalTime;
+            }
+        }
+
+    };
+})
 
 App.directive('googleplace', function() {
     return {

@@ -1,5 +1,5 @@
 <h3>
-    Subscription Form
+    Package Form
 </h3>
 <div class="row" ng-controller="addSubscriptionController">
     <div class="col-lg-6">
@@ -86,7 +86,7 @@
                                         name="vehicleType"
                                         class="form-control">
                                     <option value="BIKE">Bike</option>
-                                    <option value="VAN">Van</option>
+                                    <option value="CAR">Car</option>
                                     <option value="TRUCK">Truck</option>
                                 </select>
                             </div>
@@ -94,7 +94,7 @@
                         <div class="col-lg-6 padding-right">
                             <div class="form-group">
                                 <label class="control-label subscribeLabels">Credit</label>
-                                <input type="text" name="credit" ng-init="add.credit='0'"  required="required" data-parsley-type="number"
+                                <input type="text" name="credit" ng-init="add.credit='0'" numbers-only=""  required="required" data-parsley-type="number"
                                        class="form-control"
                                        ng-model="add.credit"/>
                             </div>
@@ -102,7 +102,7 @@
 
                         <div class="col-lg-12 padding-left-right">
                             <div class="form-group">
-                                <label class="control-label subscribeLabels">Subscription Type</label>
+                                <label class="control-label subscribeLabels">Package Type</label>
                                 <select id="subscriptionType" ng-init="add.subscriptionType='WITHIN_CITY'"
                                         ng-model="add.subscriptionType"
                                         required="required"
@@ -189,7 +189,7 @@
                                         ng-required="second"
                                         name="vehicleType2" class="form-control">
                                     <option value="BIKE">Bike</option>
-                                    <option value="VAN">Van</option>
+                                    <option value="CAR">Car</option>
                                     <option value="TRUCK">Truck</option>
                                 </select>
                             </div>
@@ -197,7 +197,7 @@
                         <div class="col-lg-6 padding-right">
                             <div class="form-group">
                                 <label class="control-label subscribeLabels">Credit</label>
-                                <input type="text" name="credit2" ng-init="add.credit2='0'" required="required" data-parsley-type="number"
+                                <input type="text" name="credit2" ng-init="add.credit2='0'" numbers-only="" required="required" data-parsley-type="number"
                                        class="form-control"
                                        ng-required="second"
                                        ng-model="add.credit2"/>
@@ -296,7 +296,7 @@
                                         ng-required="third"
                                         name="vehicleType3" class="form-control">
                                     <option value="BIKE">Bike</option>
-                                    <option value="VAN">Van</option>
+                                    <option value="CAR">Car</option>
                                     <option value="TRUCK">Truck</option>
                                 </select>
                             </div>
@@ -304,7 +304,7 @@
                         <div class="col-lg-6 padding-right">
                             <div class="form-group">
                                 <label class="control-label subscribeLabels">Credit</label>
-                                <input type="text" name="credit3" ng-init="add.credit3='0'" required="required" data-parsley-type="number"
+                                <input type="text" name="credit3" ng-init="add.credit3='0'" numbers-only="" required="required" data-parsley-type="number"
                                        class="form-control"
                                        ng-required="third"
                                        ng-model="add.credit3"/>
@@ -313,7 +313,7 @@
 
                         <div class="col-lg-12 padding-left-right">
                             <div class="form-group">
-                                <label class="control-label subscribeLabels">Subscription Type</label>
+                                <label class="control-label subscribeLabels">Package Type</label>
                                 <select id="subscriptionType3" ng-init="add.subscriptionType3='WITHIN_CITY'"
                                         ng-model="add.subscriptionType3"
                                         required="required"
@@ -393,7 +393,7 @@
                     </div>
 
 <div class="panel-footer" style="background: #fff; padding-left: 0">
-        <button type="submit" class="btn btn-success">Add Subscription</button>
+        <button type="submit" class="btn btn-success">Add Package</button>
         <!--<button type="button" class="btn btn-default">Cancel</button>-->
 </div>
 

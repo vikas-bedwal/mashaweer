@@ -3,10 +3,8 @@
  */
 App.controller('driversController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $timeout,$state,ngDialog) {
     'use strict';
-    console.log("In driver");
     $http.get(MY_CONSTANT.url + 'api/admin/driverList/' + $cookieStore.get('obj').accesstoken)
         .success(function (response, status) {
-            console.log(response);
             if (status == 200) {
                 var dataArray = [];
                 var driverList = response.data;
@@ -38,8 +36,6 @@ App.controller('driversController', function ($scope, $http, $cookies, $cookieSt
 
                 /*-----------Customer BLock Section Starts---------------------*/
                 $scope.blockCust = function (email) {
-                    console.log($cookieStore.get('obj').accesstoken);
-                    console.log(email);
                     $http({
                         method: 'POST',
                         url: MY_CONSTANT.url + 'api/admin/toggleCustomerBlock',
@@ -47,7 +43,6 @@ App.controller('driversController', function ($scope, $http, $cookies, $cookieSt
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     })
                         .success(function (response) {
-                            console.log(response);
                             if (status == 200) {
                                 $scope.list = data;
                                 $scope.$apply();
@@ -109,37 +104,36 @@ App.controller('driversController', function ($scope, $http, $cookies, $cookieSt
                 accessToken: $cookieStore.get('obj').accesstoken, email: email
             },
             function (data) {
-                console.log(data)
                 $scope.list = data;
                 $scope.$apply();
                 $state.reload();
             });
     };
 
-    /*------------Edit Driver Info Section Starts---------------*/
-    $scope.editData = function (data_get) {
-        $scope.details = data_get;
+    /*------------Add Driver Info Section Starts---------------*/
+    $scope.addData = function () {
         ngDialog.openConfirm({
-            template: 'modalDialogId',
+            template: 'addDriver',
             className: 'ngdialog-theme-default',
             scope: $scope
-        }).then(function (value) {
-        }, function (reason) {
-        });
+        })
     };
-
-    $scope.editDriver = function(data){
-        console.log(data);
-/*        $http({
-            url: MY_CONSTANT.url + 'api/admin/editDriverInfo',
+    $scope.addDriver = function(data_get){
+        console.log(data_get);
+        alert("Oops..... Api pending")
+       /* if(data_get.add_driver_type == $scope.details.isDedicated)
+            var flag = false;
+        else
+            var flag = true
+        $http({
+            url: MY_CONSTANT.url + 'api/admin/addDriverInfo',
             method: "POST",
             data: { accessToken : $cookieStore.get('obj').accesstoken,
-                _id: data._id,
-                email: data.email,
-                firstName: data.firstName,
-                lastName: data.lastName,
-                vehicleType: data.vehicleType,
-                flag: false
+                email: $scope.pop.email,
+                firstName: $scope.pop.firstName,
+                lastName: $scope.pop.lastName,
+                vehicleType: $scope.pop.vehicleType,
+                flag: flag
             }
         })
             .then(function(response) {
@@ -147,47 +141,57 @@ App.controller('driversController', function ($scope, $http, $cookies, $cookieSt
                 $state.reload();
             },
             function(response,status) { // optional
-                console.log(response);
-                console.log(status);
                 // failed
                 alert("Something went wrong");
             });*/
+    }
+    /*------------Add Driver Info Section End---------------*/
 
+    /*------------Edit Driver Info Section Starts---------------*/
+    $scope.pop = {};
+    $scope.editData = function (data_get) {
+        ngDialog.openConfirm({
+            template: 'modalDialogId',
+            className: 'ngdialog-theme-default',
+            scope: $scope
+        }).then(function (value) {
+        }, function (reason) {
+        });
+        $scope.details = data_get;
+        $scope.pop.firstName = data_get.firstName;
+        $scope.pop.email = data_get.email;
+        $scope.pop.lastName = data_get.lastName;
+        $scope.pop.vehicleType = data_get.vehicleType;
+        $scope.pop.isDedicated = data_get.isDedicated;
 
-        $.ajax({
-            type: "POST",
+    };
+
+    $scope.editDriver = function(){
+        console.log($scope.pop.vehicleType);
+
+        if($scope.pop.isDedicated == $scope.details.isDedicated)
+        var flag = false;
+        else
+        var flag = true
+        $http({
             url: MY_CONSTANT.url + 'api/admin/editDriverInfo',
-            data: {
-                accessToken : $cookieStore.get('obj').accesstoken,
-                _id: data._id,
-                email: data.email,
-                firstName: data.firstName,
-                lastName: data.lastName,
-                vehicleType: data.vehicleType,
-                flag: false
-            },
-            success: function(data){
+            method: "POST",
+            data: { accessToken : $cookieStore.get('obj').accesstoken,
+                email: $scope.pop.email,
+                firstName: $scope.pop.firstName,
+                lastName: $scope.pop.lastName,
+                vehicleType: $scope.pop.vehicleType,
+                flag: flag
+            }
+        })
+            .then(function(response) {
                 ngDialog.close();
                 $state.reload();
             },
-            error: function(status) {
-                console.log(status);
+            function(response,status) { // optional
+                // failed
                 alert("Something went wrong");
-                if(status.status == 409){
-                    ngDialog.open({
-                        template: 'display_failure_conflict_msg',
-                        className: 'ngdialog-theme-default',
-                        scope: $scope,
-                        showClose: true
-                    });
-                }
-            }
-        });
-
+            });
     }
-
-
-
-    /*------------Edit Promo Section End---------------*/
-
+    /*------------Edit Driver Info Section End---------------*/
 });

@@ -15,6 +15,8 @@ App.controller('customersController', function ($scope, $http, $cookies, $cookie
                     custList.forEach(function (column) {
                         var d = {};
                         d._id = column._id;
+                        d.firstName = column.firstName;
+                        d.lastName = column.lastName;
                         d.fullName = column.fullName;
                         d.email = column.email;
                         d.phoneNumber = column.phoneNumber
@@ -101,47 +103,114 @@ App.controller('customersController', function ($scope, $http, $cookies, $cookie
     }
 
     /*-----------Add Credit Section Starts---------------------*/
-    $scope.addCredit = function (data) {
-        $.post(MY_CONSTANT.url + 'api/admin/addCustomerCredits',
-            {
-                accessToken: $cookieStore.get('obj').accesstoken, email: data.email, credit: data.credit
+
+
+    $scope.addCredit = function(data){
+        $http({
+            url: MY_CONSTANT.url + 'api/admin/addCustomerCredits',
+            method: "POST",
+            data: { accessToken: $cookieStore.get('obj').accesstoken,
+                    email: data.email, credit: data.credit
+            }
+        })
+            .then(function(response) {
+                ngDialog.close({
+                    template: 'addCredit',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope
+                });
+                $scope.displaymsg2 = 'Credit Added';
+                ngDialog.open({
+                    template: 'display_msg',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope,
+                    showClose: false
+                });
             },
-            function (data, status) {
-                if (status == "success") {
-                    ngDialog.close({
-                        template: 'addCredit',
-                        className: 'ngdialog-theme-default',
-                        scope: $scope
-                    });
-                    $scope.displaymsg2 = 'Credit Added';
-                    ngDialog.open({
-                        template: 'display_msg',
-                        className: 'ngdialog-theme-default',
-                        scope: $scope,
-                        showClose: false
-                    });
-                }
-                else {
-                    ngDialog.close({
-                        template: 'addCredit',
-                        className: 'ngdialog-theme-default',
-                        scope: $scope
-                    });
-                    $scope.displaymsg2 = 'Error';
-                    ngDialog.open({
-                        template: 'display_msg',
-                        className: 'ngdialog-theme-default',
-                        scope: $scope,
-                        showClose: false
-                    });
-                }
-                $scope.list = data;
-                $scope.$apply();
+            function(response,status) { // optional
+                // failed
+                ngDialog.close({
+                    template: 'addCredit',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope
+                });
+                $scope.displaymsg2 = 'Email id not registered';
+                ngDialog.open({
+                    template: 'display_msg',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope,
+                    showClose: false
+                });
+               /* alert("Something went wrong");*/
             });
+    }
+
+
+    /*------------Edit Customer Info Section Starts---------------*/
+    $scope.pop = {};
+    $scope.editData = function (data_get) {
+        $scope.id = data_get._id;
+        ngDialog.openConfirm({
+            template: 'modalDialogId',
+            className: 'ngdialog-theme-default',
+            scope: $scope
+        }).then(function (value) {
+        }, function (reason) {
+        });
+        $scope.details = data_get;
+        $scope.pop.firstName = data_get.firstName;
+        $scope.pop.lastName = data_get.lastName;
+        $scope.pop.email = data_get.email;
+        $scope.pop.phoneNumber = data_get.phoneNumber;
+        $scope.pop.credits = data_get.credits;
     };
+
+    $scope.editCustomer = function(){
+        $http({
+            url: MY_CONSTANT.url + 'api/admin/editUserProfile',
+            method: "PUT",
+            data: { accessToken : $cookieStore.get('obj').accesstoken,
+                customerId: $scope.id,
+                phoneNumber: $scope.pop.phoneNumber,
+                firstName: $scope.pop.firstName,
+                lastName: $scope.pop.lastName,
+                credits: $scope.pop.credits
+            }
+        })
+            .then(function(response) {
+                ngDialog.close();
+                $state.reload();
+            },
+            function(response,status) { // optional
+                // failed
+                alert("Something went wrong");
+            });
+    }
+    /*------------Edit Driver Info Section End---------------*/
+
     /*-----------Export CSV Section Starts---------------------*/
     $scope.exportData = function () {
         alasql('SELECT * INTO CSV("customer.csv",{headers:true}) FROM ?', [$scope.excelList]);
     };
 
+});
+
+App.directive('numbersOnly', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, modelCtrl) {
+            modelCtrl.$parsers.push(function (inputValue) {
+                // this next if is necessary for when using ng-required on your input.
+                // In such cases, when a letter is typed first, this parser will be called
+                // again, and the 2nd time, the value will be undefined
+                if (inputValue == undefined) return ''
+                var transformedInput = inputValue.replace(/[^0-9]/g, '');
+                if (transformedInput != inputValue) {
+                    modelCtrl.$setViewValue(transformedInput);
+                    modelCtrl.$render();
+                }
+                return transformedInput;
+            });
+        }
+    };
 });

@@ -8,7 +8,7 @@
         <div ng-show="errorMsg" class="alert alert-danger text-center">{{errorMsg}}</div>
         <form method="post" validate-form="" novalidate="" ng-submit="addOrder(job)">
             <div class="panel panel-default">
-                <div id="panelDemo4" class="panel panel-default custom-panel">
+                <div id="panelDemo4" class="panel panel-default custom-panel" ng-class="{'whirl standard' : loading }">
                     <div class="panel-heading">
                         <label>Personal Details</label>
                         <input class="pull-right" type="checkbox" ng-model="panelDemo4" ng-change="checkStatus(1)">
@@ -39,9 +39,8 @@
                                                     </ui-select-match>
                                                     <ui-select-choices
                                                             repeat="person in list | propsFilter: {name: $select.search, credits: $select.search}">
-                                                        <div ng-bind-html="person.name | highlight: $select.search"></div>
-                                                        <small>email: {{person.email}} Credits:
-                                                            <span ng-bind-html="''+person.credits | highlight: $select.search"></span>
+                                                        <div style="font-weight: bold" ng-bind-html="person.name | highlight: $select.search"></div>
+                                                        <small>Email: {{person.email}}
                                                         </small>
                                                     </ui-select-choices>
                                                 </ui-select>
@@ -53,9 +52,9 @@
                                             <select id="vehival_id" ng-init="job.vehival_id='BIKE'"
                                                     ng-model="job.vehival_id"
                                                     required="required"
-                                                    placeholder="Vehical" name="vehival_id" class="form-control">
+                                                    placeholder="Vehicle" name="vehival_id" class="form-control">
                                                 <option value="BIKE">Bike</option>
-                                                <option value="VAN">Van</option>
+                                                <option value="CAR">Car</option>
                                                 <option value="TRUCK">Truck</option>
                                             </select>
                                         </div>
@@ -75,7 +74,7 @@
                                             <input type="text" name="personal_phone_no"
                                                    class="form-control"
                                                    placeholder="Phone No" ng-model="job.personal_phone_no"
-                                                   ng-required="boxStatus1"
+                                                   ng-required="boxStatus1" numbers-only=""
                                                    required="required">
                                         </div>
                                     </div>
@@ -108,9 +107,8 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <input type="text" id="p_mobile-number" name="phone_no"
-                                                   class="form-control"
-                                                   ng-model="job.phone_no" ng-required="boxStatus2"
-                                                   required="required">
+                                                   class="form-control" numbers-only=""
+                                                   ng-model="job.phone_no" ng-required="boxStatus2">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -180,9 +178,8 @@
                                         <div class="form-group">
                                             <input type="text" name="phone_no"
                                                    class="form-control" id="d_mobile-number"
-                                                   ng-model="job.d_phone_no"
-                                                   ng-required="boxStatus3"
-                                                   required="required">
+                                                   ng-model="job.d_phone_no" numbers-only=""
+                                                   ng-required="boxStatus3">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -237,17 +234,172 @@
                         <div class="form-group">
                             <div collapse="!panelDemo1" ng-init="panelDemo1=true" class="panel-wrapper">
                                 <div class="">
+
                                     <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <select id="payment_mode" ng-init="job.payment_mode='cash'"
+                                                    ng-model="job.payment_mode"
+                                                    required="required" ng-change="paymentMode(job.payment_mode)"
+                                                    placeholder="Payment Mode" name="payment_mode" class="form-control">
+                                                <option value="cash">Cash</option>
+                                                <option value="card">Card</option>
+                                                <option value="subscription">Subscription</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6" ng-show="cash">
+                                        <div class="form-group">
+                                            <select id="payment_at" ng-init="job.payment_at='pickup'"
+                                                    ng-model="job.payment_at"
+                                                    required="required"
+                                                    placeholder="Payment At" name="payment_at" class="form-control">
+                                                <option value="pickup">Pick Up</option>
+                                                <option value="delivery">Delivery</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6" ng-show="subscription">
                                         <div class="form-group">
                                             <input type="text" name="subscription_id"
                                                    class="form-control"
                                                    numbers-only=""
                                                    placeholder="Subscription Id" ng-model="job.subscription_id"
-                                                   ng-required="boxStatus4"
+                                                   ng-required="subscription"
                                                    required="required">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+
+
+                                    <div class="col-lg-6" ng-show="card">
+                                        <div class="form-group">
+                                            <input type="text" name="card_no"
+                                                   class="form-control"
+                                                   numbers-only="" ui-mask="{{'9999-9999-9999-9999'}}"
+                                                    ng-model="job.card_no"
+                                                   ng-required="card"
+                                                   required="required">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4" ng-show="card">
+                                        <div class="form-group">
+                                            <input type="text" name="card_type"
+                                                   class="form-control"
+                                                   numbers-only=""
+                                                   placeholder="Card Type" ng-model="job.card_type"
+                                                   ng-required="card"
+                                                   required="required">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4" ng-show="card">
+                                        <div class="form-group">
+                                            <input type="text" name="cvv"
+                                                   class="form-control" maxlength="4"
+                                                   numbers-only=""
+                                                   placeholder="CVV/CVC" ng-model="job.cvv"
+                                                   ng-required="card"
+                                                   required="required">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-2" ng-show="card">
+                                        <div class="form-group">
+
+                                            <!--<select id="expiryMonth" ng-init="job.expiryMonth='01'"
+                                                    ng-model="job.expiryMonth"
+                                                    required="required"
+                                                    placeholder="expiryMonth" name="expiryMonth" class="form-control">
+                                                <option value="01">01</option>
+                                                <option value="02">02</option>
+                                                <option value="03">03</option>
+                                                <option value="04">04</option>
+                                                <option value="05">05</option>
+                                                <option value="06">06</option>
+                                                <option value="07">07</option>
+                                                <option value="08">08</option>
+                                                <option value="00">09</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                            </select>-->
+
+
+                                            <input type="text" name="expiryMonth"
+                                                   class="form-control" maxlength="2"
+                                                   numbers-only="" min="01" max="12"
+                                                   placeholder="MM" ng-model="job.expiryMonth"
+                                                   ng-required="card"
+                                                   required="required">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2" ng-show="card">
+                                        <div class="form-group">
+
+                                            <!--<select id="expiryYear" ng-init="job.expiryYear='2016'"
+                                                    ng-model="job.expiryYear"
+                                                    required="required"
+                                                    placeholder="expiryYear" name="expiryYear" class="form-control">
+                                                <option value="2015">2015</option>
+                                                <option value="2016">2016</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2020">2020</option>
+                                                <option value="2021">2021</option>
+                                                <option value="2022">2022</option>
+                                                <option value="2023">2023</option>
+                                                <option value="2024">2024</option>
+                                                <option value="2025">2025</option>
+                                                <option value="2026">2026</option>
+                                                <option value="2027">2027</option>
+                                                <option value="2028">2028</option>
+                                                <option value="2029">2029</option>
+                                                <option value="2030">2030</option>
+                                                <option value="2031">2031</option>
+                                                <option value="2032">2032</option>
+                                                <option value="2033">2033</option>
+                                                <option value="2034">2034</option>
+                                            </select>-->
+
+                                            <input type="text" name="expiryYear"
+                                                   class="form-control" maxlength="4"
+                                                   numbers-only="" min={{minYear}} max={{maxYear}}
+                                                   placeholder="YYYY" ng-model="job.expiryYear"
+                                                   ng-required="card"
+                                                   required="required">
+                                        </div>
+                                    </div>
+
+           <!--                         <form name="step2" class="form-validation" ng-controller="Step2Controller"
+                                          stripe-form="stripeCallback">
+
+                                        <div class="form-group padding_left clearfix" ng-show="card">
+                        <span style="margin-bottom: 10px;" class="col-sm-6 padding_left">
+                        <input type="text" masked="" data-inputmask="'mask': '9999 9999 9999 9999'"
+                               ng-model="number" payments-format="card"
+                               required="required" placeholder="Credit Card Number" class="form-control">
+                        </span>
+                        <span class="col-sm-4 padding_left">
+                        <input masked="" type="text" placeholder="Card Type"
+                               ng-model="card_type" required="required" class="form-control"/>
+                        </span>
+                        <span class="col-sm-4 padding_left">
+                        <input masked="" type="text" placeholder="CVV/CVC"
+                               ng-model="cvc" maxlength="4" payments-format="cvc"
+                               required="required" class="form-control"/>
+                        </span>
+                        <span class="col-sm-4 padding_left">
+                        <input type="text"  ui-mask="{{'99/9999'}}" placeholder="DD/YYYY"
+                               ng-model="expiry" payments-format="expiry" numbers-only=""
+                               required="required" class="form-control"/>
+                        </span>
+
+                                        </div>
+                                        </form>-->
+
+                                 <!--   <div class="col-lg-6">
                                         <div class="form-group">
                                             <input type="text" name="amount"
                                                    class="form-control"
@@ -255,20 +407,9 @@
                                                    placeholder="Amount" ng-model="job.amount" ng-required="boxStatus4"
                                                    required="required">
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <select id="payment_mode" ng-init="job.payment_mode='BIKE'"
-                                                    ng-model="job.payment_mode"
-                                                    required="required"
-                                                    placeholder="Payment Mode" name="payment_mode" class="form-control">
-                                                <option value="BIKE">Credit</option>
-                                                <option value="VAN">Card</option>
-                                                <option value="TRUCK">Cash</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
+                                    </div>-->
+
+                                 <!--   <div class="col-lg-6">
                                         <div class="form-group">
                                             <input type="text" name="payment_at"
                                                    class="form-control"
@@ -285,7 +426,7 @@
                                                    ng-required="boxStatus4"
                                                    required="required">
                                         </div>
-                                    </div>
+                                    </div>-->
                                 </div>
                             </div>
                         </div>

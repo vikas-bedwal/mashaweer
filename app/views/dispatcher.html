@@ -1,7 +1,7 @@
 <div ng-controller="dispatcherController" class="ngdialog-message headerMargin"><h3 ng-bind="name"></h3>
 
     <h3 class="page-header" id="page-header-techServices">Existing Dispatcher List
-        <a ng-click="addDispatcher()" class="btn btn-default pull-right">Add Dispatcher</a>
+        <a ng-click="addDispatcher()" class="btn btn-success pull-right headerButtonMargin">Add Dispatcher</a>
     </h3>
     <!-- Start View Add Ons Table -->
     <div class="row">
@@ -111,7 +111,7 @@
                             <label class="control-label">Vehicle</label>
                             <select id="vehical_type" ng-init="add.vehical_type='BIKE'" ng-model="pop.vehicleType"
                                     required="required"
-                                    placeholder="Vehical Type" name="vehival_type" class="form-control">
+                                    placeholder="Vehicle Type" name="vehival_type" class="form-control">
                                 <option value="BIKE">Bike</option>
                                 <option value="VAN">Van</option>
                                 <option value="TRUCK">Truck</option>
@@ -167,11 +167,11 @@
 </script>
 
 <!-- **************************************************************************
-******************* Modal to display delete confimation ***********************************
+******************* Modal to display delete confirmation ***********************************
 *******************************************************************************-->
 <script type="text/ng-template" id="deleteDispatcher">
     <div class="ngdialog-message">
-        <h4>Are you sure you want to delete it...</h4>
+        <h4>Are you sure you want to delete it ?</h4>
         <button type="button" ng-click="deleteDispatcher(dispatcherId)"
                 class="btn btn-success mr">Confirm
         </button>
@@ -243,6 +243,18 @@
 </script>
 
 <!-- **************************************************************************
+******************* Modal to display conflict msg **************************************
+*******************************************************************************-->
+<script type="text/ng-template" id="display_conflict_msg">
+    <div class="ngdialog-message">
+        <h4>Email already exist </h4>
+        <button type="button" ng-click="closeThisDialog('button')" class="btn btn-success">
+            Ok
+        </button>
+    </div>
+</script>
+
+<!-- **************************************************************************
 ******************* Modal to edit Dispatcher **************************************
 *******************************************************************************-->
 <script type="text/ng-template" id="editDispatcher">
@@ -267,7 +279,7 @@
             <div class="clearfix">
             </div>
             <button type="submit" class="btn btn-success">Save</button>
-            <button type="submit" class="btn btn-success" ng-click="closeThisDialog('button')">Cancel</button>
+            <button type="submit" class="btn btn-default" ng-click="closeThisDialog('button')">Cancel</button>
            <!-- <div class="modal-footer">
                 <button type="submit" class="btn btn-success">Save</button>
                 <button type="submit" class="btn btn-success">Cancel</button>

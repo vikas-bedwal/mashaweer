@@ -418,10 +418,13 @@ width: 400px !important;
     color: yellow;
 }
 .headerMargin{
-    margin-top: -40px;
+    margin-top: -35px;
+}
+.headerButtonMargin{
+    margin: -5px 0 0 0;
 }
 #orderDatatable > .table-responsive > div.dataTables_wrapper {
-    width: 1700px;
+    width: 2500px;
     margin: 0 ;
 }
 /*  For spinner */
@@ -900,4 +903,26 @@ width: 400px !important;
     border-top: 4px solid #777;
     border-left: 4px solid #999;
     border-bottom: 4px solid #bbb
+}
+
+.btn-info.disabled,
+.btn-info[disabled],
+fieldset[disabled] .btn-info,
+.btn-info.disabled:hover,
+.btn-info[disabled]:hover,
+fieldset[disabled] .btn-info:hover,
+.btn-info.disabled:focus,
+.btn-info[disabled]:focus,
+fieldset[disabled] .btn-info:focus,
+.btn-info.disabled.focus,
+.btn-info[disabled].focus,
+fieldset[disabled] .btn-info.focus,
+.btn-info.disabled:active,
+.btn-info[disabled]:active,
+fieldset[disabled] .btn-info:active,
+.btn-info.disabled.active,
+.btn-info[disabled].active,
+fieldset[disabled] .btn-info.active {
+    background-color: #f4bf00;
+    border-color: #f4bf00;
 }

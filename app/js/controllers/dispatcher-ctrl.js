@@ -8,7 +8,6 @@ App.controller('dispatcherController', function ($scope, $http, $cookies, $cooki
     $scope.account = {};
     $scope.authMsg = '';
     $scope.addDispatcher = function(){
-        console.log("dispatcher");
         ngDialog.openConfirm({
             template: 'dispatcher',
             className: 'ngdialog-theme-default placeOrder',
@@ -20,7 +19,6 @@ App.controller('dispatcherController', function ($scope, $http, $cookies, $cooki
 
     $http.get(MY_CONSTANT.url + 'api/admin/getDispatcher/' + $cookieStore.get('obj').accesstoken)
         .success(function (response, status) {
-            console.log(response);
             if (status == 200) {
                 var dataArray = [];
                 var dispatcherList = response.data;
@@ -76,11 +74,7 @@ App.controller('dispatcherController', function ($scope, $http, $cookies, $cooki
         });
 
     $scope.register = function () {
-        console.log("In register dispatcher");
         $scope.authMsg = '';
-        console.log($scope.account.fName);
-        console.log($scope.account.lName);
-        console.log($scope.account.email);
         $.post(MY_CONSTANT.url + 'api/admin/createSubAdmin',
             {
                 email: $scope.account.email,
@@ -88,11 +82,7 @@ App.controller('dispatcherController', function ($scope, $http, $cookies, $cooki
                 lastName: $scope.account.lName
             })
             .success(function (data,status)  {
-                console.log(data)
-                console.log(status)
-                console.log("IN SUCCESS API");
                 if (status != 'success') {
-                    console.log("if");
                     $scope.authMsg = data.message;
                     setTimeout(function () {
                         $scope.authMsg = "";
@@ -100,7 +90,6 @@ App.controller('dispatcherController', function ($scope, $http, $cookies, $cooki
                     }, 3000);
                     $scope.$apply();
                 } else {
-                    console.log("else");
                     $scope.displaymsg = "Dispatcher Added Successfully";
                     $state.reload();
                     ngDialog.close();
@@ -114,8 +103,12 @@ App.controller('dispatcherController', function ($scope, $http, $cookies, $cooki
                 }
             })
             .error(function(data, status){
-                console.log(data)
-                console.log(status)
+                ngDialog.open({
+                    template: 'display_conflict_msg',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope,
+                    showClose: true
+                });
                 console.log("IN Error API");
             })
 
@@ -123,7 +116,6 @@ App.controller('dispatcherController', function ($scope, $http, $cookies, $cooki
 
     $scope.editData = function(data){
         $scope.popUpData = data;
-        console.log($scope.popUpData);
         ngDialog.open({
             template: 'editDispatcher',
             className: 'ngdialog-theme-default',
@@ -133,9 +125,6 @@ App.controller('dispatcherController', function ($scope, $http, $cookies, $cooki
     }
 
     $scope.editDispatcher = function(data){
-        console.log(data);
-        console.log(data.fName);
-        console.log(data.lName);
         $http({
             url: MY_CONSTANT.url + 'api/admin/editDispatcher',
             method: "POST",

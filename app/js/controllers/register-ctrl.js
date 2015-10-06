@@ -7,14 +7,8 @@
 App.controller('RegisterFormController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $state) {
     $scope.account = {};
     $scope.authMsg = '';
-
-
     $scope.register = function () {
         $scope.authMsg = '';
-        console.log($scope.account.fullName);
-        console.log($scope.account.email);
-        console.log($scope.account.password);
-        console.log($scope.account.password2);
         $.post(MY_CONSTANT.url + 'api/admin/createSubAdmin',
             {
                 email: $scope.account.email,
@@ -22,10 +16,7 @@ App.controller('RegisterFormController', function ($scope, $http, $cookies, $coo
                 fullName: $scope.account.fullName
             }).then(
             function (data,status) {
-                console.log(data)
-                console.log(status)
                 if (status != 'success') {
-                    console.log("if");
                     $scope.authMsg = data.message;
                     setTimeout(function () {
                         $scope.authMsg = "";
@@ -33,10 +24,8 @@ App.controller('RegisterFormController', function ($scope, $http, $cookies, $coo
                     }, 3000);
                     $scope.$apply();
                 } else {
-                    console.log("else");
                     var someSessionObj = {'accesstoken': data.data.accessToken};
                     $cookieStore.put('obj', someSessionObj);
-                    console.log($cookieStore.get('obj').accesstoken)
                     $state.go('page.login');
                 }
             });

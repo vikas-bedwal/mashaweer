@@ -1,13 +1,21 @@
 /**
  * Created by Vikas on 31/07/15.
  */
-App.controller('ordersController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $timeout) {
+App.controller('ordersController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $timeout, ngDialog) {
     'use strict';
     $scope.loading = true;
+    var tm = '';
     $http.get(MY_CONSTANT.url + 'api/admin/orderList/' + $cookieStore.get('obj').accesstoken)
         .success(function (response, status) {
+            console.log(response);
+            $scope.response = response;
+           /* if (response.data[0].timeLine[0].cancelled)*/
             if (status == 200) {
                 var dataArray = [];
+                Date.prototype.addHours= function(h){
+                    this.setHours(this.getHours()+h);
+                    return this;
+                }
                 var custList = response.data;
                 custList.forEach(function (column) {
                     var d = {};
@@ -16,13 +24,30 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
                     d.customerName = column.customerName;
                     d.driverName = column.driverName;
                     d.parcelDetails = column.parcelDetails;
-                    d.actualCollectionTime = column.actualCollectionTime;
+                    tm = (new Date(column.timeLine[0].scheduledPickUp));
+                    tm = tm.addHours(4);
+                    d.scheduledPickUp = moment.utc(tm).format("Do MMM YYYY hh:mm A");
+                    tm = (new Date(column.timeLine[0].scheduledDelivery));
+                    tm = tm.addHours(4);
+                    d.scheduledDelivery = moment.utc(tm).format("Do MMM YYYY hh:mm A");
+                    tm = (new Date(column.actualCollectionTime));
+                    tm = tm.addHours(4);
+                    d.actualCollectionTime = moment.utc(tm).format("Do MMM YYYY hh:mm A");
+                    if (column.timeLine[0].delivered == undefined)
+                        d.actualDeliveryTime = "-";
+                    else{
+                        tm = (new Date(column.timeLine[0].delivered));
+                        tm = tm.addHours(4);
+                        d.actualDeliveryTime = moment.utc(tm ).format("Do MMM YYYY hh:mm A");
+                    }
+
                     d.collectionFrom = column.collectionFrom;
                     d.deliverTo = column.deliverTo;
                     d.waitingTime = column.waitingTime;
                     d.vehicleRequired = column.vehicleRequired;
                     d.distance = column.distance;
                     d.amount = column.amount;
+                    d.amount = Math.round(column.amount*100)/100;
                     d.pickupLocation = column.pickupLocation;
                     d.deliveryLocation = column.deliveryLocation
                     d.status = column.status;
@@ -37,12 +62,55 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
                             d.text_color = '#1f9c3d';
 
                             break;
-                        case 'ONGOING':
-                            d.d.status = 'Ongoing';
-                            d.text_color = '#2f80e7';
+                        case 'CANCELLED':
+                            d.status = 'Cancelled';
+                            d.text_color = '#FF0033';
+                            break;
+                        case 'SUCCESS':
+                            d.status = 'Success';
+                            d.text_color = '#F6D21A';
+                            break;
+                        case 'REFUND':
+                            d.status = 'Refund';
+                            d.text_color = '#99FF66';
+                            break;
+                        case 'REACHED_PICKUP_POINT':
+                            d.status = 'Reached At Pick Up Point';
+                            d.text_color = '#D8BFD8';
+                            break;
+                        case 'PICKED_UP':
+                            d.status = 'Picked Up';
+                            d.text_color = '#D8BFD8';
+                            break;
+                        case 'REACHED_DELIVERY_POINT':
+                            d.status = 'Reached At Delivery Point';
+                            d.text_color = '#008080';
+                            break;
+                        case 'REQUEST_SENT_TO_DRIVER':
+                            d.status = 'Request Sent to Driver';
+                            d.text_color = '#3300FF';
+                            break;
+                        case 'DRIVER_ASSIGNED':
+                            d.status = 'Driver Assigned';
+                            d.text_color = '#330033';
+                            break;
+                        case 'ACCEPTED':
+                            d.status = 'Accepted';
+                            d.text_color = '#336600';
 
                             break;
-
+                        case 'REFUSED':
+                            d.status = 'Refused';
+                            d.text_color = '#FF3333';
+                            break;
+                        case 'DRIVER_RESPONDED':
+                            d.status = 'Driver Responded';
+                            d.text_color = '#99FFCC';
+                            break;
+                        case 'REASSIGNED':
+                            d.status = 'Reassigned';
+                            d.text_color = '#FF0000';
+                            break;
                     }
                     d.createdAt = column.createdAt;
                     dataArray.push(d);
@@ -57,6 +125,7 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
                         'ordering': true,  // Column ordering
                         'info': true,
                         "scrollX": true,
+                        "aLengthMenu": [5, 10, 25, 50, 100],
 
                         // Bottom left status text
                         oLanguage: {
@@ -91,4 +160,75 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
         .error(function (error) {
             console.log(error);
         });
+    $scope.timeLine = function (_id,orderId) {
+        var timeLine = [];
+        $scope.orderId = orderId;
+        for (var i = 0; i < $scope.response.data.length; i++) {
+            if ($scope.response.data[i]._id == _id) {
+                if ($scope.response.data[i].timeLine[0].createdAt){
+                    tm = (new Date($scope.response.data[i].timeLine[0].createdAt));
+                    tm = tm.addHours(4);
+                    timeLine.push("Order placed at " +  moment.utc(tm).format("Do MMM YYYY hh:mm A"));
+                }
+
+                if ($scope.response.data[i].timeLine[0].driverAssigned){
+                    tm = (new Date($scope.response.data[i].timeLine[0].driverAssigned));
+                    tm = tm.addHours(4);
+                    timeLine.push("Driver assigned at " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));
+                }
+
+                if ($scope.response.data[i].timeLine[0].scheduledPickUp){
+                    tm = (new Date($scope.response.data[i].timeLine[0].scheduledPickUp));
+                    tm = tm.addHours(4);
+                    timeLine.push("Scheduled pick up time is " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));
+                }
+
+
+                if ($scope.response.data[i].timeLine[0].scheduledDelivery) {
+                    tm = (new Date($scope.response.data[i].timeLine[0].scheduledDelivery));
+                    tm = tm.addHours(4);
+                    timeLine.push("Scheduled delivery time is " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));
+                }
+
+                if ($scope.response.data[i].timeLine[0].reachedPickUpPoint) {
+                    tm = (new Date($scope.response.data[i].timeLine[0].reachedPickUpPoint));
+                    tm = tm.addHours(4);
+                    timeLine.push($scope.response.data[i].driverName+" reached at pickup point at " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));
+                }
+
+                if ($scope.response.data[i].timeLine[0].pickedUp) {
+                    tm = (new Date($scope.response.data[i].timeLine[0].pickedUp));
+                    tm = tm.addHours(4);
+                    timeLine.push($scope.response.data[i].driverName+" picked up order at " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));
+                }
+                if ($scope.response.data[i].timeLine[0].reachedDeliveryPoint) {
+                    tm = (new Date($scope.response.data[i].timeLine[0].reachedDeliveryPoint));
+                    tm = tm.addHours(4);
+                            timeLine.push($scope.response.data[i].driverName+" reached at delivery point at " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));
+                }
+
+                if ($scope.response.data[i].timeLine[0].cancelled) {
+                    tm = (new Date($scope.response.data[i].timeLine[0].cancelled));
+                    tm = tm.addHours(4);
+                    timeLine.push("Order cancelled at " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));
+                }
+
+                if ($scope.response.data[i].timeLine[0].delivered) {
+                    tm = (new Date($scope.response.data[i].timeLine[0].delivered));
+                    tm = tm.addHours(4);
+                    timeLine.push("Order delivered at " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));
+                }
+            }
+        }
+        $scope.timings = timeLine.reverse();;
+        ngDialog.openConfirm({
+            template: 'modalDialogId',
+            className: 'ngdialog-theme-default',
+            scope: $scope,
+            closeByDocument: true,
+            closeByEscape: true
+        }).then(function (value) {
+        }, function (reason) {
+        });
+    }
 });

@@ -1,16 +1,22 @@
-<span ng-controller="customersController">
-<h3>
+<span ng-controller="customersController" >
+
+    <div ng-controller="customersController" class="ngdialog-message headerMargin"><h3 ng-bind="name"></h3>
+        <h3 class="page-header" id="page-header-techServices">Customers List
+            <a ng-click="exportData()" class="btn btn-success pull-right headerButtonMargin">Export To CSV</a>
+            <a ng-click="addCreditDialog()" class="btn btn-success pull-right" style="margin: -5px 10px 0 0">Add Credit</a>
+        </h3>
+<!--<h3 style="margin-top: -15px">
     Customers List
-    <!--<small>Displaying list of all customers.</small>-->
+    &lt;!&ndash;<small>Displaying list of all customers.</small>&ndash;&gt;
 </h3>
-<div>
-    <button ng-click="exportData()" class="pull-right btn btn-sm btn-info" style="float: right; margin-top: -40px"
+<div >
+    <button ng-click="exportData()" class="pull-right btn btn-sm btn-success" style="float: right; margin-top: -40px"
            >Export To CSV
     </button>
-    <button ng-click="addCreditDialog()" type="button" class="pull-right btn btn-sm btn-info"
+    <button ng-click="addCreditDialog()" type="button" class="pull-right btn btn-sm btn-success"
             style="float: right;margin: -40px 110px 0 0">Add Credit
     </button>
-</div>
+</div>-->
 <div ng-init="init()" class="container-fluid">
     <!-- START DATATABLE 2 -->
     <div class="row">
@@ -42,12 +48,15 @@
                             <td>{{data.credits}}</td>
                             <td>{{data.isDeleted}}</td>
                             <td style="text-align: center;">
+                                <button ng-click="editData(data)" title="Edit" class="btn btn-sm btn-success">
+                                    <em class="fa fa-pencil"></em>
+                                </button>
                                 <button ng-hide="{{data.isBlocked}}" ng-click="blockCust(data.email)"
-                                        title="Block" class="btn btn-sm btn-success">
+                                        title="Block" class="btn btn-sm btn-warning">
                                     <em class="fa fa-unlock"></em>
                                 </button>
                                 <button ng-show="{{data.isBlocked}}" ng-click="blockCust(data.email)"
-                                        title="Unblock" class="btn btn-sm btn-success">
+                                        title="Unblock" class="btn btn-sm btn-warning">
                                     <em class="fa fa-lock"></em>
                                 </button>
                             </td>
@@ -99,8 +108,70 @@
         </div>
 
     </div>
+</script>
 
+<!---------------- Start Edit Customer View--------------------->
 
+<script type="text/ng-template" id="modalDialogId">
+    <form method="post" validate-form="" novalidate="" ng-submit="editCustomer()">
+        <div class="ngdialog-message">
+            <div class="panel-body">
+
+                <div class="panel-heading" style="font-weight: bolder; color: gray">
+                    <h4>Edit Customer Details</h4>
+                </div>
+                <form method="post" ng-submit="editCustomer(pop)" validate-form=""
+                      novalidate="" id="add-promo">
+                    <!-- START panel-->
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <div class="col-lg-6 padding-left">
+                                    <label class="control-label">First Name</label>
+                                    <input  name="firstName" required="required"
+                                            class="form-control"
+                                            ng-model="pop.firstName"/>
+                                </div>
+                                <div class="col-lg-6 padding-right">
+                                    <label class="control-label">Last Name</label>
+                                    <input  name="lastName" required="required"
+                                            class="form-control"
+                                            ng-model="pop.lastName"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Email</label>
+                            <input name="email" ng-disabled="1" required="required"
+                                   class="form-control"
+                                   ng-model="pop.email"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Phone No.</label>
+                            <input name="phoneNumber" required="required"
+                                   class="form-control" numbers-only=""
+                                   ng-model="pop.phoneNumber"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Credits</label>
+                            <input name="credits" required="required"
+                                   class="form-control" numbers-only=""
+                                   ng-model="pop.credits"/>
+                        </div>
+                    </div>
+
+                    <!-- END panel-->
+                </form>
+
+            </div>
+            <button type="submit" class="btn btn-success mr" style="margin-left: 25px">Save
+            </button>
+            <button type="button" ng-click="closeThisDialog('button')" class="btn btn-default">
+                Cancel
+            </button>
+        </div>
+    </form>
 </script>
 
 <!-- **************************************************************************
@@ -117,3 +188,4 @@
         <div style="clear: both;"></div>
     </div>
 </script>
+

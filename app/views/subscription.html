@@ -1,7 +1,7 @@
 <div ng-controller="subscriptionController" class="ngdialog-message headerMargin"><h3 ng-bind="name"></h3>
 
-    <h3 class="page-header" id="page-header-techServices">Existing Subsciption List
-        <a ui-sref="app.addSubscription" class="btn btn-default pull-right">Add Subscription</a>
+    <h3 class="page-header" id="page-header-techServices">Existing Package List
+        <a ui-sref="app.addSubscription" class="btn btn-success pull-right headerButtonMargin">Add Package</a>
     </h3>
     <!-- Start View Add Ons Table -->
     <div class="row">
@@ -13,11 +13,12 @@
                         <tr>
                             <th hidden="">Id</th>
                             <th>No</th>
-                            <th>Heading</th>
+                            <th style="width: 15%">Heading</th>
+                            <th style="width: 20%">Description</th>
                             <th>Amount (AED)</th>
                             <th>Total Credits</th>
                             <th>Validity (days)</th>
-                            <!--<th>Valid Upto</th>-->
+                            <th>Valid Upto</th>
                             <th>Action</th>
 
                         </tr>
@@ -27,7 +28,13 @@
                             ng-repeat="data in list">
                             <td class="digits" hidden="">{{data._id}}</td>
                             <td>{{$index + 1}}</td>
-                            <td>{{data.heading}}</td>
+                            <td style="word-break: break-all">{{data.heading}}</td>
+                            <td style="word-break: break-all">
+                                <ul ng-repeat="listData in data.description">
+                                    <li>{{listData.textContent}}</li>
+                                </ul>
+                            </td>
+                            <!--<td>{{data.description[0]}}</td>-->
                             <td>{{data.amount}}</td>
                             <td>{{data.totalCredits}}</td>
                             <td>{{data.validity}}</td>
@@ -52,24 +59,107 @@
 *******************************************************************************-->
 <script type="text/ng-template" id="subInfo">
     <div class="ngdialog-message">
-        <h4>Subscription Details</h4>
+        <h4>Package Details</h4>
             <table style="width:100%;border: none" border="none">
                 <tr>
+                    <th>Vehicle</th>
                     <th>Type</th>
-                    <th>Vehical</th>
                     <th>Credits</th>
                     <th>City/Radius</th>
                 </tr>
                 <tr ng-repeat="data in list1">
-                    <td>{{data.subscriptionType}}</td>
                     <td>{{data.vehicleType}}</td>
+                    <td>{{data.subscriptionType}}</td>
                     <td>{{data.credits}}</td>
                     <td>{{data.des}}</td>
                 </tr>
             </table>
-
-
     </div>
+</script>
 
+<!-- **************************************************************************
+******************* Modal to display delete confirmation ***********************************
+*******************************************************************************-->
+<script type="text/ng-template" id="deleteSubscription">
+    <div class="ngdialog-message">
+        <h4>Are you sure you want to delete it ?</h4>
+        <button type="button" ng-click="deleteSubscription(subscriptionId)"
+                class="btn btn-success mr">Confirm
+        </button>
+        <button type="button" ng-click="closeThisDialog('button')" class="btn btn-default">
+            Cancel
+        </button>
+    </div>
+</script>
 
+<!---------------- Start Edit Subscription View--------------------->
+
+<script type="text/ng-template" id="modalDialogId">
+    <form method="post" validate-form="" novalidate="" ng-submit="editSubscription()">
+        <div class="ngdialog-message">
+            <div class="panel-body">
+
+                <div class="panel-heading" style="font-weight: bolder; color: gray">
+                    <h4>Edit Package Details</h4>
+                </div>
+                <form method="post" ng-submit="editDriver(pop)" validate-form=""
+                      novalidate="" id="add-promo">
+                    <!-- START panel-->
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="control-label">Heading</label>
+                            <input name="heading" required="required"
+                                   class="form-control"
+                                   ng-model="pop.heading"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Amount</label>
+                            <input name="amount" required="required" numbers-only="" data-parsley-type="number"
+                                   class="form-control"
+                                   ng-model="pop.amount"/>
+                        </div>
+                        <div class="form-group" ng-hide="1">
+                            <label class="control-label">Total Credits</label>
+                            <input name="totalCredits" required="required" data-parsley-type="number"
+                                   class="form-control"
+                                   ng-model="pop.totalCredits"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Validity (Days)</label>
+                            <input name="validity" required="required" numbers-only="" data-parsley-type="number"
+                                   class="form-control"
+                                   ng-model="pop.validity"/>
+                        </div>
+                        <div class="form-group">
+                                <p class="input-group">
+                                    <label class="control-label">End Date</label>
+                                    <input type="text" readonly="" id="start_date"
+                                           datepicker-popup="{{format}}"
+                                           ng-model="pop.validUpto"
+                                           is-open="datepicker.dt1"
+                                           min-date="min_date"
+                                           max-date="" datepicker-options="dateOptions"
+                                           date-disabled="disabled(date, mode)"
+                                           ng-required="true" close-text="Close"
+                                           class="form-control"/>
+            <span class="input-group-btn" >
+               <button style="margin-top: 26px" type="button" ng-click="openDt1($event)" class="btn btn-default">
+                   <em class="fa fa-calendar"></em>
+               </button>
+            </span>
+                                </p>
+                        </div>
+                    </div>
+
+                    <!-- END panel-->
+                </form>
+
+            </div>
+            <button type="submit" class="btn btn-success mr" style="margin-left: 25px">Save
+            </button>
+            <button type="button" ng-click="closeThisDialog('button')" class="btn btn-default">
+                Cancel
+            </button>
+        </div>
+    </form>
 </script>

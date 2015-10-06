@@ -4,8 +4,6 @@
 
     App.controller('pricingController',
         function($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $timeout, $filter, editableOptions, editableThemes, $q,$state,ngDialog) {
-            console.log("In pricing");
-
             // editable row
             // -----------------------------------
             $scope.distanceFareBike = [];
@@ -14,6 +12,11 @@
             $scope.waitFareBike = [];
             $scope.waitFareVan = [];
             $scope.waitFareTruck = [];
+            $scope.fromLimit = '';
+            var waitFareBike = '';
+            $scope.bikeBasePrice = 11;
+            $scope.vanBasePrice = 71;
+            $scope.truckBasePrice = 121;
 
             $http.get(MY_CONSTANT.url + 'api/admin/pricingInfo/' + $cookieStore.get('obj').accesstoken)
                 .success(function (response, status) {
@@ -21,9 +24,13 @@
 
                        /* ----------------Bike Fare List-----------*/
                         if(response.data.bikePricingInfo.length) {
-                            console.log("bike");
                             var dataArray = [];
                             var distanceFareBike = response.data.bikePricingInfo[0].distancePricing;
+                            $scope.distanceFareBike = distanceFareBike;
+                            if(distanceFareBike.length){
+                                $scope.fromLimitBike = distanceFareBike[distanceFareBike.length-1].to;
+                            }
+
                             distanceFareBike.forEach(function (column) {
                                 var d = {};
                                 d._id = column._id;
@@ -38,6 +45,10 @@
                             $scope.distanceFareBike =  dataArray;
                             var dataArray = [];
                             var waitFareBike = response.data.bikePricingInfo[0].waitTimePricing;
+                            $scope.waitFareBike = waitFareBike;
+                            if(waitFareBike.length){
+                                $scope.waitfromLimitBike = waitFareBike[waitFareBike.length-1].to;
+                            }
                             waitFareBike.forEach(function (column) {
                                 var d = {};
                                 d._id = column._id;
@@ -53,9 +64,12 @@
                         }
                         /* ----------------Van Fare List-----------*/
                         if(response.data.vanPricingInfo.length) {
-                            console.log("van");
                             var dataArray = [];
                             var distanceFareVan = response.data.vanPricingInfo[0].distancePricing;
+                            $scope.distanceFareVan = distanceFareVan;
+                            if(distanceFareVan.length){
+                                $scope.fromLimitVan = distanceFareVan[distanceFareVan.length-1].to;
+                            }
                             distanceFareVan.forEach(function (column) {
                                 var d = {};
                                 d._id = column._id;
@@ -70,6 +84,10 @@
                             $scope.distanceFareVan =  dataArray;
 
                             var waitFareVan = response.data.vanPricingInfo[0].waitTimePricing;
+                            $scope.waitFareVan = waitFareVan;
+                            if(waitFareVan.length){
+                                $scope.waitfromLimitVan = waitFareVan[waitFareVan.length-1].to;
+                            }
                             var dataArray = [];
                             waitFareVan.forEach(function (column) {
                                 var d = {};
@@ -87,9 +105,12 @@
                         }
                         /* ----------------Van Fare List-----------*/
                         if(response.data.truckPricingInfo.length) {
-                            console.log("truck");
                             var dataArray = [];
                             var distanceFareTruck = response.data.truckPricingInfo[0].distancePricing;
+                            $scope.distanceFareTruck = distanceFareTruck;
+                            if(distanceFareTruck.length){
+                                $scope.fromLimitTruck = distanceFareTruck[distanceFareTruck.length-1].to;
+                            }
                             distanceFareTruck.forEach(function (column) {
                                 var d = {};
                                 d._id = column._id;
@@ -104,8 +125,12 @@
                             $scope.distanceFareTruck = dataArray;
 
                             var dataArray = [];
-                            var waitFaretruck = response.data.truckPricingInfo[0].waitTimePricing;
-                            waitFaretruck.forEach(function (column) {
+                            var waitFareTruck = response.data.truckPricingInfo[0].waitTimePricing;
+                            $scope.waitFareTruck = waitFareTruck;
+                            if(waitFareTruck.length){
+                                $scope.waitfromLimitTruck = waitFareTruck[waitFareTruck.length-1].to;
+                            }
+                            waitFareTruck.forEach(function (column) {
                                 var d = {};
                                 d._id = column._id;
                                 d.from = column.from;
@@ -116,7 +141,7 @@
                                 d.fareCharge = column.fareCharge;
                                 dataArray.push(d);
                             });
-                            $scope.waitFaretruck = dataArray;
+                            $scope.waitFareTruck = dataArray;
                         }
 
                         var dtInstance;
@@ -154,37 +179,201 @@
                     console.log(error);
                 });
 
-            $scope.saveUser = function(data) {
-                if(isNaN(parseInt(data.to)))
-                    data.to = 1000000;
-
-                $http({
-                    url: MY_CONSTANT.url + 'api/admin/addPricing',
-                    method: "POST",
-                    data: { accessToken: $cookieStore.get('obj').accesstoken,
-                        vehicleType: $scope.type,
-                        from: data.from,
-                        to: data.to,
-                        fareCharge: data.fareCharge,
-                        flag: $scope.flag
+            $scope.saveUser = function(data,id) {
+                if(id == undefined){
+                    if(data.from <= $scope.fromLimit || data.from >= data.to){
+                        $scope.type = "Send in error part of hit";
                     }
-                })
-                    .then(function(response) {
-                        console.log(response);
-                        $scope.list = response;
-                        $state.reload();
-                    },
-                    function(response) { // optional
-                        console.log("failed");
-                        ngDialog.open({
-                            template: 'display_failure_validation_msg',
-                            className: 'ngdialog-theme-default',
-                            scope: $scope,
-                            showClose: false
+                    if(isNaN(parseInt(data.to)))
+                        data.to = 1000000;
+                    $http({
+                        url: MY_CONSTANT.url + 'api/admin/addPricing',
+                        method: "POST",
+                        data: { accessToken: $cookieStore.get('obj').accesstoken,
+                            vehicleType: $scope.type,
+                            from: data.from,
+                            to: data.to,
+                            fareCharge: data.fareCharge,
+                            flag: $scope.flag
+                        }
+                    })
+                        .then(function(response) {
+                            $scope.list = response;
+                            $state.reload();
+                        },
+                        function(response) { // optional
+                            console.log("failed");
+                            ngDialog.open({
+                                template: 'display_failure_validation_msg',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope,
+                                showClose: false
+                            });
+                            // failed
                         });
-                        // failed
-                    });
+                }
+
+
+                else{
+                    if(isNaN(parseInt(data.to)))
+                        data.to = 1000000;
+                    if(data.from <= $scope.toLimit || data.to <= data.from || data.to >= $scope.fromLimit){
+                        $scope.type = "Send in error part of hit";
+                    }
+                    $http({
+                        url: MY_CONSTANT.url + 'api/admin/editPricing',
+                        method: "POST",
+                        data: { accessToken: $cookieStore.get('obj').accesstoken,
+                            _id: id,
+                            vehicleType: $scope.type,
+                            from: data.from.toString(),
+                            to: data.to.toString(),
+                            fareCharge: data.fareCharge.toString(),
+                            flag: $scope.flag
+                        }
+                    })
+                        .then(function(response) {
+                            $scope.list = response;
+                            $state.reload();
+                        },
+                        function(response) { // optional
+                            ngDialog.open({
+                                template: 'display_failure_validation_msg',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope,
+                                showClose: false
+                            });
+                            // failed
+                        });
+                }
             };
+
+            $scope.editRow = function(type,index){
+                switch(type) {
+                    case 'distanceFareBike':
+                        $scope.type = "BIKE";
+                        $scope.flag = 0;
+                     if(index == 0 && $scope.distanceFareBike.length == 1 ){
+                         $scope.toLimit = -1;
+                         $scope.fromLimit = 1000001;
+                    }
+                     else if(index==0){
+                            $scope.toLimit = -1;
+                            $scope.fromLimit = $scope.distanceFareBike[index+1].from;
+                        }
+                        else if(index == $scope.distanceFareBike.length-1){
+                            $scope.toLimit = $scope.distanceFareBike[index-1].to;
+                            $scope.fromLimit = 1000001;
+                        }
+                        else{
+                            $scope.toLimit = $scope.distanceFareBike[index-1].to;
+                            $scope.fromLimit = $scope.distanceFareBike[index+1].from;
+                        }
+                        break;
+                    case 'waitFareBike':
+                        $scope.type = "BIKE";
+                        $scope.flag = 1;
+                        if(index == 0 && $scope.waitFareBike.length == 1 ){
+                            $scope.toLimit = -1;
+                            $scope.fromLimit = 1000001;
+                        }
+                        else if(index==0){
+                            $scope.toLimit = -1;
+                            $scope.fromLimit = $scope.waitFareBike[index+1].from;
+                        }
+                        else if(index == $scope.waitFareBike.length-1){
+                            $scope.toLimit = $scope.waitFareBike[index-1].to;
+                            $scope.fromLimit = 1000001;
+                        }
+                        else{
+                            $scope.toLimit = $scope.waitFareBike[index-1].to;
+                            $scope.fromLimit = $scope.waitFareBike[index+1].from;
+                        }
+                        break;
+                    case 'distanceFareVan':
+                        $scope.type = "VAN";
+                        $scope.flag = 0;
+                        if(index == 0 && $scope.distanceFareVan.length == 1 ){
+                            $scope.toLimit = -1;
+                            $scope.fromLimit = 1000001;
+                        }
+                        else if(index==0){
+                            $scope.toLimit = -1;
+                            $scope.fromLimit = $scope.distanceFareVan[index+1].from;
+                        }
+                        else if(index == $scope.distanceFareVan.length-1){
+                            $scope.toLimit = $scope.distanceFareVan[index-1].to;
+                            $scope.fromLimit = 1000001;
+                        }
+                        else{
+                            $scope.toLimit = $scope.distanceFareVan[index-1].to;
+                            $scope.fromLimit = $scope.distanceFareVan[index+1].from;
+                        }
+                        break;
+                    case 'waitFareVan':
+                        $scope.type = "VAN";
+                        $scope.flag = 1;
+                        if(index == 0 && $scope.waitFareVan.length == 1 ){
+                            $scope.toLimit = -1;
+                            $scope.fromLimit = 1000001;
+                        }
+                        else if(index==0){
+                            $scope.toLimit = 0;
+                            $scope.fromLimit = $scope.waitFareVan[index+1].from;
+                        }
+                        else if(index == $scope.waitFareVan.length-1){
+                            $scope.toLimit = $scope.waitFareVan[index-1].to;
+                            $scope.fromLimit = 1000001;
+                        }
+                        else{
+                            $scope.toLimit = $scope.waitFareVan[index-1].to;
+                            $scope.fromLimit = $scope.waitFareVan[index+1].from;
+                        }
+                        break;
+                    case 'distanceFareTruck':
+                        $scope.type = "TRUCK";
+                        $scope.flag = 0;
+                        if(index == 0 && $scope.distanceFareTruck.length == 1){
+                            $scope.toLimit = -1;
+                            $scope.fromLimit = 1000001;
+                        }
+                        else if(index==0){
+                            $scope.toLimit = -1;
+                            $scope.fromLimit = $scope.distanceFareTruck[index+1].from;
+                        }
+                        else if(index == $scope.distanceFareTruck.length-1){
+                            $scope.toLimit = $scope.distanceFareTruck[index-1].to;
+                            $scope.fromLimit = 1000001;
+                        }
+                        else{
+                            $scope.toLimit = $scope.distanceFareTruck[index-1].to;
+                            $scope.fromLimit = $scope.distanceFareTruck[index+1].from;
+                        }
+                        break;
+                    case 'waitFareTruck':
+                        $scope.type = "TRUCK";
+                        $scope.flag = 1;
+                        if(index == 0 && $scope.waitFareTruck.length == 1){
+                            $scope.toLimit = -1;
+                            $scope.fromLimit = 1000001;
+                        }
+                        else if(index==0 && $scope.waitFareTruck.length > 1){
+                            $scope.toLimit = -1;
+                            $scope.fromLimit = $scope.waitFareTruck[index+1].from;
+                        }
+                        else if(index == $scope.waitFareTruck.length-1 && $scope.waitFareTruck.length > 1){
+                            $scope.toLimit = $scope.waitFareTruck[index-1].to;
+                            $scope.fromLimit = 1000001;
+                        }
+                        else{
+                            $scope.toLimit = $scope.waitFareTruck[index-1].to;
+                            $scope.fromLimit = $scope.waitFareTruck[index+1].from;
+                        }
+                        break;
+                    default: console.log("Default");
+                }
+            }
+
 
             // -----------------Add row for Fare List------------------------
             $scope.addRow = function(type) {
@@ -199,31 +388,37 @@
                             $scope.distanceFareBike.push($scope.inserted);
                             $scope.type = "BIKE";
                             $scope.flag = 0;
+                            $scope.fromLimit = $scope.fromLimitBike;
                             break;
                         case 'waitFareBike':
                             $scope.waitFareBike.push($scope.inserted);
                             $scope.type = "BIKE";
                             $scope.flag = 1;
+                            $scope.fromLimit = $scope.waitfromLimitBike;
                             break;
                         case 'distanceFareVan':
                             $scope.distanceFareVan.push($scope.inserted);
                             $scope.type = "VAN";
                             $scope.flag = 0;
+                            $scope.fromLimit = $scope.fromLimitVan;
                             break;
                         case 'waitFareVan':
                             $scope.waitFareVan.push($scope.inserted);
                             $scope.type = "VAN";
                             $scope.flag = 1;
+                            $scope.fromLimit = $scope.waitfromLimitVan;
                             break;
                         case 'distanceFareTruck':
                             $scope.distanceFareTruck.push($scope.inserted);
                             $scope.type = "TRUCK";
                             $scope.flag = 0;
+                            $scope.fromLimit = $scope.fromLimitTruck;
                             break;
-                        case 'waitFaretruck':
-                            $scope.waitFaretruck.push($scope.inserted);
+                        case 'waitFareTruck':
+                            $scope.waitFareTruck.push($scope.inserted);
                             $scope.type = "TRUCK";
                             $scope.flag = 1;
+                            $scope.fromLimit = $scope.waitfromLimitTruck;
                             break;
                         default: console.log("Default");
                     }
@@ -276,9 +471,9 @@
                         $scope.type = "TRUCK";
                         $scope.flag = 0;
                         break;
-                    case 'waitFaretruck':
-                        $scope.from = $scope.waitFaretruck[$scope.index].from;
-                        $scope.to = $scope.waitFaretruck[$scope.index].to;
+                    case 'waitFareTruck':
+                        $scope.from = $scope.waitFareTruck[$scope.index].from;
+                        $scope.to = $scope.waitFareTruck[$scope.index].to;
                         $scope.type = "TRUCK";
                         $scope.flag = 1;
                         break;
@@ -295,7 +490,6 @@
                         flag: $scope.flag
                     },
                     function (data) {
-                        console.log(data)
                         $scope.list = data;
                         $scope.$apply();
                         $state.reload();
@@ -307,9 +501,7 @@
              * Module: Find active tab
              =========================================================*/
             $scope.tabNo = function(tabNo){
-                console.log("In bike");
                 var activeTab = {'tab': tabNo};
                 $cookieStore.put('obj2', activeTab);
-                console.log($cookieStore.get('obj2').tab)
             }
         });
