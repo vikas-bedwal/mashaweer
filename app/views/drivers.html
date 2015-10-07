@@ -1,5 +1,5 @@
 <div ng-controller="driversController" class="ngdialog-message headerMargin"><h3 ng-bind="name"></h3>
-    <h3 class="page-header" id="page-header-techServices">Driver List
+    <h3 class="page-header" id="page-header-techServices">Drivers List
         <a ng-click="addData()" class="btn btn-success pull-right headerButtonMargin">Add Driver</a>
     </h3>
 
@@ -123,7 +123,7 @@
 <!---------------- Start Add Driver View--------------------->
 
 <script type="text/ng-template" id="addDriver">
-    <form method="post" validate-form="" novalidate="" ng-submit="addDriver(pop)">
+    <form method="post" validate-form="" novalidate="" ng-submit="addDriver(data)">
         <div class="ngdialog-message">
             <div class="panel-body">
 
@@ -139,13 +139,13 @@
                                 <label class="control-label">First Name</label>
                                 <input  name="firstName" required="required"
                                         class="form-control"
-                                        ng-model="pop.firstName"/>
+                                        ng-model="data.firstName"/>
                             </div>
                             <div class="col-lg-6 padding-right">
                                 <label class="control-label">Last Name</label>
                                 <input  name="lastName" required="required"
                                         class="form-control"
-                                        ng-model="pop.lastName"/>
+                                        ng-model="data.lastName"/>
                             </div>
                         </div>
 
@@ -154,8 +154,8 @@
                             <div>
 
                                 <div class="col-sm-3" style="padding-left: 0;">
-                                    <input id="business_phone_number_prefix" ng-init="pop.prefix='+971'"
-                                           ng-model="pop.prefix" ng-disabled="1"
+                                    <input id="business_phone_number_prefix" ng-init="data.prefix='+971'"
+                                           ng-model="data.prefix" ng-disabled="1"
                                            required="required"
                                            numbers-only="numbers-only" class="form-control"/>
                                 </div>
@@ -176,12 +176,12 @@
                             <label class="control-label">Email</label>
                             <input type="email" name="email" required="required"
                                    class="form-control"
-                                   ng-model="pop.email"/>
+                                   ng-model="data.email"/>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label">Vehicle</label>
-                            <select id="pop.add_vehical_type" ng-init="pop.add_vehical_type='BIKE'" ng-model="pop.add_vehical_type"
+                            <select id="data.add_vehical_type" ng-init="data.add_vehical_type='BIKE'" ng-model="data.add_vehical_type"
                                     required="required"
                                     placeholder="Vehicle Type" name="vehival_type" class="form-control">
                                 <option value="BIKE">Bike</option>
@@ -191,7 +191,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label">Driver Type</label>
-                            <select id="pop.add_driver_type" ng-init="pop.add_driver_type='Freelancer'" ng-model="pop.add_driver_type"
+                            <select id="data.add_driver_type" ng-init="data.add_driver_type='Freelancer'" ng-model="data.add_driver_type"
                                     required="required"
                                     placeholder="Vehicle Type" name="driver_type" class="form-control">
                                 <option value="Freelancer">Freelancer</option>

@@ -11,15 +11,15 @@
                     <table id="datatable2" class="table table-striped table-hover">
                         <thead>
                         <tr>
-                            <th hidden="">Id</th>
                             <th>No.</th>
+                            <th hidden="">Id</th>
                             <th>Promo Code</th>
                             <th>Promo Type</th>
                             <th>Vehicle Type</th>
                             <th>City</th>
-                            <th>Credit</th>
-                            <th>Discount</th>
-                            <th>Min Amount</th>
+                            <th>Credit(AED)</th>
+                            <th>Discount(AED)</th>
+                            <th>Min Amount(AED)</th>
                             <th>Start date</th>
                             <th>End Date</th>
                             <th>Created on</th>
@@ -29,15 +29,15 @@
                         <tbody>
                         <tr style='background-color: {{data.color}} !important'
                             ng-repeat="data in list">
-                            <td class="digits" hidden="">{{data._id}}</td>
                             <td>{{$index + 1}}</td>
+                            <td class="digits" hidden="">{{data._id}}</td>
                             <td>{{data.promoCode}}</td>
                             <td>{{data.promoType}}</td>
                             <td>{{data.vehicleType}}</td>
                             <td>{{data.city}}</td>
-                            <td class="digits">{{data.credits | currency}}</td>
-                            <td class="digits">{{data.discount | currency}}</td>
-                            <td class="digits">{{data.minAmount | currency}}</td>
+                            <td class="digits">{{data.credits}}</td>
+                            <td class="digits">{{data.discount}}</td>
+                            <td class="digits">{{data.minAmount}}</td>
                             <td>{{data.startTime | date:'MM/dd/yyyy'}}</td>
                             <td>{{data.endTime | date:'MM/dd/yyyy'}}</td>
                             <td>{{data.createdAt | date:'MM/dd/yyyy - h:mma'}}</td>
@@ -45,10 +45,10 @@
                                 <button ng-click="editData(data)" title="Edit" class="btn btn-sm btn-success">
                                     <em class="fa fa-pencil"></em>
                                 </button>
-                                <button ng-click="openConfirm(data._id)" title="Delete" ng-disabled="{{data.dltHide}}" class="btn btn-sm btn-danger">
+                                <button ng-click="openConfirm(data._id,data.dltHide)" title="Delete"  class="btn btn-sm btn-danger">
                                     <em class="fa fa-trash"></em>
                                 </button>
-
+                               <!-- ng-disabled="{{data.dltHide}}"-->
                             </td>
                         </tr>
                         </tbody>
@@ -65,8 +65,7 @@
     <form method="post" validate-form="" novalidate="" ng-submit="editPromo()">
         <div class="ngdialog-message">
             <div class="panel-body">
-                <div class="panel-heading" style="font-weight: bolder; color: gray">Edit Promo
-                    Code
+                <div class="panel-heading" style="font-weight: bolder; color: gray">Edit Promo Code
                 </div>
 
                 <form>
@@ -199,6 +198,15 @@
         </button>
         <button type="button" ng-click="closeThisDialog('button')" class="btn btn-default">
             Cancel
+        </button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="restrictDlt">
+    <div class="ngdialog-message">
+        <h4>Sorry you can not delete ongoing promo codes</h4>
+        <button type="button" ng-click="closeThisDialog('button')"
+                class="btn btn-success mr">OK
         </button>
     </div>
 </script>

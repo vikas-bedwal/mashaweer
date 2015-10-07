@@ -135,17 +135,27 @@ console.log("try");
                 /*------------Edit Promo Section End---------------*/
 
                 /*------------Delete Promo Code Section Start---------------*/
-                $scope.openConfirm = function (data_get) {
-                    $scope.visible = true;
-                    ngDialog.openConfirm({
-                        template: 'modalDialogId1',
-                        className: 'ngdialog-theme-default',
-                        scope: $scope
-                    }).then(function (value) {
-                    }, function (reason) {
-                    });
-                    $scope.id = data_get;
-                    $('#ngdialog1').find('div.ngdialog-content').attr('ng-show', 'visible');
+                $scope.openConfirm = function (data_get,restrictDlt) {
+                    console.log(restrictDlt);
+                    if(restrictDlt){
+                        ngDialog.openConfirm({
+                            template: 'restrictDlt',
+                            className: 'ngdialog-theme-default',
+                            scope: $scope
+                        })
+                    }
+                    else{
+                        $scope.visible = true;
+                        ngDialog.openConfirm({
+                            template: 'modalDialogId1',
+                            className: 'ngdialog-theme-default',
+                            scope: $scope
+                        }).then(function (value) {
+                        }, function (reason) {
+                        });
+                        $scope.id = data_get;
+                        $('#ngdialog1').find('div.ngdialog-content').attr('ng-show', 'visible');
+                    }
                 };
                 $scope.deleteOffer = function (promo_id) {
                     $.post(MY_CONSTANT.url + 'api/admin/deletePromoCode',
@@ -178,6 +188,7 @@ console.log("try");
                             infoFiltered: '(filtered from _MAX_ total records)'
                         },
                         "pageLength": 50
+                    /*    "order": [[ 11, "desc" ]]*/
                     });
                     var inputSearchClass = 'datatable_input_col_search';
                     var columnInputs = $('tfoot .' + inputSearchClass);
