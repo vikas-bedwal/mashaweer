@@ -17,13 +17,13 @@ App.controller('subscriptionController', function ($scope, $http, $cookies, $coo
         $scope.datepicker.dt1 = true;
     };
 
-  /*  $scope.openDt2 = function($event) {
+    $scope.openDt2 = function($event) {
         $event.preventDefault();
         $event.stopPropagation();
 
         $scope.datepicker.dt1 = false;
         $scope.datepicker.dt2 = true;
-    };*/
+    };
     $http.get(MY_CONSTANT.url + 'api/admin/getSubscriptionInfo/' + $cookieStore.get('obj').accesstoken)
         .success(function (response, status) {
             if (status == 200) {
