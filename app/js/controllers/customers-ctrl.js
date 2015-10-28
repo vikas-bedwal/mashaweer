@@ -70,6 +70,7 @@ App.controller('customersController', function ($scope, $http, $cookies, $cookie
                 }
             })
             .error(function (error) {
+                alert(error.message);
                 console.log(error);
             });
 

@@ -1,13 +1,17 @@
 /**
  * Created by Vikas on 31/07/15.
  */
-App.controller('paymentController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $timeout) {
+App.controller('paymentController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $timeout,addHour) {
     'use strict';
-    console.log("In payment");
     $http.get(MY_CONSTANT.url + 'api/admin/paymentList/' + $cookieStore.get('obj').accesstoken)
         .success(function (response, status) {
             if (status == 200) {
                 var dataArray = [];
+                Date.prototype.addHours= function(h){
+                    this.setHours(this.getHours()+h);
+                    return this;
+                }
+                var tm = '';
                 var custList = response.data;
                 custList.forEach(function (column) {
                     var d = {};
@@ -15,8 +19,9 @@ App.controller('paymentController', function ($scope, $http, $cookies, $cookieSt
                     d.customerName = column.customerName;
                     d.amount = column.amount;
                     d.paymentMode = column.paymentMode;
-                    var str = moment.utc(column.createdAt).format("Do MMM YYYY hh:mm A");
-                    d.createdAt = str;
+                    tm = (new Date(column.createdAt));
+                    tm = addHour.addHours(tm,4);
+                    d.createdAt = moment.utc(tm).format("Do MMM YYYY hh:mm A");
                     dataArray.push(d);
                 });
                 $scope.list = dataArray;
@@ -57,6 +62,7 @@ App.controller('paymentController', function ($scope, $http, $cookies, $cookieSt
             }
         })
         .error(function (error) {
+            alert(error.message);
             console.log(error);
         });
 });

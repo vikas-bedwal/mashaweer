@@ -4,6 +4,7 @@
         <h3 class="page-header" id="page-header-techServices">Customers List
             <a ng-click="exportData()" class="btn btn-success pull-right headerButtonMargin">Export To CSV</a>
             <a ng-click="addCreditDialog()" class="btn btn-success pull-right" style="margin: -5px 10px 0 0">Add Credit</a>
+            <span style="font-size: small;float: right;margin: 5px 70px 0 0"><span class="base-color">Vikas</span> was the last person to edit this table on <span class="base-color">Oct 28</span></span>
         </h3>
 <!--<h3 style="margin-top: -15px">
     Customers List
@@ -90,11 +91,11 @@
                     <div class="form-group">
                         <label class="control-label">Credit</label>
                         <input type="text" name="busi_desc" required="required" class="form-control"
-                               ng-model="data.credit" data-parsley-type="number"/>
+                               ng-model="data.credit" data-parsley-type="number" numbers-only=""/>
                     </div>
                 </div>
                 <div class="panel-footer btn-align">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
                     <button type="button" ng-click="closeThisDialog(0)" class="btn btn-default">Cancel
                     </button>
                     <div ng-show="successMsg" class="alert alert-success text-center" style="margin-top: 10px;">
@@ -179,9 +180,8 @@
 *******************************************************************************-->
 <script type="text/ng-template" id="display_msg">
     <div class="ngdialog-message">
-
         <h4>{{displaymsg2}}</h4>
-        <button type="submit" ng-click="$state.reload() && closeThisDialog(0)" class="btn btn-primary"
+        <button type="submit" ng-click="$state.reload() && closeThisDialog(0)" class="btn btn-success"
                 style="margin-top:20px;float:right;">OK
         </button>
 

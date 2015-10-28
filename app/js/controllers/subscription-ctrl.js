@@ -80,6 +80,7 @@ App.controller('subscriptionController', function ($scope, $http, $cookies, $coo
             }
         })
         .error(function (error) {
+            alert(error.message);
             console.log(error);
         });
 

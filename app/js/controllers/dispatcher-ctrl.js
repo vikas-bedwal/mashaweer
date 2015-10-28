@@ -70,6 +70,7 @@ App.controller('dispatcherController', function ($scope, $http, $cookies, $cooki
             }
         })
         .error(function (error) {
+            alert(error.message);
             console.log(error);
         });
 

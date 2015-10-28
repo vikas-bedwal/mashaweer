@@ -56,6 +56,7 @@ App.controller('pendingSubscriptionController', function ($scope, $http, $cookie
             }
         })
         .error(function (error) {
+            alert(error.message);
             console.log(error);
         });
 

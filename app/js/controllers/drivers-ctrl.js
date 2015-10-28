@@ -93,6 +93,7 @@ App.controller('driversController', function ($scope, $http, $cookies, $cookieSt
             }
         })
         .error(function (error) {
+            alert(error.message);
             console.log(error);
         });
 

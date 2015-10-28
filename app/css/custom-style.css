@@ -1,6 +1,30 @@
 
 /*Common CSS*/
+.wrapper1, .wrapper2{
+    overflow-x: scroll;}
+.wrapper1{height: 14px; overflow-x: scroll }
+.div1 {width:2500px; height: 1px; }
+.div2 {width:2500px; height: 475px;
+    overflow: auto;}
+.full-width{
+    float:left;width:100%;
+}
+.float-left {
+    float: left;
+}
+.base-color {
+    color: #F4BF00;
+}
 
+.panel-login{
+    margin-top: 150px !important;
+}
+.bg{
+    float: left;
+    width: 100%;
+    min-height: 800px;
+    background: linear-gradient(to top, #F4CF3A, #f6f1d3 85%, #F4CF3A);
+}
 .padding-left {
     padding-left: 0;
 }
@@ -327,6 +351,10 @@ h6,
 #pricing > tbody > tr:hover {
     background-color: #51c6ea;
     color: #272727;
+}
+
+.tab-content{
+    overflow: hidden;
 }
 
 .fareList {

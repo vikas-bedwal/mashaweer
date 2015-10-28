@@ -1,5 +1,4 @@
 <div ng-controller="subscriptionController" class="ngdialog-message headerMargin"><h3 ng-bind="name"></h3>
-
     <h3 class="page-header" id="page-header-techServices">Existing Package List
         <a ui-sref="app.addSubscription" class="btn btn-success pull-right headerButtonMargin">Add Package</a>
     </h3>
@@ -130,7 +129,7 @@
                                    class="form-control"
                                    ng-model="pop.validity"/>
                         </div>
-                        <div class="form-group">
+                        <div ng-if="1" class="form-group">
                                 <p class="input-group">
                                     <label class="control-label">End Date</label>
                                     <input type="text" readonly="" id="start_date"

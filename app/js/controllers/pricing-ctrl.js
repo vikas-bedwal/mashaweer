@@ -14,12 +14,13 @@
             $scope.waitFareTruck = [];
             $scope.fromLimit = '';
             var waitFareBike = '';
-            $scope.bikeBasePrice = 11;
-            $scope.vanBasePrice = 71;
-            $scope.truckBasePrice = 121;
+            $scope.vehicalType = "BIKE"; //Initially
 
             $http.get(MY_CONSTANT.url + 'api/admin/pricingInfo/' + $cookieStore.get('obj').accesstoken)
                 .success(function (response, status) {
+                    $scope.bikeBasePrice = response.data.bikePricingInfo[0].baseFare;
+                    $scope.carBasePrice = response.data.carPricingInfo[0].baseFare;
+                    $scope.truckBasePrice = response.data.truckPricingInfo[0].baseFare;
                     if (status == 200) {
 
                        /* ----------------Bike Fare List-----------*/
@@ -62,10 +63,10 @@
                             });
                             $scope.waitFareBike = dataArray;
                         }
-                        /* ----------------Van Fare List-----------*/
-                        if(response.data.vanPricingInfo.length) {
+                        /* ----------------Car Fare List-----------*/
+                        if(response.data.carPricingInfo.length) {
                             var dataArray = [];
-                            var distanceFareVan = response.data.vanPricingInfo[0].distancePricing;
+                            var distanceFareVan = response.data.carPricingInfo[0].distancePricing;
                             $scope.distanceFareVan = distanceFareVan;
                             if(distanceFareVan.length){
                                 $scope.fromLimitVan = distanceFareVan[distanceFareVan.length-1].to;
@@ -83,7 +84,7 @@
                             });
                             $scope.distanceFareVan =  dataArray;
 
-                            var waitFareVan = response.data.vanPricingInfo[0].waitTimePricing;
+                            var waitFareVan = response.data.carPricingInfo[0].waitTimePricing;
                             $scope.waitFareVan = waitFareVan;
                             if(waitFareVan.length){
                                 $scope.waitfromLimitVan = waitFareVan[waitFareVan.length-1].to;
@@ -103,7 +104,7 @@
                             });
                             $scope.waitFareVan = dataArray;
                         }
-                        /* ----------------Van Fare List-----------*/
+                        /* ----------------Car Fare List-----------*/
                         if(response.data.truckPricingInfo.length) {
                             var dataArray = [];
                             var distanceFareTruck = response.data.truckPricingInfo[0].distancePricing;
@@ -176,6 +177,7 @@
                     }
                 })
                 .error(function (error) {
+                    alert(error.message);
                     console.log(error);
                 });
 
@@ -291,7 +293,7 @@
                         }
                         break;
                     case 'distanceFareVan':
-                        $scope.type = "VAN";
+                        $scope.type = "CAR";
                         $scope.flag = 0;
                         if(index == 0 && $scope.distanceFareVan.length == 1 ){
                             $scope.toLimit = -1;
@@ -311,7 +313,7 @@
                         }
                         break;
                     case 'waitFareVan':
-                        $scope.type = "VAN";
+                        $scope.type = "CAR";
                         $scope.flag = 1;
                         if(index == 0 && $scope.waitFareVan.length == 1 ){
                             $scope.toLimit = -1;
@@ -398,13 +400,13 @@
                             break;
                         case 'distanceFareVan':
                             $scope.distanceFareVan.push($scope.inserted);
-                            $scope.type = "VAN";
+                            $scope.type = "CAR";
                             $scope.flag = 0;
                             $scope.fromLimit = $scope.fromLimitVan;
                             break;
                         case 'waitFareVan':
                             $scope.waitFareVan.push($scope.inserted);
-                            $scope.type = "VAN";
+                            $scope.type = "CAR";
                             $scope.flag = 1;
                             $scope.fromLimit = $scope.waitfromLimitVan;
                             break;
@@ -456,13 +458,13 @@
                     case 'distanceFareVan':
                         $scope.from = $scope.distanceFareVan[$scope.index].from;
                         $scope.to = $scope.distanceFareVan[$scope.index].to;
-                        $scope.type = "VAN";
+                        $scope.type = "CAR";
                         $scope.flag = 0;
                         break;
                     case 'waitFareVan':
                         $scope.from = $scope.waitFareVan[$scope.index].from;
                         $scope.to = $scope.waitFareVan[$scope.index].to;
-                        $scope.type = "VAN";
+                        $scope.type = "CAR";
                         $scope.flag = 1;
                         break;
                     case 'distanceFareTruck':
@@ -497,10 +499,35 @@
 
             };
 
+            $scope.editBasePrice = function(basePrice){
+                $http({
+                    url: MY_CONSTANT.url + 'api/admin/updateBasePricing',
+                    method: "PUT",
+                    data: { accessToken : $cookieStore.get('obj').accesstoken,
+                        vehicleType: $scope.vehicalType,
+                        baseFare: basePrice
+                    }
+                })
+                    .then(function(response) {
+                        $state.reload();
+                    },
+                    function(response) { // optional
+                        alert("Something Went Wrong");
+                    });
+
+            }
+
             /**=========================================================
              * Module: Find active tab
              =========================================================*/
             $scope.tabNo = function(tabNo){
+                if(tabNo == 1)
+                $scope.vehicalType = "BIKE";
+                else if(tabNo == 2)
+                    $scope.vehicalType = "CAR";
+                else
+                    $scope.vehicalType = "TRUCK";
+
                 var activeTab = {'tab': tabNo};
                 $cookieStore.put('obj2', activeTab);
             }

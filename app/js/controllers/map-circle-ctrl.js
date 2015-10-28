@@ -125,7 +125,6 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                         var dataArray = [];
                         var dataArray1 = [];
                         var liveDriverList = response.data.driverDetailArray;
-                        console.log(liveDriverList);
                         var liveOrderList = response.data.orderDetail;
                         var liveDriverStatusList = response.data.driverStatusArray;
                         var orderLength = response.data.orderDetail.length;
@@ -297,7 +296,7 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                             }
                         });
                         $scope.nearDriverList = dataArray;
-                        if ($scope.nearDriverList > 0) {
+                        if ($scope.nearDriverList.length > 0) {
                             $scope.changedDriver = $scope.nearDriverList[0]._id;
                         ngDialog.open({
                             template: 'display_driver_list',
@@ -361,4 +360,20 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                     alert("Oops driver not assigned.");
                 })
         }
+
+        $scope.collapse  = function(){
+            console.log("called")
+            $("#sidebar").animate({
+                width: 'toggle'
+            });
+            var value = $("#map")[0].style.width !== "100vw" ? '115vw' : '110vw';
+            $("#map").animate({
+                width: value
+            }, {step:function(){
+                google.maps.event.trigger(map,'resize');
+            }
+            });
+        }
+
+
     }]);

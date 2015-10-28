@@ -31,7 +31,7 @@ App.run(["$log", function ($log) {
 }]);
 
 App.constant("MY_CONSTANT", {
-    "url": " http://52.6.230.125:8000/"
+    "url": " http://52.6.230.125:8002/"
 });
 App.constant("MY_CONSTANT1", {
     "url": "http://maps.googleapis.com/maps/api/geocode/json"
@@ -206,13 +206,10 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
             //   )
             // })
         ;
-
-
     }]);
 
 App.factory('convertdatetime', function () {
     return {
-
         convertDate: function (DateTime) {
             var _utc = new Date(DateTime);
             var mnth_var_date = parseInt(_utc.getMonth()) + 1;
@@ -236,7 +233,6 @@ App.factory('convertdatetime', function () {
             var date_time = new Date((date + 'UTC').replace(/-/g, "/"));
             var date_converted = date_time.toString().replace(/GMT.*/g, "");
             return date_converted;
-
             function ConvertUTCTimeToLocalTime(UTCDateString) {
                 var convertdLocalTime = new Date(UTCDateString);
 
@@ -250,6 +246,15 @@ App.factory('convertdatetime', function () {
 
     };
 })
+
+App.factory('addHour', function() {
+    return {
+       addHours: function(tm,h){
+                tm.setHours(tm.getHours()+4);
+                return tm;
+        }
+    }
+});
 
 App.directive('googleplace', function() {
     return {

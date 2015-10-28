@@ -2,7 +2,7 @@
  * Created by Vikas on 12/08/15.
  */
 App.controller('promoController', function ($scope, $http, $cookies, $cookieStore, $stateParams,
-                                                  MY_CONSTANT, $timeout, $window, $state, ngDialog) {
+                                                  MY_CONSTANT, $timeout, $window, $state, ngDialog,addHour) {
     'use strict';
     $scope.pop = {};
 
@@ -36,6 +36,7 @@ console.log("try");
             console.log(status);
             if (status == 200) {
                 var dataArray = [];
+                var tm = '';
                 var promoList = response.data;
                 promoList.forEach(function (column) {
                     var d = {};
@@ -59,7 +60,12 @@ console.log("try");
                     d.startTime = column.startTime;
                     d.endTime = column.endTime;
                     d.isDeleted = column.isDeleted;
-                    d.createdAt = column.createdAt;
+
+                    tm = (new Date(column.createdAt));
+                    tm = addHour.addHours(tm,4);
+                    /*d.createdAt = moment.utc(tm).format("Do MMM YYYY hh:mm A");*/
+
+                    d.createdAt = tm;
                     dataArray.push(d);
                 });
                 $scope.list = dataArray;
@@ -210,7 +216,7 @@ console.log("try");
             }
         })
         .error(function (error) {
-            console.log("error");
+            alert(error.message);
             console.log(error);
         });
 });
