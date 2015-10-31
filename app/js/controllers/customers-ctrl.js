@@ -20,7 +20,7 @@ App.controller('customersController', function ($scope, $http, $cookies, $cookie
                         d.fullName = column.fullName;
                         d.email = column.email;
                         d.phoneNumber = column.phoneNumber
-                        d.credits = Math.round(column.credits*100)/100;
+                        d.credits = Math.round(column.credits);
                         if(column.isDeleted == false)
                             d.isDeleted = 'Active';
                         else

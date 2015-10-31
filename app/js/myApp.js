@@ -105,6 +105,11 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
                 templateUrl: helper.basepath('dashboard.html'),
                 resolve: helper.resolveFor('datatables', 'datatables-pugins','ngDialog')
             })
+            .state('app.mapView', {
+                url: '/map_view',
+                title: 'Map View',
+                templateUrl: helper.basepath('mapView.html')
+            })
             .state('app.customers', {
                 url: '/customers',
                 title: 'Customers',

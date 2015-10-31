@@ -1,72 +1,111 @@
 <style>
-
     .panel .dataTable {
-        width: 2500px !important;
+        width: 3400px !important;
     }
-    </style>
+    div.dataTables_filter label {
+        font-weight: normal;
+        float: right;
+        padding: 10px;
+    }
+    #datatable2_wrapper{
+        margin-top:50px !important;
+    }
+    #datatable2_filter > label{
+        margin-top:-50px !important;
+    }
 
-<h3>
+</style>
+<!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.0.3/css/buttons.dataTables.min.css">-->
+<!--<h3>
     Order List
     <small>Displaying list of all orders.</small>
-</h3>
-<div ng-controller="ordersController" class="container-fluid">
+</h3>-->
+<div ng-controller="ordersController" class="container-fluid ngdialog-message headerMargin">
+    <h3 class="page-header" id="page-header-techServices">Orders List
+        <!--<a ng-click="exportData()" class="btn btn-success pull-right headerButtonMargin">Export To CSV</a>
+        <a ng-click="addSearchDialog()" class="btn btn-success pull-right" style="margin: -5px 10px 0 0">Advance Search</a>-->
+    </h3>
+
     <!-- START DATATABLE 2 -->
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default" ng-class="{'whirl standard' : loading }" >
                 <div class="table-responsive">
-
-
-                    <div class="wrapper1">
-                        <div class="div1">
-                        </div>
-                    </div>
-
-                    <div class="wrapper2">
-                        <div class="div2">
-                            <table id="datatable2" class="table table-striped table-hover" style="width: 2500px !important;">
+                            <table id="datatable2" class="table table-striped table-hover display" style="width: 2500px !important;">
+                                <select class=" input-sm orderPerPage" ng-init="records=50" ng-model="records" ng-change="recordsPerPage()" >
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                <span class="recordsPerPageText">
+                                records per page
+                                    </span>
                                 <thead>
                                 <tr>
-                                    <!--<th style="width: 100px">No.</th>-->
-                                    <!--<th hidden="" style="width: 100px">Id</th>-->
-                                    <!--<th style="width: 100px">Status</th>-->
-                                    <!--<th style="width: 150px">Customer Name</th>-->
-                                    <!--<th style="width: 150px">Driver Name</th>-->
-                                    <!--<th style="width: 300px !important;">Pick Up Location</th>-->
-                                    <!--<th style="width: 250px">Actual Pick Up Location</th>-->
-                                    <!--<th style="width: 300px !important;">Drop Off Location</th>-->
-                                    <!--<th style="width: 100px">Pick Up Time</th>-->
-                                    <!--<th style="width: 150px">Actual Pick Up Time</th>-->
-                                    <!--<th style="width: 100px">Delivery Time</th>-->
-                                    <!--<th style="width: 150px">Actual Delivery Time</th>-->
-                                    <!--<th style="width: 150px">Received By</th>-->
-                                    <!--<th style="width: 250px !important;">Parcel Detail</th>-->
-                                    <!--<th style="width: 100px">Waiting Time</th>-->
-                                    <!--<th style="width: 130px">Vehicle Required</th>-->
-                                    <!--<th style="width: 100px">Distance</th>-->
-                                    <!--<th style="width: 100px">Total Fare</th>-->
-
-                                    <th >Id</th>
+                                    <th>Id</th>
                                     <th hidden="">Id</th>
                                     <th>Status</th>
-                                    <th style="width: 120px">Customer Name</th>
-                                    <th style="width: 120px">Driver Name</th>
-                                    <th >Pick Up Location</th>
-                                    <th style="width: 150px">Actual Pick Up From</th>
-                                    <th >Drop Off Location</th>
-                                    <th style="width: 100px">Pick Up Time</th>
-                                    <th style="width: 150px">Actual Pick Up Time</th>
-                                    <th  style="width: 100px">Delivery Time</th>
-                                    <th style="width: 150px">Actual Delivery Time</th>
-                                    <th  style="width: 100px">Received By</th>
-                                    <th  style="width: 100px">Parcel Detail</th>
-                                    <th  style="width: 100px">Waiting Time</th>
-                                    <th  style="width: 120px">Vehicle Required</th>
+                                    <th style="width: 99px !important;min-width: 99px !important;">Customer Name</th>
+                                    <th style="width: 77px !important;min-width: 77px !important;">Driver Name</th>
+                                    <th style="width: 200px !important;min-width: 200px !important;" >Pick Up Location</th>
+                                    <th style="width: 124px !important;min-width: 124px !important;">Actual Pick Up From</th>
+                                    <th style="width: 200px !important;min-width: 200px !important;">Drop Off Location</th>
+                                    <th style="width: 144px !important;min-width: 144px !important;">Pick Up Time</th>
+                                    <th style="width: 144px !important;min-width: 144px !important;">Actual Pick Up Time</th>
+                                    <th style="width: 144px !important;min-width: 144px !important;">Delivery Time</th>
+                                    <th style="width: 140px !important;min-width: 140px !important;">Actual Delivery Time</th>
+                                    <th style="width: 93px !important;min-width: 93px !important;">Received By</th>
+                                    <th style="width: 95px !important;min-width: 95px !important;">Parcel Detail</th>
+                                    <th style="width: 84px !important;min-width: 84px !important;">Waiting Time</th>
+                                    <th style="width: 107px !important;min-width: 107px !important;">Vehicle Required</th>
                                     <th >Distance</th>
-                                    <th style="width: 80px">Total Fare</th>
-
-
+                                    <th style="width: 63px !important;min-width: 63px !important;">Total Fare</th>
+                                    <th style="width: 130px !important;min-width: 130px !important;">Cancellation Charges</th>
+                                    <th>Credit</th>
+                                    <th>Card</th>
+                                    <th style="width: 110px !important;min-width: 110px !important;">Cash Collected</th>
+                                    <th>Discount</th>
+                                    <th style="width: 72px !important;min-width: 72px !important;">Final Credit</th>
+                                    <th style="width: 97px !important;min-width: 97px !important;">Negative Credit</th>
+                                    <th style="width: 127px !important;min-width: 127px !important;">Outstanding Amount</th>
+                                    <th style="width: 98px !important;min-width: 98px !important;">Surplus Amount</th>
+                                    <th style="width: 144px !important;min-width: 144px !important;">Created At</th>
                                     <!-- <th>Edit</th>-->
+
+
+                                    <!--<th>Id</th>
+                                    <th hidden="">Id</th>
+                                    <th>Status</th>
+                                    <th style="width:5%;">Customer Name</th>
+                                    <th style="width:4%;">Driver Name</th>
+                                    <th>Pick Up Location</th>
+                                    <th style="width:6%;">Actual Pick Up From</th>
+                                    <th >Drop Off Location</th>
+                                    <th style="width:4%;">Pick Up Time</th>
+                                    <th style="width:6%;">Actual Pick Up Time</th>
+                                    <th style="width:5%;">Delivery Time</th>
+                                    <th style="width:6%;">Actual Delivery Time</th>
+                                    <th style="width:4%;">Received By</th>
+                                    <th style="width:4%;">Parcel Detail</th>
+                                    <th style="width:4%;">Waiting Time</th>
+                                    <th style="width:5%;">Vehicle Required</th>
+                                    <th >Distance</th>
+                                    <th style="width:4%;">Total Fare</th>
+                                    <th>Cancelation</th>
+                                    <th>Credit</th>
+                                    <th>Card</th>
+                                    <th>Cash</th>
+                                    <th>Discount</th>
+                                    <th  style="width:4%;">Final Credit</th>
+                                    <th>Negative Credit</th>
+                                    <th>Outstanding Credit</th>
+                                    <th>Surplus Credit</th>
+                                    <th>Created At</th>
+                                    &lt;!&ndash; <th>Edit</th>&ndash;&gt;-->
+
+
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -98,18 +137,141 @@
                                     <td>{{data.vehicleRequired}}</td>
                                     <td>{{data.distance}}</td>
                                     <td>{{data.amount}}</td>
+                                    <td>{{data.cancellationCost}}</td>
+                                    <td>{{data.creditsUsed}}</td>
+                                    <td>{{data.cardCharged}}</td>
+                                    <td>{{data.cashCollected}}</td>
+                                    <td>{{data.discountGiven}}</td>
+                                    <td>{{data.finalCost}}</td>
+                                    <td>{{data.negativeCreditsAdded}}</td>
+                                    <td>{{data.outStandingAmountTaken}}</td>
+                                    <td>{{data.surplusAmountTransferredToCredit}}</td>
+                                    <td>{{data.createdAt}}</td>
                                 </tr>
                                 </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>
+                                        <input type="text" name="filter_driver_id" placeholder="Id"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th hidden="">
+                                        <input type="text" name="filter_driver_id" placeholder="Id"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_id" placeholder="Status"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_name" placeholder="Customer Name"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_email" placeholder="Driver Name"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_id" placeholder="Pick Up Location"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                      <th>
+                                        <input type="text" name="filter_driver_name" placeholder="Pick Up From"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_id" placeholder="Drop Off Location"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_name" placeholder="Pick Up Time"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_email" placeholder="Actual Pick Up Time"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_id" placeholder="Delivery Time"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_id" placeholder="Actual Delivery Time"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_name" placeholder="Received By"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_email" placeholder="Parcel Details"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_id" placeholder="Waiting Time"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_id" placeholder="Vehical Type"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_name" placeholder="Distance"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_email" placeholder="Total Fare"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_email" placeholder="Cancellation"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_email" placeholder="Credit"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_email" placeholder="Card"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_email" placeholder="Cash"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_email" placeholder="Discount"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_email" placeholder="Final Credit"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_email" placeholder="Negative Credit"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_email" placeholder="Outstanding Credit"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_email" placeholder="Surplus"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_id" placeholder="Created At"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                </tr>
+                                </tfoot>
                             </table>
-                        </div>
-                    </div>
-
+                    <span class="orderPagination1">Showing <span>{{skip+1}}</span> to <span>{{footerInfo}}</span> of <span>{{bigTotalItems}}</span> entries</span>
+                    <pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" boundary-links="true" rotate="false" class="pagination-sm orderPagination" ng-change="pageChanged()" items-per-page="itemsPage"></pagination>
                 </div>
             </div>
         </div>
     </div>
-
-
 </div>
 <script type="text/ng-template" id="modalDialogId">
     <div class="ngdialog-message">
@@ -155,15 +317,72 @@
     </div>
 </script>
 
-<script>
-    $(function(){
-        $(".wrapper1").scroll(function(){
-            $(".wrapper2")
-                    .scrollLeft($(".wrapper1").scrollLeft());
-        });
-        $(".wrapper2").scroll(function(){
-            $(".wrapper1")
-                    .scrollLeft($(".wrapper2").scrollLeft());
-        });
-    });
+<!---------------- Start Advance Search View--------------------->
+
+<script type="text/ng-template" id="advanceSearch">
+    <form method="post" validate-form="" novalidate="" ng-submit="editDriver()">
+        <div class="ngdialog-message">
+            <div class="panel-body">
+
+                <div class="panel-heading" style="font-weight: bolder; color: gray">
+                    <h4>Advance Search</h4>
+                </div>
+                <form method="post" ng-submit="editDriver(pop)" validate-form=""
+                      novalidate="" id="add-promo">
+                    <!-- START panel-->
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-lg-6 padding-left">
+                                <label class="control-label">Customer Name</label>
+                                <input  name="firstName" required="required"
+                                        class="form-control"
+                                        ng-model="pop.firstName"/>
+                            </div>
+                            <div class="col-lg-6 padding-right">
+                                <label class="control-label">Driver Name</label>
+                                <input  name="lastName" required="required"
+                                        class="form-control"
+                                        ng-model="pop.lastName"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Date Range</label>
+                            <input name="email" required="required"
+                                   class="form-control"
+                                   ng-model="pop.email"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Vehicle</label>
+                            <select id="vehical_type" ng-model="pop.vehicleType"
+                                    required="required"
+                                    placeholder="Vehicle Type" name="vehival_type" class="form-control">
+                                <option value="BIKE">Bike</option>
+                                <option value="CAR">Car</option>
+                                <option value="TRUCK">Truck</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Driver Type</label>
+                            <select id="driver_type" ng-model="pop.isDedicated"
+                                    required="required"
+                                    placeholder="Vehicle Type" name="driver_type" class="form-control">
+                                <option value="Freelancer">Freelancer</option>
+                                <option value="Dedicated">Dedicated</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- END panel-->
+                </form>
+
+            </div>
+            <button type="submit" class="btn btn-success mr" style="margin-left: 25px">Save
+            </button>
+            <button type="button" ng-click="closeThisDialog('button')" class="btn btn-default">
+                Cancel
+            </button>
+        </div>
+    </form>
 </script>
+

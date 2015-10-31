@@ -69,7 +69,6 @@ console.log("try");
                     dataArray.push(d);
                 });
                 $scope.list = dataArray;
-
                 /*------------Edit Promo Section Starts---------------*/
                 $scope.editData = function (data_get) {
                     ngDialog.openConfirm({

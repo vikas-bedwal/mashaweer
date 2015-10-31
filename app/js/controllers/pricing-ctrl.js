@@ -13,6 +13,7 @@
             $scope.waitFareVan = [];
             $scope.waitFareTruck = [];
             $scope.fromLimit = '';
+            $scope.updateBtnStatus = 0;
             var waitFareBike = '';
             $scope.vehicalType = "BIKE"; //Initially
 
@@ -499,7 +500,15 @@
 
             };
 
-            $scope.editBasePrice = function(basePrice){
+            $scope.btnStatus = function(){
+                $scope.updateBtnStatus = 1;
+
+            }
+
+            $scope.updateBasePrice = function(basePrice){
+                console.log(basePrice);
+                if(basePrice == '')
+                    basePrice = 0;
                 $http({
                     url: MY_CONSTANT.url + 'api/admin/updateBasePricing',
                     method: "PUT",

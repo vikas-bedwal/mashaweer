@@ -212,7 +212,7 @@ App.controller('addSubscriptionController', function ($scope, $http, $cookies, $
             }
         })
             .then(function(response) {
-                $window.location = "#/app/subscription";
+                $window.location = "#/app/package";
                 $scope.loading = false;
             },
             function(response) { // optional

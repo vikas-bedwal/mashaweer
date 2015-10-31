@@ -14,8 +14,11 @@
             </tab-heading>
             <h4 style="width: 60%;float: left;" class="fareList">Distance Bases Fare</h4>
             <h4 style="float:right;width: 40%;text-align: right"><span style="color: #F4BF00;">Base Price (AED)</span>: <span class="span2">
-                <input ng-keyup="editBasePrice(bikeBasePrice)"  contentEditable="true" style="border: none; color: deepskyblue;
-             cursor: pointer;text-align: center" title="Click to edit" type="text" ng-model="bikeBasePrice"></span></h4>
+                <input ng-keyup="btnStatus()"  contentEditable="true" style="border: none; color: deepskyblue;
+             cursor: pointer;text-align: center" title="Click to edit" type="text" ng-model="bikeBasePrice">
+            <button ng-show="updateBtnStatus" type="submit" class="fa fa-arrow-right base-color" ng-click="updateBasePrice(bikeBasePrice)">
+               </button>
+            </span></h4>
     <table id="bike_dis_pricing" class="table table-bordered table-hover bg-white full-width">
         <tr style="font-weight: bold">
             <td style="width:35%">From (Km)</td>
@@ -116,8 +119,10 @@
 
             <h4 style="width: 60%;float: left;" class="fareList">Distance Bases Fare</h4>
             <h4 style="float:right;width: 40%;text-align: right"><span style="color: #F4BF00;">Base Price (AED)</span>: <span class="span2">
-                <input ng-keyup="editBasePrice(carBasePrice)" contentEditable="true" style="border: none; color: deepskyblue;
-             cursor: pointer;text-align: center" type="text" ng-model="carBasePrice"></span></h4>
+                <input type="text" ng-keyup="btnStatus()" style="border: none; color: deepskyblue;
+             cursor: pointer;text-align: center"  ng-model="carBasePrice">
+            <button ng-show="updateBtnStatus" type="submit" class="fa fa-arrow-right base-color" ng-click="updateBasePrice(carBasePrice)">
+            </button></span></h4>
             <table id="car_dis_pricing" class="table table-bordered table-hover bg-white full-width">
                 <tr style="font-weight: bold">
                     <td style="width:35%">From (Km)</td>
@@ -218,8 +223,10 @@
             </tab-heading>
             <h4 style="width: 60%;float: left;" class="fareList">Distance Bases Fare</h4>
             <h4 style="float:right;width: 40%;text-align: right"><span style="color: #F4BF00;">Base Price (AED)</span>: <span class="span2">
-                <input ng-keyup="editBasePrice(truckBasePrice)" contentEditable="true" style="border: none; color: deepskyblue;
-             cursor: pointer;text-align: center" type="text" ng-model="truckBasePrice"></span></h4>
+                <input ng-keyup="btnStatus()" contentEditable="true" style="border: none; color: deepskyblue;
+             cursor: pointer;text-align: center" type="text" ng-model="truckBasePrice">
+                <button ng-show="updateBtnStatus" type="submit" class="fa fa-arrow-right base-color" ng-click="updateBasePrice(truckBasePrice)">
+            </button></span></h4>
             <table id="truck_dis_pricing" class="table table-bordered table-hover bg-white full-width">
                 <tr style="font-weight: bold">
                     <td style="width:35%">From (Km)</td>

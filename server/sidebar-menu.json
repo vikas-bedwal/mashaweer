@@ -10,6 +10,12 @@
     "icon": "fa fa-dashboard"
   },
   {
+    "text": "Map View",
+    "sref": "app.mapView",
+    "is_super": 0,
+    "icon": "fa fa-map-marker"
+  },
+  {
   "text": "Customers",
   "sref": "app.customers",
    "is_super": 1,

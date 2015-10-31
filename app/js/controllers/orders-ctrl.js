@@ -3,168 +3,232 @@
  */
 App.controller('ordersController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $timeout, ngDialog,addHour) {
     'use strict';
-    $scope.loading = true;
-    var tm = '';
-    $http.get(MY_CONSTANT.url + 'api/admin/orderList/' + $cookieStore.get('obj').accesstoken)
-        .success(function (response, status) {
-            console.log(response);
-            $scope.response = response;
-           /* if (response.data[0].timeLine[0].cancelled)*/
-            if (status == 200) {
-                var dataArray = [];
-               /* Date.prototype.addHours= function(h){
-                    this.setHours(this.getHours()+h);
-                    return this;
-                }*/
-                var custList = response.data;
-                custList.forEach(function (column) {
-                    var d = {};
-                    d._id = column._id;
-                    d.orderId = column.orderId;
-                    d.customerName = column.customerName;
-                    d.driverName = column.driverName;
-                    d.parcelDetails = column.parcelDetails;
-                    console.log(column.timeLine[0].scheduledPickUp);
-                    tm = (new Date(column.timeLine[0].scheduledPickUp));
-                    var tm = addHour.addHours(tm,4)
-                    /*tm = tm.addHours(4);*/
-                    d.scheduledPickUp = moment.utc(tm).format("Do MMM YYYY hh:mm A");
-                    tm = (new Date(column.timeLine[0].scheduledDelivery));
-                    var tm = addHour.addHours(tm,4)
-                    d.scheduledDelivery = moment.utc(tm).format("Do MMM YYYY hh:mm A");
-                    tm = (new Date(column.actualCollectionTime));
-                    var tm = addHour.addHours(tm,4)
-                    d.actualCollectionTime = moment.utc(tm).format("Do MMM YYYY hh:mm A");
-                    if (column.timeLine[0].delivered == undefined)
-                        d.actualDeliveryTime = "-";
-                    else{
-                        tm = (new Date(column.timeLine[0].delivered));
-                        var tm = addHour.addHours(tm,4)
-                        d.actualDeliveryTime = moment.utc(tm ).format("Do MMM YYYY hh:mm A");
-                    }
+        $scope.loading = true;
+        var tm = '';
 
-                    d.collectionFrom = column.collectionFrom;
-                    d.deliverTo = column.deliverTo;
-                    d.waitingTime = column.waitingTime;
-                    d.vehicleRequired = column.vehicleRequired;
-                    d.distance = column.distance;
-                    d.amount = column.amount;
-                    d.amount = Math.round(column.amount*100)/100;
-                    d.pickupLocation = column.pickupLocation;
-                    d.deliveryLocation = column.deliveryLocation
-                    d.status = column.status;
+   /*============= Pagination Section Starts=============*/
+        $scope.records = 50;
+        $scope.itemsPage = $scope.records;
+        $scope.maxSize = 5;
+        $scope.bigCurrentPage = 1;
+        $scope.skip = 0;
+        $scope.footerInfo = $scope.itemsPage;
+        $scope.setPage = function (pageNo) {
+        $scope.bigCurrentPage = pageNo;
+        console.log('Page changed to: ' + $scope.currentPage);
+    };
 
-                    switch (column.status) {
-                        case 'PENDING':
-                            d.status = 'Pending';
-                            d.text_color = '#FF0000';
-                            break;
-                        case 'ORDER_DELIVERED':
-                            d.status = 'Delivered';
-                            d.text_color = '#1f9c3d';
+    $scope.pageChanged = function() {
+        $scope.skip = ($scope.bigCurrentPage-1) * $scope.records;
+        $scope.footerInfo = $scope.itemsPage * $scope.bigCurrentPage;
+        $scope.recordsPerPage();
+    };
+    /*============= Pagination Section Ends=============*/
 
-                            break;
-                        case 'CANCELLED':
-                            d.status = 'Cancelled';
-                            d.text_color = '#FF0033';
-                            break;
-                        case 'SUCCESS':
-                            d.status = 'Success';
-                            d.text_color = '#F6D21A';
-                            break;
-                        case 'REFUND':
-                            d.status = 'Refund';
-                            d.text_color = '#99FF66';
-                            break;
-                        case 'REACHED_PICKUP_POINT':
-                            d.status = 'Reached At Pick Up Point';
-                            d.text_color = '#D8BFD8';
-                            break;
-                        case 'PICKED_UP':
-                            d.status = 'Picked Up';
-                            d.text_color = '#D8BFD8';
-                            break;
-                        case 'REACHED_DELIVERY_POINT':
-                            d.status = 'Reached At Delivery Point';
-                            d.text_color = '#008080';
-                            break;
-                        case 'REQUEST_SENT_TO_DRIVER':
-                            d.status = 'Request Sent to Driver';
-                            d.text_color = '#3300FF';
-                            break;
-                        case 'DRIVER_ASSIGNED':
-                            d.status = 'Driver Assigned';
-                            d.text_color = '#330033';
-                            break;
-                        case 'ACCEPTED':
-                            d.status = 'Accepted';
-                            d.text_color = '#336600';
 
-                            break;
-                        case 'REFUSED':
-                            d.status = 'Refused';
-                            d.text_color = '#FF3333';
-                            break;
-                        case 'DRIVER_RESPONDED':
-                            d.status = 'Driver Responded';
-                            d.text_color = '#99FFCC';
-                            break;
-                        case 'REASSIGNED':
-                            d.status = 'Reassigned';
-                            d.text_color = '#FF0000';
-                            break;
-                    }
-                    d.createdAt = column.createdAt;
-                    dataArray.push(d);
-                });
-                $scope.list = dataArray;
-                var dtInstance;
-                $timeout(function () {
-                    $scope.loading = false;
-                    if (!$.fn.dataTable) return;
-                    dtInstance = $('#datatable2').dataTable({
-                        'paging': true,  // Table pagination
-                        'ordering': true,  // Column ordering
-                        'info': true,
-                        "scrollX": true,
-                        /*"scrollY": "445px",*/
-                        "aLengthMenu": [10, 25, 50, 100],
-
-                        // Bottom left status text
-                        oLanguage: {
-                            sSearch: 'Search all columns:',
-                            sLengthMenu: '_MENU_ records per page',
-                            info: 'Showing page _PAGE_ of _PAGES_',
-                            zeroRecords: 'Nothing found - sorry',
-                            infoEmpty: 'No records available',
-                            infoFiltered: '(filtered from _MAX_ total records)'
-                        },
-                        "order": [[ 1, "desc" ]]
-
-                    });
-                    var inputSearchClass = 'datatable_input_col_search';
-                    var columnInputs = $('tfoot .' + inputSearchClass);
-
-                    // On input keyup trigger filtering
-                    columnInputs
-                        .keyup(function () {
-                            dtInstance.fnFilter(this.value, columnInputs.index(this));
-                        });
-                });
-                $scope.$on('$destroy', function () {
-                    dtInstance.fnDestroy();
-                    $('[class*=ColVis]').remove();
-                })
-
-            } else {
-                alert("Something went wrong, please try again later.");
-                return false;
+    $scope.recordsPerPage = function(){       //  hit on page load and whenever records per page changes
+        $scope.records = $scope.records;
+        $scope.itemsPage = $scope.records;
+        $http({
+            url: MY_CONSTANT.url + 'api/admin/orderList/' + $cookieStore.get('obj').accesstoken,
+            method: "GET",
+            params: { limit : $scope.records,
+                skip: $scope.skip
             }
         })
-        .error(function (error) {
-            alert(error.message);
-            console.log(error);
-        });
+            .then(function(response,status) {
+                console.log(response);
+                $scope.bigTotalItems = response.data.totalLength;
+                $scope.footerInfo = ($scope.itemsPage * $scope.bigCurrentPage);
+                if($scope.footerInfo > $scope.bigTotalItems)
+                    $scope.footerInfo = $scope.bigTotalItems;
+                $scope.response = response.data;
+                /* if (response.data[0].timeLine[0].cancelled)*/
+                if (response.status == 200) {
+                    var dataArray = [];
+                    /* Date.prototype.addHours= function(h){
+                     this.setHours(this.getHours()+h);
+                     return this;
+                     }*/
+                    var custList = response.data.data;
+                    custList.forEach(function (column) {
+                        var d = {};
+                        d._id = column._id;
+                        d.orderId = column.orderId;
+                        d.customerName = column.customerName;
+                        d.driverName = column.driverName;
+                        d.parcelDetails = column.parcelDetails;
+                        tm = (new Date(column.timeLine[0].scheduledPickUp));
+                        var tm = addHour.addHours(tm,4)
+                        /*tm = tm.addHours(4);*/
+                        d.scheduledPickUp = moment.utc(tm).format("Do MMM YYYY hh:mm A");
+                        tm = (new Date(column.timeLine[0].scheduledDelivery));
+                        var tm = addHour.addHours(tm,4)
+                        d.scheduledDelivery = moment.utc(tm).format("Do MMM YYYY hh:mm A");
+                        tm = (new Date(column.actualCollectionTime));
+                        var tm = addHour.addHours(tm,4)
+                        d.actualCollectionTime = moment.utc(tm).format("Do MMM YYYY hh:mm A");
+                        if (column.timeLine[0].delivered == undefined)
+                            d.actualDeliveryTime = "-";
+                        else{
+                            tm = (new Date(column.timeLine[0].delivered));
+                            var tm = addHour.addHours(tm,4)
+                            d.actualDeliveryTime = moment.utc(tm ).format("Do MMM YYYY hh:mm A");
+                        }
+
+                        d.collectionFrom = column.collectionFrom;
+                        d.deliverTo = column.deliverTo;
+                        d.waitingTime = column.waitingTime;
+                        d.vehicleRequired = column.vehicleRequired;
+                        d.distance = Math.round(column.distance*100)/100;
+                        d.amount = column.amount;
+                        d.amount = Math.round(column.amount*100)/100;
+                        d.pickupLocation = column.pickupLocation;
+                        d.deliveryLocation = column.deliveryLocation;
+                        d.status = column.status;
+
+                        switch (column.status) {
+                            case 'PENDING':
+                                d.status = 'Pending';
+                                d.text_color = '#FF0000';
+                                break;
+                            case 'ORDER_DELIVERED':
+                                d.status = 'Delivered';
+                                d.text_color = '#1f9c3d';
+
+                                break;
+                            case 'CANCELLED':
+                                d.status = 'Cancelled';
+                                d.text_color = '#FF0033';
+                                break;
+                            case 'SUCCESS':
+                                d.status = 'Success';
+                                d.text_color = '#F6D21A';
+                                break;
+                            case 'REFUND':
+                                d.status = 'Refund';
+                                d.text_color = '#99FF66';
+                                break;
+                            case 'REACHED_PICKUP_POINT':
+                                d.status = 'Reached At Pick Up Point';
+                                d.text_color = '#D8BFD8';
+                                break;
+                            case 'PICKED_UP':
+                                d.status = 'Picked Up';
+                                d.text_color = '#D8BFD8';
+                                break;
+                            case 'REACHED_DELIVERY_POINT':
+                                d.status = 'Reached At Delivery Point';
+                                d.text_color = '#008080';
+                                break;
+                            case 'REQUEST_SENT_TO_DRIVER':
+                                d.status = 'Request Sent to Driver';
+                                d.text_color = '#3300FF';
+                                break;
+                            case 'DRIVER_ASSIGNED':
+                                d.status = 'Driver Assigned';
+                                d.text_color = '#330033';
+                                break;
+                            case 'ACCEPTED':
+                                d.status = 'Accepted';
+                                d.text_color = '#336600';
+
+                                break;
+                            case 'REFUSED':
+                                d.status = 'Refused';
+                                d.text_color = '#FF3333';
+                                break;
+                            case 'DRIVER_RESPONDED':
+                                d.status = 'Driver Responded';
+                                d.text_color = '#99FFCC';
+                                break;
+                            case 'REASSIGNED':
+                                d.status = 'Reassigned';
+                                d.text_color = '#FF0000';
+                                break;
+                        }
+                        d.cancellationCost = column.paymentBreakup.cancellationCost;
+                        d.creditsUsed = column.paymentBreakup.creditsUsed;
+                        d.cardCharged = column.paymentBreakup.cardCharged;
+                        d.cashCollected = column.paymentBreakup.cashCollected;
+                        d.discountGiven = column.paymentBreakup.discountGiven;
+                        d.finalCost = column.paymentBreakup.finalCost;
+                        d.negativeCreditsAdded = column.paymentBreakup.negativeCreditsAdded;
+                        d.outStandingAmountTaken = column.paymentBreakup.outStandingAmountTaken;
+                        d.surplusAmountTransferredToCredit = column.paymentBreakup.surplusAmountTransferredToCredit;
+                        tm = (new Date(column.timeLine[0].createdAt));
+                        var tm = addHour.addHours(tm,4)
+                        d.createdAt = moment.utc(tm).format("Do MMM YYYY hh:mm A");
+                        dataArray.push(d);
+                    });
+                    $scope.list = dataArray;
+
+/*================For datatable reinitialization purpose=======================*/
+                    var createtable=function(){
+                        var dtInstance;
+                        $timeout(function () {
+                            $scope.loading = false;
+                            if (!$.fn.dataTable) return;
+                            dtInstance = $('#datatable2').dataTable({
+                                dom: 'Bfrtip',
+                                buttons: [
+                                    /*'copyHtml5',
+                                    'excelHtml5',*/
+                                    'csvHtml5',
+                                    /*'pdfHtml5'*/
+                                ],
+                                'paging': false,  // Table pagination
+                                'ordering': true,  // Column ordering
+                                'info': false,
+                                "scrollX": true,
+                                "scrollY": "345px",
+                                "sEmptyTable": '',
+                                "sInfoEmpty": '',
+                                "sZeroRecords":'',
+                                "aLengthMenu": [10, 25, 50, 100],
+
+                                // Bottom left status text
+                                oLanguage: {
+
+                                    sSearch: 'Search all columns:',
+                                    sLengthMenu: '_MENU_ records per page',
+                                    info: 'Showing page _PAGE_ of _PAGES_',
+                                    zeroRecords: 'Nothing found - sorry',
+                                    infoEmpty: 'No records available',
+                                    infoFiltered: '(filtered from _MAX_ total records)'
+                                },
+                                "order": [[1, "desc"]],
+                                "pageLength": 50
+
+                            });
+                            var inputSearchClass = 'datatable_input_col_search';
+                            var columnInputs = $('tfoot .' + inputSearchClass);
+
+                            // On input keyup trigger filtering
+                            columnInputs
+                                .keyup(function () {
+                                    dtInstance.fnFilter(this.value, columnInputs.index(this));
+                                });
+                        });
+                    }
+                    if ($.fn.DataTable.isDataTable("#datatable2")) {
+                        console.log("hello");
+                        $('#datatable2').DataTable().clear().destroy();
+                    }
+                    createtable();
+                } else {
+                    alert("Something went wrong, please try again later.");
+                    return false;
+                }
+            },
+            function(response) { // optional
+                // failed
+              alert("Something went wrong, please try again later.");
+            });
+    }
+    $scope.recordsPerPage();
+
+   /* =================== Order timeline ============================= */
     $scope.timeLine = function (_id,orderId) {
         var timeLine = [];
         $scope.orderId = orderId;
@@ -225,7 +289,7 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
                 }
             }
         }
-        $scope.timings = timeLine.reverse();;
+        $scope.timings = timeLine.reverse();
         ngDialog.openConfirm({
             template: 'modalDialogId',
             className: 'ngdialog-theme-default',
@@ -235,5 +299,16 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
         }).then(function (value) {
         }, function (reason) {
         });
+    }
+
+    /*=========== Advance Search Section Starts ====================== */
+    $scope.addSearchDialog = function(){
+        ngDialog.openConfirm({
+            template: 'advanceSearch',
+            className: 'ngdialog-theme-default',
+            scope: $scope,
+            closeByDocument: true,
+            closeByEscape: true
+        })
     }
 });
