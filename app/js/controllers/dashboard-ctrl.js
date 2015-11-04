@@ -21,7 +21,8 @@ App.controller('dashboardController', function ($scope, $http, $cookies, $cookie
             }
         })
         .error(function (error) {
-            alert(error.message)
+            alert(error.message);
+            $state.go('page.login');
             console.log(error);
         });
 });

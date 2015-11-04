@@ -179,6 +179,7 @@
                 })
                 .error(function (error) {
                     alert(error.message);
+                    $state.go('page.login');
                     console.log(error);
                 });
 

@@ -2,7 +2,7 @@
  * Created by Vikas  on 03/08/15.
  */
 
-App.controller('customersController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT,$timeout, $state, ngDialog) {
+App.controller('customersController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT,$timeout, $state, ngDialog,$location) {
     'use strict';
     //$scope.excelList = {};
     $scope.loading = true;
@@ -71,6 +71,7 @@ App.controller('customersController', function ($scope, $http, $cookies, $cookie
             })
             .error(function (error) {
                 alert(error.message);
+                $state.go('page.login');;
                 console.log(error);
             });
 

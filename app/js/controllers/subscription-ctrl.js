@@ -81,6 +81,7 @@ App.controller('subscriptionController', function ($scope, $http, $cookies, $coo
         })
         .error(function (error) {
             alert(error.message);
+            $state.go('page.login');
             console.log(error);
         });
 

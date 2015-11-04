@@ -29,6 +29,7 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
     $scope.recordsPerPage = function(){       //  hit on page load and whenever records per page changes
         $scope.records = $scope.records;
         $scope.itemsPage = $scope.records;
+        $scope.skip = ($scope.bigCurrentPage-1) * $scope.records;
         $http({
             url: MY_CONSTANT.url + 'api/admin/orderList/' + $cookieStore.get('obj').accesstoken,
             method: "GET",
@@ -65,9 +66,15 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
                         tm = (new Date(column.timeLine[0].scheduledDelivery));
                         var tm = addHour.addHours(tm,4)
                         d.scheduledDelivery = moment.utc(tm).format("Do MMM YYYY hh:mm A");
-                        tm = (new Date(column.actualCollectionTime));
-                        var tm = addHour.addHours(tm,4)
-                        d.actualCollectionTime = moment.utc(tm).format("Do MMM YYYY hh:mm A");
+                        if(column.timeLine[0].pickedUp){
+                            tm = (new Date(column.timeLine[0].pickedUp));
+                            var tm = addHour.addHours(tm,4);
+                            d.actualCollectionTime = moment.utc(tm).format("Do MMM YYYY hh:mm A");
+                        }
+                        else{
+                            d.actualCollectionTime = '-';
+                        }
+
                         if (column.timeLine[0].delivered == undefined)
                             d.actualDeliveryTime = "-";
                         else{
@@ -224,6 +231,7 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
             function(response) { // optional
                 // failed
               alert("Something went wrong, please try again later.");
+                $state.go('page.login');
             });
     }
     $scope.recordsPerPage();

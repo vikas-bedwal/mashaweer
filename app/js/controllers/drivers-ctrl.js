@@ -94,6 +94,7 @@ App.controller('driversController', function ($scope, $http, $cookies, $cookieSt
         })
         .error(function (error) {
             alert(error.message);
+            $state.go('page.login');
             console.log(error);
         });
 

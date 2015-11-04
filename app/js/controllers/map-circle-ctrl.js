@@ -127,6 +127,7 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                         var dataArray1 = [];
                         var liveDriverList = response.data.driverDetailArray;
                         var liveOrderList = response.data.orderDetail;
+                        console.log(liveOrderList)
 
                         var liveDriverStatusList = response.data.driverStatusArray;
                         var orderLength = response.data.orderDetail.length;
@@ -152,10 +153,12 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                         liveOrderList.forEach(function (column) {
                             var d = {};
                             d._id = column._id;
+                            d.orderId = column.orderId;
                             d.driverId = column.driverId;
                             d.driverFullName = column.driverFullName;
                             d.dropUpAddress = column.dropUpAddress;
                             d.pickupAddress = column.pickupAddress;
+                            d.status = column.status;
                             dataArray1.push(d);
                         });
                         $scope.orderList = dataArray1;
@@ -265,6 +268,7 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                 })
                 .error(function (error) {
                     console.log(error);
+                    $state.go('page.login');
                 });
         };
         $scope.drawMap();
@@ -281,54 +285,66 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
 
 
         /*================ Listing Reassignable  driver for  ongoing order ===================*/
-        $scope.reAssignList = function(orderId,driverId){
-            $scope.orderId = orderId;
-            $http.get(MY_CONSTANT.url + 'api/admin/' + $cookieStore.get('obj').accesstoken + '/fetchNearestDrivers/' + orderId)
-                .success(function (response, status) {
-                    if (status == 200) {
-                        var dataArray = [];
-                        var nearDriverList = response.data.results;
-                        nearDriverList.forEach(function (column) {
-                            if (column._id != driverId) {
-                                var d = {};
-                                d._id = column._id;
-                                d.fullName = column.fullName;
-                                d.isDedicated = column.isDedicated;
-                                dataArray.push(d);
+        $scope.reAssignList = function(orderId,driverId,status){
+            if(status == 'DRIVER_ASSIGNED' || status == 'SUCCESS' ||  status == 'REACHED_PICKUP_POINT' || status == 'REQUEST_SENT_TO_DRIVER' ||
+                status == 'ACCEPTED' || status == 'REFUSED' || status == 'DRIVER_RESPONDED'){
+                $scope.orderId = orderId;
+                $http.get(MY_CONSTANT.url + 'api/admin/' + $cookieStore.get('obj').accesstoken + '/fetchNearestDrivers/' + orderId)
+                    .success(function (response, status) {
+                        if (status == 200) {
+                            var dataArray = [];
+                            var nearDriverList = response.data.results;
+                            nearDriverList.forEach(function (column) {
+                                if (column._id != driverId) {
+                                    var d = {};
+                                    d._id = column._id;
+                                    d.fullName = column.fullName;
+                                    d.isDedicated = column.isDedicated;
+                                    dataArray.push(d);
+                                }
+                            });
+                            $scope.nearDriverList = dataArray;
+                            if ($scope.nearDriverList.length > 0) {
+                                $scope.changedDriver = $scope.nearDriverList[0]._id;
+                                ngDialog.open({
+                                    template: 'display_driver_list',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope,
+                                    showClose: true
+                                });
                             }
-                        });
-                        $scope.nearDriverList = dataArray;
-                        if ($scope.nearDriverList.length > 0) {
-                            $scope.changedDriver = $scope.nearDriverList[0]._id;
+                            else{
+                                ngDialog.open({
+                                    template: 'display_no_driver',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope,
+                                    showClose: true
+                                });
+                            }
+                        } else {
+                            alert("Something went wrong, please try again later.");
+                            return false;
+                        }
+                    })
+                    .error(function (error) {
                         ngDialog.open({
-                            template: 'display_driver_list',
+                            template: 'display_no_driver',
                             className: 'ngdialog-theme-default',
                             scope: $scope,
                             showClose: true
                         });
-                    }
-                        else{
-                            ngDialog.open({
-                                template: 'display_no_driver',
-                                className: 'ngdialog-theme-default',
-                                scope: $scope,
-                                showClose: true
-                            });
-                        }
-                    } else {
-                        alert("Something went wrong, please try again later.");
-                        return false;
-                    }
-                })
-                .error(function (error) {
-                    ngDialog.open({
-                        template: 'display_no_driver',
-                        className: 'ngdialog-theme-default',
-                        scope: $scope,
-                        showClose: true
+                        console.log(error);
                     });
-                    console.log(error);
+            }
+            else{
+                ngDialog.open({
+                    template: 'can_not_reassign',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope,
+                    showClose: true
                 });
+            }
+
         }
 
         $scope.changeDriver = function(i){

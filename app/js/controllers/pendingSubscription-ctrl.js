@@ -57,6 +57,7 @@ App.controller('pendingSubscriptionController', function ($scope, $http, $cookie
         })
         .error(function (error) {
             alert(error.message);
+            $state.go('page.login');
             console.log(error);
         });
 
