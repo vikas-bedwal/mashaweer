@@ -371,7 +371,8 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                         template: 'display_reAssign_msg',
                         className: 'ngdialog-theme-default',
                         scope: $scope,
-                        showClose: true
+                        showClose: true,
+                        closeByDocument: false
                     });
                 })
                 .error(function (response, status) {

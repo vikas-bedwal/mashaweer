@@ -3,8 +3,38 @@
  */
 App.controller('ordersController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $timeout, ngDialog,addHour) {
     'use strict';
-        $scope.loading = true;
+
+    /*--------------------------------------------------------------------------
+     * --------- Only One Datepicker will display at a time ---------------------------------------
+     --------------------------------------------------------------------------*/
+    $scope.datepicker={
+        dt1:false,
+        dt2:false
+    };
+    $scope.openDt1 = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.datepicker.dt2 = false;
+        $scope.datepicker.dt1 = true;
+    };
+
+    $scope.openDt2 = function($event) {
+        console.log("here");
+        console.log("$scope.datepicker.dt2"+$scope.datepicker.dt2);
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.datepicker.dt1 = false;
+        $scope.datepicker.dt2 = true;
+        console.log("$scope.datepicker.dt2"+$scope.datepicker.dt2);
+    };
+
+
+    $scope.loading = true;
         var tm = '';
+    var sendData = [];
+    $scope.showAll = 0;
 
    /*============= Pagination Section Starts=============*/
         $scope.records = 50;
@@ -27,15 +57,19 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
 
 
     $scope.recordsPerPage = function(){       //  hit on page load and whenever records per page changes
-        $scope.records = $scope.records;
+        //$scope.records = $scope.records;
         $scope.itemsPage = $scope.records;
         $scope.skip = ($scope.bigCurrentPage-1) * $scope.records;
+        if($scope.showAll)
+            sendData = ''
+        else
+            sendData = {limit : $scope.records, skip: $scope.skip}
+
         $http({
             url: MY_CONSTANT.url + 'api/admin/orderList/' + $cookieStore.get('obj').accesstoken,
             method: "GET",
-            params: { limit : $scope.records,
-                skip: $scope.skip
-            }
+            params: sendData
+
         })
             .then(function(response,status) {
                 console.log(response);
@@ -236,6 +270,18 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
     }
     $scope.recordsPerPage();
 
+    /* =================== Show All Order Once At a time ============================= */
+    $scope.showAllOrder = function(){
+        $scope.loading = true;
+        $scope.showAll = 1;
+        $scope.recordsPerPage();
+    }
+    $scope.recordsPerPageVal = function(){
+        $scope.loading = true;
+        $scope.showAll = 0;
+        $scope.recordsPerPage();
+    }
+
    /* =================== Order timeline ============================= */
     $scope.timeLine = function (_id,orderId) {
         var timeLine = [];
@@ -319,4 +365,8 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
             closeByEscape: true
         })
     }
+    $scope.advanceSearch = function(get_data){
+        console.log(get_data);
+    }
+
 });
