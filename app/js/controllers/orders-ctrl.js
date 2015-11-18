@@ -124,6 +124,7 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
                         d.distance = Math.round(column.distance*100)/100;
                         d.amount = column.amount;
                         d.amount = Math.round(column.amount*100)/100;
+                        d.initialEstimatedFare = Math.round(column.initialEstimatedFare*100)/100;
                         d.pickupLocation = column.pickupLocation;
                         d.deliveryLocation = column.deliveryLocation;
                         d.status = column.status;
@@ -191,12 +192,18 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
                         d.cancellationCost = column.paymentBreakup.cancellationCost;
                         d.creditsUsed = column.paymentBreakup.creditsUsed;
                         d.cardCharged = column.paymentBreakup.cardCharged;
-                        d.cashCollected = column.paymentBreakup.cashCollected;
+                        d.cashCollectedAtPickUp = column.paymentBreakup.cashCollectedAtPickup;
+                        d.cashCollectedAtDelivery = column.paymentBreakup.cashCollectedAtDelivery;
                         d.discountGiven = column.paymentBreakup.discountGiven;
                         d.finalCost = column.paymentBreakup.finalCost;
                         d.negativeCreditsAdded = column.paymentBreakup.negativeCreditsAdded;
-                        d.outStandingAmountTaken = column.paymentBreakup.outStandingAmountTaken;
+                        d.outStandingAmountTaken = column.paymentBreakup.previousOutstandingAmount;
+                        d.remainingAmountToBeCharged = column.paymentBreakup.remainingAmountToBeCharged;
                         d.surplusAmountTransferredToCredit = column.paymentBreakup.surplusAmountTransferredToCredit;
+                        d.initialEstimatedFare = Math.round(column.paymentBreakup.initialEstimatedFare);
+                        d.totalChargedCost = Math.round(column.paymentBreakup.totalChargedCost);
+                        d.waitingChargeAtPickup = Math.round(column.paymentBreakup.waitingChargeAtPickup);
+                        d.waitingChargeAtDelivery = Math.round(column.paymentBreakup.waitingChargeAtDelivery);
                         tm = (new Date(column.timeLine[0].createdAt));
                         var tm = addHour.addHours(tm,4)
                         d.createdAt = moment.utc(tm).format("Do MMM YYYY hh:mm A");
@@ -368,5 +375,14 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
     $scope.advanceSearch = function(get_data){
         console.log(get_data);
     }
+
+    $scope.setinterval= setInterval(function(){
+        $scope.$on('$destroy', function () {
+            dtInstance.fnDestroy();
+            $('[class*=ColVis]').remove();
+        })
+        $scope.recordsPerPage();
+        $scope.drawMap();
+    }, 20000);
 
 });

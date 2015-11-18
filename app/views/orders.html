@@ -1,6 +1,6 @@
 <style>
     .panel .dataTable {
-        width: 3400px !important;
+        width: 2500px !important;
     }
     div.dataTables_filter label {
         font-weight: normal;
@@ -23,9 +23,9 @@
 </h3>-->
 <div ng-controller="ordersController" class="container-fluid ngdialog-message headerMargin">
     <h3 class="page-header" id="page-header-techServices">Orders List
-        <a ng-click="exportData()" class="btn btn-success pull-right headerButtonMargin">Export To CSV</a>
+        <!--<a ng-click="exportData()" class="btn btn-success pull-right headerButtonMargin">Export To CSV</a>
         <a ng-click="addSearchDialog()" class="btn btn-success pull-right" style="margin: -5px 10px 0 0">Advance Search</a>
-        <a ng-click="showAllOrder()" class="btn btn-success pull-right" style="margin: -5px 10px 0 0">Show All</a>
+        <a ng-click="showAllOrder()" class="btn btn-success pull-right" style="margin: -5px 10px 0 0">Show All</a>-->
     </h3>
 
     <!-- START DATATABLE 2 -->
@@ -59,52 +59,26 @@
                                     <th style="width: 140px !important;min-width: 140px !important;">Actual Delivery Time</th>
                                     <th style="width: 93px !important;min-width: 93px !important;">Received By</th>
                                     <th style="width: 95px !important;min-width: 95px !important;">Parcel Detail</th>
-                                    <th style="width: 84px !important;min-width: 84px !important;">Waiting Time</th>
+                                    <!--<th style="width: 84px !important;min-width: 84px !important;">Waiting Time</th>-->
                                     <th style="width: 107px !important;min-width: 107px !important;">Vehicle Required</th>
                                     <th >Distance</th>
+                                    <th style="width: 94px !important;min-width: 94px !important;">Estimated Fare</th>
                                     <th style="width: 63px !important;min-width: 63px !important;">Total Fare</th>
+                                   <!-- <th style="width: 156px !important;min-width: 156px !important;">Waiting Charge At PickUp</th>
+                                    <th style="width: 160px !important;min-width: 160px !important;">Wating Charge At Delivery</th>
                                     <th style="width: 130px !important;min-width: 130px !important;">Cancellation Charges</th>
-                                    <th>Credit</th>
-                                    <th>Card</th>
-                                    <th style="width: 110px !important;min-width: 110px !important;">Cash Collected</th>
+                                    <th style="width: 96px !important;min-width: 96px !important;">Credit Charged</th>
+                                    <th style="width: 95px !important;min-width: 95px !important;">Card Charged</th>
+                                    <th style="width: 110px !important;min-width: 110px !important;">Cash At Pick Up</th>
+                                    <th style="width: 110px !important;min-width: 110px !important;">Cash At Delivery</th>
                                     <th>Discount</th>
-                                    <th style="width: 72px !important;min-width: 72px !important;">Final Credit</th>
-                                    <th style="width: 97px !important;min-width: 97px !important;">Negative Credit</th>
+                                    &lt;!&ndash;<th style="width: 72px !important;min-width: 72px !important;">Final Credit</th>&ndash;&gt;
+                                    <th style="width: 99px !important;min-width: 99px !important;">Panelized Credit</th>
                                     <th style="width: 127px !important;min-width: 127px !important;">Outstanding Amount</th>
-                                    <th style="width: 98px !important;min-width: 98px !important;">Surplus Amount</th>
+                                    <th style="width: 127px !important;min-width: 127px !important;">Remaining Amount</th>
+                                    <th style="width: 98px !important;min-width: 98px !important;">Surplus Amount</th>-->
                                     <th style="width: 144px !important;min-width: 144px !important;">Created At</th>
                                     <!-- <th>Edit</th>-->
-
-
-                                    <!--<th>Id</th>
-                                    <th hidden="">Id</th>
-                                    <th>Status</th>
-                                    <th style="width:5%;">Customer Name</th>
-                                    <th style="width:4%;">Driver Name</th>
-                                    <th>Pick Up Location</th>
-                                    <th style="width:6%;">Actual Pick Up From</th>
-                                    <th >Drop Off Location</th>
-                                    <th style="width:4%;">Pick Up Time</th>
-                                    <th style="width:6%;">Actual Pick Up Time</th>
-                                    <th style="width:5%;">Delivery Time</th>
-                                    <th style="width:6%;">Actual Delivery Time</th>
-                                    <th style="width:4%;">Received By</th>
-                                    <th style="width:4%;">Parcel Detail</th>
-                                    <th style="width:4%;">Waiting Time</th>
-                                    <th style="width:5%;">Vehicle Required</th>
-                                    <th >Distance</th>
-                                    <th style="width:4%;">Total Fare</th>
-                                    <th>Cancelation</th>
-                                    <th>Credit</th>
-                                    <th>Card</th>
-                                    <th>Cash</th>
-                                    <th>Discount</th>
-                                    <th  style="width:4%;">Final Credit</th>
-                                    <th>Negative Credit</th>
-                                    <th>Outstanding Credit</th>
-                                    <th>Surplus Credit</th>
-                                    <th>Created At</th>
-                                    &lt;!&ndash; <th>Edit</th>&ndash;&gt;-->
 
 
                                 </tr>
@@ -134,19 +108,24 @@
                                     <td>{{data.actualDeliveryTime}}</td>
                                     <td>{{data.deliverTo}}</td>
                                     <td style="word-break: break-all">{{data.parcelDetails}}</td>
-                                    <td>{{data.waitingTime}}</td>
+                                   <!-- <td>{{data.waitingTime}}</td>-->
                                     <td>{{data.vehicleRequired}}</td>
                                     <td>{{data.distance}}</td>
-                                    <td>{{data.amount}}</td>
+                                    <td>{{data.initialEstimatedFare}}</td>
+                                    <td>{{data.totalChargedCost}}</td>
+                                    <!--<td>{{data.waitingChargeAtPickup}}</td>
+                                    <td>{{data.waitingChargeAtDelivery}}</td>
                                     <td>{{data.cancellationCost}}</td>
                                     <td>{{data.creditsUsed}}</td>
                                     <td>{{data.cardCharged}}</td>
-                                    <td>{{data.cashCollected}}</td>
+                                    <td>{{data.cashCollectedAtPickUp}}</td>
+                                    <td>{{data.cashCollectedAtDelivery}}</td>
                                     <td>{{data.discountGiven}}</td>
-                                    <td>{{data.finalCost}}</td>
+                                    &lt;!&ndash;<td>{{data.finalCost}}</td>&ndash;&gt;
                                     <td>{{data.negativeCreditsAdded}}</td>
                                     <td>{{data.outStandingAmountTaken}}</td>
-                                    <td>{{data.surplusAmountTransferredToCredit}}</td>
+                                    <td>{{data.remainingAmountToBeCharged}}</td>
+                                    <td>{{data.surplusAmountTransferredToCredit}}</td>-->
                                     <td>{{data.createdAt}}</td>
                                 </tr>
                                 </tbody>
@@ -208,10 +187,10 @@
                                         <input type="text" name="filter_driver_email" placeholder="Parcel Details"
                                                class="form-control input-sm datatable_input_col_search"/>
                                     </th>
-                                    <th>
+                                   <!-- <th>
                                         <input type="text" name="filter_driver_id" placeholder="Waiting Time"
                                                class="form-control input-sm datatable_input_col_search"/>
-                                    </th>
+                                    </th>-->
                                     <th>
                                         <input type="text" name="filter_driver_id" placeholder="Vehical Type"
                                                class="form-control input-sm datatable_input_col_search"/>
@@ -221,7 +200,19 @@
                                                class="form-control input-sm datatable_input_col_search"/>
                                     </th>
                                     <th>
+                                        <input type="text" name="filter_driver_id" placeholder="Estimated Fare"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
                                         <input type="text" name="filter_driver_email" placeholder="Total Fare"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <!--<th>
+                                        <input type="text" name="filter_driver_id" placeholder="Wating Charge At PickUp"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_id" placeholder="Waiting Charge At Delivery"
                                                class="form-control input-sm datatable_input_col_search"/>
                                     </th>
                                     <th>
@@ -237,17 +228,21 @@
                                                class="form-control input-sm datatable_input_col_search"/>
                                     </th>
                                     <th>
-                                        <input type="text" name="filter_driver_email" placeholder="Cash"
+                                        <input type="text" name="filter_driver_email" placeholder="Cash At PickUp"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_id" placeholder="Cash At Delivery"
                                                class="form-control input-sm datatable_input_col_search"/>
                                     </th>
                                     <th>
                                         <input type="text" name="filter_driver_email" placeholder="Discount"
                                                class="form-control input-sm datatable_input_col_search"/>
                                     </th>
-                                    <th>
+                                    &lt;!&ndash;<th>
                                         <input type="text" name="filter_driver_email" placeholder="Final Credit"
                                                class="form-control input-sm datatable_input_col_search"/>
-                                    </th>
+                                    </th>&ndash;&gt;
                                     <th>
                                         <input type="text" name="filter_driver_email" placeholder="Negative Credit"
                                                class="form-control input-sm datatable_input_col_search"/>
@@ -257,13 +252,18 @@
                                                class="form-control input-sm datatable_input_col_search"/>
                                     </th>
                                     <th>
-                                        <input type="text" name="filter_driver_email" placeholder="Surplus"
+                                        <input type="text" name="filter_driver_email" placeholder="Remaining Amount"
                                                class="form-control input-sm datatable_input_col_search"/>
                                     </th>
+                                    <th>
+                                        <input type="text" name="filter_driver_email" placeholder="Surplus"
+                                               class="form-control input-sm datatable_input_col_search"/>
+                                    </th>-->
                                     <th>
                                         <input type="text" name="filter_driver_id" placeholder="Created At"
                                                class="form-control input-sm datatable_input_col_search"/>
                                     </th>
+
                                 </tr>
                                 </tfoot>
                             </table>

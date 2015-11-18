@@ -6,6 +6,7 @@
 App.controller('dashboardController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT,$rootScope,ngDialog,$log) {
     'use strict';
     $rootScope.test = $cookieStore.get('obj1').adminType;
+    console.log($cookieStore.get('obj').accesstoken);
     $http.get(MY_CONSTANT.url + 'api/admin/statsInfo/' + $cookieStore.get('obj').accesstoken)
         .success(function (response, status) {
             if (status == 200) {

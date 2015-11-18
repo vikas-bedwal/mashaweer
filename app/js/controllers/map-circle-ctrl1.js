@@ -115,7 +115,7 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
 
 
         $scope.placeMarker = function (lat, long) {
-            var icon = 'app/img/mapMarker.png';
+           // var icon = 'app/img/mapMarker.png';
             $scope.map = {
                 zoom: 10,
                 center: new google.maps.LatLng(lat, long),
@@ -132,7 +132,7 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
             }
             var marker = new google.maps.Marker({
                 map: $scope.mapContainer,
-                icon: icon,
+                //icon: icon,
                 position: new google.maps.LatLng(lat, long),
                 draggable: true
             });
@@ -157,7 +157,7 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
 
         }
         $scope.dropoffmarker = function (lat, long) {
-            var icon = 'app/img/mapMarker.png';
+          //  var icon = 'app/img/mapMarker.png';
             $scope.map = {
                 zoom: 10,
                 center: new google.maps.LatLng(lat, long),
@@ -174,7 +174,7 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
             }
             var marker = new google.maps.Marker({
                 map: $scope.mapContainer,
-                icon: icon,
+              //  icon: icon,
                 position: new google.maps.LatLng(lat, long),
                 draggable: true
             });
@@ -217,61 +217,106 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
                 }
             });
         }
+
+        //*===========================================================================================================================*
+//*=============================================Validations implementation==============================================
+//*===========================================================================================================================*
+
         $scope.job = {};
         $scope.checkStatus = function (caseNo) {
+            console.log(caseNo)
             switch (caseNo) {
                 case 1:
                     if ($scope.panelDemo4 == 0 && ($scope.job.vehival_id == undefined || $scope.job.email == undefined || $scope.job.parcel_detail == undefined || $scope.job.personal_phone_no == undefined
                         || $scope.job.vehival_id == "" || $scope.job.email == "" || $scope.job.parcel_detail == "" || $scope.job.personal_phone_no == "")) {
+                        console.log("case1 col 0")
                         $scope.boxStatus1 = 0;
                     }
                     else if ($scope.panelDemo4 == 1 && ($scope.job.vehival_id == undefined || $scope.job.email == undefined || $scope.job.parcel_detail == undefined || $scope.job.personal_phone_no == undefined
                         || $scope.job.vehival_id == "" || $scope.job.email == "" || $scope.job.parcel_detail == "" || $scope.job.personal_phone_no == "")) {
                         $scope.boxStatus1 = 1;
+                        console.log("case1 col 1")
                     }
                     else {
                         $scope.successHit1 = 1;
+                        console.log("case1")
                     }
                     break;
 
                 case 2:
-                    if ($scope.panelDemo3 == 0 && ($scope.job.phone_no == undefined || $scope.job.sender_name == undefined || $scope.job.company_name == undefined || $scope.job.pick_up_before == undefined || $scope.job.pick_up_address == undefined || $scope.job.info == undefined
-                        || $scope.job.phone_no == "" || $scope.job.sender_name == "" || $scope.job.company_name == "" || $scope.job.pick_up_before == "" || $scope.job.pick_up_address == "" || $scope.job.info == "")) {
+                    console.log($("#p_mobile-number").val());
+                    if ($scope.panelDemo3 == 0 && ($("#p_mobile-number").val() == undefined || $scope.job.sender_name == undefined || $scope.job.pick_up_before == undefined || $scope.job.pick_up_address == undefined || $scope.job.info == undefined
+                        ||$("#p_mobile-number").val() == "" || $scope.job.sender_name == "" || $scope.job.pick_up_before == "" || $scope.job.pick_up_address == "" || $scope.job.info == "")) {
                         $scope.boxStatus2 = 0;
+                        console.log("case2 col 0")
                     }
-                    else if ($scope.panelDemo3 == 1 && ($scope.job.phone_no == undefined || $scope.job.sender_name == undefined || $scope.job.company_name == undefined || $scope.job.pick_up_before == undefined || $scope.job.pick_up_address == undefined || $scope.job.info == undefined
-                        || $scope.job.phone_no == "" || $scope.job.sender_name == "" || $scope.job.company_name == "" || $scope.job.pick_up_before == "" || $scope.job.pick_up_address == "" || $scope.job.info == "")) {
+                    else if ($scope.panelDemo3 == 1 && ($("#p_mobile-number").val() == undefined || $scope.job.sender_name == undefined || $scope.job.pick_up_before == undefined || $scope.job.pick_up_address == undefined || $scope.job.info == undefined
+                        || $("#p_mobile-number").val() == "" || $scope.job.sender_name == "" || $scope.job.pick_up_before == "" || $scope.job.pick_up_address == "" || $scope.job.info == "")) {
                         $scope.boxStatus2 = 1;
+                        console.log("case2 col 1")
                     }
                     else {
                         $scope.successHit2 = 1;
+                        console.log("case2")
                     }
                     break;
 
                 case 3:
-                    if ($scope.panelDemo2 == 0 && ($scope.job.d_phone_no == undefined || $scope.job.d_sender_name == undefined || $scope.job.d_company_name == undefined || $scope.job.d_drop_off_before == undefined || $scope.job.d_drop_off_address == undefined || $scope.job.d_info == undefined
-                        || $scope.job.d_phone_no == "" || $scope.job.d_sender_name == "" || $scope.job.d_company_name == "" || $scope.job.d_drop_off_before == "" || $scope.job.d_drop_off_address == "" || $scope.job.d_info == "")) {
+                    if ($scope.panelDemo2 == 0 && ($("#d_mobile-number").val() == undefined || $scope.job.d_sender_name == undefined || $scope.job.d_drop_off_before == undefined || $scope.job.d_drop_off_address == undefined || $scope.job.d_info == undefined
+                        || $("#d_mobile-number").val() == null || $scope.job.d_sender_name == "" || $scope.job.d_drop_off_before == "" || $scope.job.d_drop_off_address == "" || $scope.job.d_info == "")) {
                         $scope.boxStatus3 = 0;
+                        console.log("case3 col 0")
                     }
-                    else if ($scope.panelDemo2 == 1 && ($scope.job.d_phone_no == undefined || $scope.job.d_sender_name == undefined || $scope.job.d_company_name == undefined || $scope.job.d_drop_off_before == undefined || $scope.job.d_drop_off_address == undefined || $scope.job.d_info == undefined
-                        || $scope.job.d_phone_no == "" || $scope.job.d_sender_name == "" || $scope.job.d_company_name == "" || $scope.job.d_drop_off_before == "" || $scope.job.d_drop_off_address == "" || $scope.job.d_info == "")) {
+                    else if ($scope.panelDemo2 == 1 && ($("#p_mobile-number").val() == undefined || $scope.job.d_sender_name == undefined || $scope.job.d_drop_off_before == undefined || $scope.job.d_drop_off_address == undefined || $scope.job.d_info == undefined
+                        || $("#d_mobile-number").val() == "" || $scope.job.d_sender_name == "" || $scope.job.d_drop_off_before == "" || $scope.job.d_drop_off_address == "" || $scope.job.d_info == "")) {
                         $scope.boxStatus3 = 1;
+                        console.log("case3 col 1")
                     }
                     else {
                         $scope.successHit3 = 1;
+                        console.log("case3")
                     }
                     break;
                 case 4:
-                    if ($scope.panelDemo1 == 0 && ($scope.job.subscription_id == undefined || $scope.job.amount == undefined || $scope.job.payment_mode == undefined || $scope.job.payment_at == undefined || $scope.job.promo_code == undefined
-                        || $scope.job.subscription_id == "" || $scope.job.amount == "" || $scope.job.payment_mode == "" || $scope.job.payment_at == "" || $scope.job.promo_code == "")) {
-                        $scope.boxStatus4 = 0;
-                    }
-                    else if ($scope.panelDemo1 == 1 && ($scope.job.subscription_id == undefined || $scope.job.amount == undefined || $scope.job.payment_mode == undefined || $scope.job.payment_at == undefined || $scope.job.promo_code == undefined
-                        || $scope.job.subscription_id == "" || $scope.job.amount == "" || $scope.job.payment_mode == "" || $scope.job.payment_at == "" || $scope.job.promo_code == "")) {
-                        $scope.boxStatus4 = 1;
+                    if (!$scope.cash) {
+                        if (!$scope.card) {
+                            if ($scope.panelDemo1 == 0 && ($scope.job.subscription_id == undefined || $scope.job.subscription_id == "")) {
+                                $scope.boxStatus4 = 0;
+                                console.log("case4 col 0")
+                            }
+                            else if ($scope.panelDemo1 == 1 && ($scope.job.subscription_id == undefined  || $scope.job.subscription_id == "" )) {
+                                $scope.boxStatus4 = 1;
+                                console.log("case4 col 1")
+                            }
+                            else {
+                                $scope.successHit4 = 1;
+                                console.log("case4")
+                            }
+                        }
+
+                        else {
+                            console.log("card selected")
+                            if ($scope.panelDemo1 == 0 && ($scope.job.card_no == undefined || $scope.job.card_type == undefined || $scope.job.cvv == undefined
+                                || $scope.job.expiryMonth == undefined || $scope.job.expiryYear == undefined
+                                || $scope.job.card_no == "" || $scope.job.card_type == "" || $scope.job.cvv == "" || $scope.job.expiryMonth == "" || $scope.job.expiryYear == ""))  {
+                                $scope.boxStatus4 = 0;
+                                console.log("case4 col 0")
+                            }
+                            else if ($scope.panelDemo1 == 1 && ($scope.job.card_no == undefined || $scope.job.card_type == undefined || $scope.job.cvv == undefined
+                                || $scope.job.expiryMonth == undefined || $scope.job.expiryYear == undefined
+                                || $scope.job.card_no == "" || $scope.job.card_type == "" || $scope.job.cvv == "" || $scope.job.expiryMonth == "" || $scope.job.expiryYear == "")) {
+                                $scope.boxStatus4 = 1;
+                                console.log("case4 col 1")
+                            }
+                            else {
+                                $scope.successHit4 = 1;
+                                console.log("case4")
+                            }
+                        }
                     }
                     else {
                         $scope.successHit4 = 1;
+                        console.log("case4")
                     }
                     break;
                 default :  console.log("Default");
@@ -327,7 +372,7 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
                 $scope.drop_off.fullAddress = data.d_drop_off_address;
                 $scope.drop_off.information = data.d_info;
                 $scope.drop_off.otherDetails = data.d_other_details;
-
+return false;
                 $.post(MY_CONSTANT.url + 'api/admin/createOrder',
                     {
                         accessToken: $cookieStore.get('obj').accesstoken,
@@ -404,6 +449,7 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
         /*--------------------------------------------------------------------------
          * --------- funtion to draw path between pick-up location and drop-off ----
          ------------------------------- location ----------------------------------*/
+
         var drawPath = function (lat1, lng1, lat2, lng2) {
             if ($scope.poly) {
                 poly = $scope.poly;
@@ -446,12 +492,6 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
             $scope.poly = poly;
         };
 
-        /**
-         * AngularJS default filter with the following expression:
-         * "person in people | filter: {name: $select.search, age: $select.search}"
-         * performs a AND between 'name: $select.search' and 'age: $select.search'.
-         * We want to perform a OR.
-         */
         App.filter('propsFilter', function() {
             return function(items, props) {
                 var out = [];
@@ -474,7 +514,6 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
                         }
                     });
                 } else {
-                    // Let the output be the input untouched
                     out = items;
                 }
                 return out;
@@ -487,9 +526,6 @@ App.directive('numbersOnly', function () {
         require: 'ngModel',
         link: function (scope, element, attrs, modelCtrl) {
             modelCtrl.$parsers.push(function (inputValue) {
-                // this next if is necessary for when using ng-required on your input.
-                // In such cases, when a letter is typed first, this parser will be called
-                // again, and the 2nd time, the value will be undefined
                 if (inputValue == undefined) return ''
                 var transformedInput = inputValue.replace(/[^0-9]/g, '');
                 if (transformedInput != inputValue) {

@@ -62,7 +62,9 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
 
         /*================Setting marker for Live order pick up location===================*/
         var createMarker1 = function (info) {
+            var icon = 'app/img/map_icon.png';
             var marker = new MarkerWithLabel({
+                icon: icon,
                 position: new google.maps.LatLng(info.pickupLat, info.pickupLong),
                 map: $scope.mapContainer
             });
@@ -85,7 +87,9 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
 
         /*================Setting marker for Live order drop off location===================*/
         var createMarker2 = function (info) {
+            var icon = 'app/img/map_icon.png';
             var marker = new MarkerWithLabel({
+                icon: icon,
                 position: new google.maps.LatLng(info.dropUpLat, info.dropUpLong),
                 map: $scope.mapContainer
             });
@@ -272,7 +276,7 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                 });
         };
         $scope.drawMap();
-      /*  $scope.setinterval= setInterval(function(){
+        $scope.setinterval= setInterval(function(){
             $scope.$on('$destroy', function () {
                 dtInstance.fnDestroy();
                 $('[class*=ColVis]').remove();
@@ -281,7 +285,7 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
             markerCount = 0;
 
             $scope.drawMap();
-        }, 500000);*/
+        }, 60000);
 
 
         /*================ Listing Reassignable  driver for  ongoing order ===================*/

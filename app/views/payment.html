@@ -1,48 +1,349 @@
-<h3>
-    Payment List
-    <small>Displaying list of all payment.</small>
-</h3>
-<div ng-controller="paymentController" class="container-fluid">
+<style>
+    .panel .dataTable {
+        width: 2350px !important;
+    }
+    div.dataTables_filter label {
+        font-weight: normal;
+        float: right;
+        padding: 10px;
+    }
+    #datatable2_wrapper{
+        margin-top:50px !important;
+    }
+    #datatable2_filter > label{
+        margin-top:-50px !important;
+    }
+
+</style>
+<!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.0.3/css/buttons.dataTables.min.css">-->
+<!--<h3>
+    Order List
+    <small>Displaying list of all orders.</small>
+</h3>-->
+<div ng-controller="ordersController" class="container-fluid ngdialog-message headerMargin">
+    <h3 class="page-header" id="page-header-techServices">Payment List
+        <!--<a ng-click="exportData()" class="btn btn-success pull-right headerButtonMargin">Export To CSV</a>
+        <a ng-click="addSearchDialog()" class="btn btn-success pull-right" style="margin: -5px 10px 0 0">Advance Search</a>
+        <a ng-click="showAllOrder()" class="btn btn-success pull-right" style="margin: -5px 10px 0 0">Show All</a>-->
+    </h3>
+
     <!-- START DATATABLE 2 -->
     <div class="row">
         <div class="col-lg-12">
-            <div class="panel panel-default">
+            <div class="panel panel-default" ng-class="{'whirl standard' : loading }" >
                 <div class="table-responsive">
-                    <table id="datatable2" class="table table-striped table-hover">
+                    <table id="datatable2" class="table table-striped table-hover display" style="width: 2500px !important;">
+                        <select class=" input-sm orderPerPage" ng-init="records=50" ng-model="records" ng-change="recordsPerPageVal()" >
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                                <span class="recordsPerPageText">
+                                records per page
+                                    </span>
                         <thead>
                         <tr>
-                            <th>No.</th>
+                            <th>Id</th>
                             <th hidden="">Id</th>
-                            <th>Customer Name</th>
-                            <th>Total Fare</th>
-                            <th>Payment Type</th>
-                            <th>Registration Time</th>
+                            <th style="width: 99px !important;min-width: 99px !important;">Booking Date</th>
+                            <th style="width: 99px !important;min-width: 99px !important;">Customer Name</th>
+                            <th style="width: 77px !important;min-width: 77px !important;">Driver Name</th>
+                            <th style="width: 94px !important;min-width: 94px !important;">Estimated Fare</th>
+                            <th style="width: 63px !important;min-width: 63px !important;">Total Fare</th>
+                             <th style="width: 156px !important;min-width: 156px !important;">Waiting Charge At PickUp</th>
+                             <th style="width: 160px !important;min-width: 160px !important;">Wating Charge At Delivery</th>
+                             <th style="width: 130px !important;min-width: 130px !important;">Cancellation Charges</th>
+                             <th style="width: 96px !important;min-width: 96px !important;">Credit Charged</th>
+                             <th style="width: 95px !important;min-width: 95px !important;">Card Charged</th>
+                             <th style="width: 110px !important;min-width: 110px !important;">Cash At Pick Up</th>
+                             <th style="width: 110px !important;min-width: 110px !important;">Cash At Delivery</th>
+                             <th>Discount</th>
+                             <!--<th style="width: 72px !important;min-width: 72px !important;">Final Credit</th>-->
+                             <th style="width: 100px !important;min-width: 100px !important;">Panelized Credit</th>
+                             <th style="width: 127px !important;min-width: 127px !important;">Outstanding Amount</th>
+                             <th style="width: 127px !important;min-width: 127px !important;">Remaining Amount</th>
+                             <th style="width: 98px !important;min-width: 98px !important;">Surplus Amount</th>
+                            <th style="width: 144px !important;min-width: 144px !important;">Created At</th>
+                            <!-- <th>Edit</th>-->
+
+
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="data in list">
-                            <td>{{$index + 1}}</td>
+                            <td>{{data.orderId}}</td>
                             <td hidden="hidden">{{data._id}}</td>
+                            <td>{{data.scheduledPickUp}}</td>
                             <td>{{data.customerName}}</td>
-                            <td>{{data.amount}}</td>
-                            <td>{{data.paymentMode}}</td>
+                            <td>{{data.driverName}}</td>
+                            <td>{{data.initialEstimatedFare}}</td>
+                            <td>{{data.totalChargedCost}}</td>
+                            <td>{{data.waitingChargeAtPickup}}</td>
+                            <td>{{data.waitingChargeAtDelivery}}</td>
+                            <td>{{data.cancellationCost}}</td>
+                            <td>{{data.creditsUsed}}</td>
+                            <td>{{data.cardCharged}}</td>
+                            <td>{{data.cashCollectedAtPickUp}}</td>
+                            <td>{{data.cashCollectedAtDelivery}}</td>
+                            <td>{{data.discountGiven}}</td>
+                            <!--<td>{{data.finalCost}}</td>-->
+                            <td>{{data.negativeCreditsAdded}}</td>
+                            <td>{{data.outStandingAmountTaken}}</td>
+                            <td>{{data.remainingAmountToBeCharged}}</td>
+                            <td>{{data.surplusAmountTransferredToCredit}}</td>
                             <td>{{data.createdAt}}</td>
-                            <!--<td>{{data.isDeleted}}</td>-->
-                            <!--<td style="text-align: center;">
-                                <button ng-hide="{{data.is_blocked}}" ng-click="blockCust(data.email)"
-                                        title="Block" class="btn btn-sm btn-success">
-                                    <em class="fa fa-unlock"></em>
-                                </button>
-                                <button ng-show="{{data.is_blocked}}" ng-click="blockCust(data.email)"
-                                        title="Unblock" class="btn btn-sm btn-success">
-                                    <em class="fa fa-lock"></em>
-                                </button>
-                            </td>-->
                         </tr>
                         </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>
+                                <input type="text" name="filter_driver_id" placeholder="Id"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>
+                            <th hidden="">
+                                <input type="text" name="filter_driver_id" placeholder="Id"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>
+                            <th>
+                                <input type="text" name="filter_driver_id" placeholder="Booking Date"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>
+                            <th>
+                                <input type="text" name="filter_driver_name" placeholder="Customer Name"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>
+                            <th>
+                                <input type="text" name="filter_driver_email" placeholder="Driver Name"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>
+                            <th>
+                                <input type="text" name="filter_driver_id" placeholder="Estimated Fare"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>
+                            <th>
+                                <input type="text" name="filter_driver_email" placeholder="Total Fare"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>
+                            <th>
+                                <input type="text" name="filter_driver_id" placeholder="Wating Charge At PickUp"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>
+                            <th>
+                                <input type="text" name="filter_driver_id" placeholder="Waiting Charge At Delivery"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>
+                            <th>
+                                <input type="text" name="filter_driver_email" placeholder="Cancellation"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>
+                            <th>
+                                <input type="text" name="filter_driver_email" placeholder="Credit"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>
+                            <th>
+                                <input type="text" name="filter_driver_email" placeholder="Card"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>
+                            <th>
+                                <input type="text" name="filter_driver_email" placeholder="Cash At PickUp"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>
+                            <th>
+                                <input type="text" name="filter_driver_id" placeholder="Cash At Delivery"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>
+                            <th>
+                                <input type="text" name="filter_driver_email" placeholder="Discount"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>
+                            <!--<th>
+                                <input type="text" name="filter_driver_email" placeholder="Final Credit"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>-->
+                            <th>
+                                <input type="text" name="filter_driver_email" placeholder="Negative Credit"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>
+                            <th>
+                                <input type="text" name="filter_driver_email" placeholder="Outstanding Credit"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>
+                            <th>
+                                <input type="text" name="filter_driver_email" placeholder="Remaining Amount"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>
+                            <th>
+                                <input type="text" name="filter_driver_email" placeholder="Surplus"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>
+                            <th>
+                                <input type="text" name="filter_driver_id" placeholder="Created At"
+                                       class="form-control input-sm datatable_input_col_search"/>
+                            </th>
+
+                        </tr>
+                        </tfoot>
                     </table>
+                    <span class="orderPagination1">Showing <span>{{skip+1}}</span> to <span>{{footerInfo}}</span> of <span>{{bigTotalItems}}</span> entries</span>
+                    <pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" boundary-links="true" rotate="false"
+                                class="pagination-sm orderPagination" ng-change="pageChanged()" items-per-page="itemsPage"></pagination>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script type="text/ng-template" id="modalDialogId">
+    <div class="ngdialog-message">
+        <div class="panel-body">
+
+            <div class="panel-heading" style="font-weight: bolder; color: gray">
+                <h3>Order ID: <span style="color: #F6D21A">{{orderId}}</span></h3>
+            </div>
+            <div class="pull-right">
+                <!--     <p class="m0">
+                         <small class="mr">Single column</small>
+                         <label class="switch pull-right">
+                             <input type="checkbox" checked="checked" ng-model="timelineAlt" />
+                             <span></span>
+                         </label>
+                     </p>-->
+            </div>
+            <!--<h4>Timeline</h4>-->
+            <!-- START timeline-->
+            <ul ng-class="timelineAlt ? 'timeline-alt' : 'timeline'" ng-init="timelineAlt=true">
+                <li data-datetime="Timeline" class="timeline-separator"></li>
+                <!-- START timeline item-->
+                <li ng-repeat="data in timings">
+                    <div class="timeline-badge success">
+                        <em class="fa fa-check"></em>
+                    </div>
+                    <div class="timeline-panel">
+                        <div ng-class="timelineAlt ? 'right' : 'left'" class="popover">
+                            <!--<h4 class="popover-title">Client Meeting</h4>-->
+                            <div class="arrow"></div>
+                            <div class="popover-content">
+                                <p style="color: #480000">{{data}}
+                                    <br/>
+                                    <small></small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!-- END timeline-->
+        </div>
+    </div>
+</script>
+
+<!---------------- Start Advance Search View--------------------->
+
+<script type="text/ng-template" id="advanceSearch">
+    <form method="post" validate-form="" novalidate="" ng-submit="advanceSearch(pop)">
+        <div class="ngdialog-message">
+            <div class="panel-body">
+
+                <div class="panel-heading" style="font-weight: bolder; color: gray">
+                    <h4>Advance Search</h4>
+                </div>
+                <form method="post" ng-submit="editDriver(pop)" validate-form=""
+                      novalidate="" id="add-promo">
+                    <!-- START panel-->
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-lg-6 padding-left">
+                                <label class="control-label">Order Id</label>
+                                <input class="form-control" ng-model="pop.orderId"/>
+                            </div>
+                            <div class="col-lg-6 padding-right">
+                                <label class="control-label">Status</label>
+                                <input class="form-control" ng-model="pop.status"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-6 padding-left">
+                                <label class="control-label">Customer Name</label>
+                                <input class="form-control" ng-model="pop.customerName"/>
+                            </div>
+                            <div class="col-lg-6 padding-right">
+                                <label class="control-label">Driver Name</label>
+                                <input class="form-control" ng-model="pop.driverName"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-6 padding-left">
+                                <p class="input-group">
+                                    <label class="control-label">Start Date</label>
+                                    <input type="text" readonly="" id="start_date"
+                                           datepicker-popup="{{format}}"
+                                           ng-model="pop.start_date"
+                                           is-open="datepicker.dt1"
+                                           min-date="min_date"
+                                           max-date="" datepicker-options="dateOptions"
+                                           date-disabled="disabled(date, mode)"
+                                           ng-required="true" close-text="Close"
+                                           class="form-control"/>
+            <span class="input-group-btn promoCOdeClndr">
+               <button type="button" ng-click="openDt1($event)" class="btn btn-default">
+                   <em class="fa fa-calendar"></em>
+               </button>
+            </span>
+                                </p>
+                            </div>
+                            <div class="col-lg-6 padding-right">
+                                <p class="input-group">
+                                    <label class="control-label">End Date</label>
+                                    <input type="text" readonly="" id="end_date"
+                                           datepicker-popup="{{format}}"
+                                           ng-model="pop.end_date"
+                                           is-open="datepicker.dt2"
+                                           min-date="promo.start_date"
+                                           max-date="maxDate"
+                                           datepicker-options="dateOptions"
+                                           date-disabled="disabled(date, mode)"
+                                           ng-required="true" close-text="Close"
+                                           class="form-control"/>
+                                                                    <span class="input-group-btn promoCOdeClndr">
+               <button type="button" ng-click="openDt2($event)" class="btn btn-default">
+                   <em class="fa fa-calendar"></em>
+               </button>
+            </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-6 padding-left">
+                                <label class="control-label">Person At Pick Up</label>
+                                <input class="form-control" ng-model="pop.personAtPickUp"/>
+                            </div>
+                            <div class="col-lg-6 padding-right">
+                                <label class="control-label">Person At Delivery</label>
+                                <input class="form-control" ng-model="pop.personAtDelivery"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Vehicle Type</label>
+                            <select ng-model="pop.vehicleType" class="form-control">
+                                <option value="BIKE">Bike</option>
+                                <option value="CAR">Car</option>
+                                <option value="TRUCK">Truck</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- END panel-->
+                </form>
+
+            </div>
+            <button type="submit" class="btn btn-success mr" style="margin-left: 25px">Save
+            </button>
+            <button type="button" ng-click="closeThisDialog('button')" class="btn btn-default">
+                Cancel
+            </button>
+        </div>
+    </form>
+</script>
+
