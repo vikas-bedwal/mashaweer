@@ -382,7 +382,6 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
             $('[class*=ColVis]').remove();
         })
         $scope.recordsPerPage();
-        $scope.drawMap();
-    }, 20000);
+    }, 60000);
 
 });

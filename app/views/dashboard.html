@@ -174,6 +174,8 @@
                                 <th hidden="hidden">ID</th>
                                 <th>Pick up Location</th>
                                 <th>Drop off Location</th>
+                                <th>Pick up Time</th>
+                                <th>Drop off Time</th>
                                 <th>Driver Name</th>
                                <!-- <th>Action</th>-->
                             </tr>
@@ -184,6 +186,14 @@
                                 <td hidden="hidden">{{data._id}}</td>
                                 <td>{{data.pickupAddress}}</td>
                                 <td>{{data.dropUpAddress}}</td>
+                                <td><input type="text" id="datetimepicker" name="pick_up_before"
+                                           class="form-control"
+                                           readonly
+                                           placeholder="Pick-up Time" ng-model="job.pick_up_before"></td>
+                                <td><input type="text" name="drop_off_before" id="datetimepicker1"
+                                             class="form-control"
+                                             readonly
+                                             placeholder="Drop-Off Time" ng-model="job.d_drop_off_before"></td>
                                 <td>{{data.driverFullName}}</td>
                                 <!--<td style="text-align: center;">
                                     <button ng-click="reAssignList(data._id,data.driverId,data.status)"

@@ -2,7 +2,7 @@
  * Created by vikas on 20/08/15.
  */
 
-App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLogger', 'uiGmapGoogleMapApi', '$cookies', '$cookieStore', 'MY_CONSTANT'
+App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLogger', 'uiGmapGoogleMapApi', '$cookies', '$cookieStore', 'MY_CONSTANT', 'ngDialog'
     , function ($scope, $timeout, $http, $log, GoogleMapApi, $cookies, $cookieStore, MY_CONSTANT,ngDialog) {
         $http.get(MY_CONSTANT.url + 'api/admin/customerList/' + $cookieStore.get('obj').accesstoken)
             .success(function (response, status) {
@@ -68,7 +68,13 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
 
 
         // Below line is for datetime picker
-        jQuery('#datetimepicker').datetimepicker();
+        //jQuery('#datetimepicker').datetimepicker();
+        jQuery('#datetimepicker').datetimepicker({
+
+            timepicker: true,
+            format: 'Y-m-d H:i:s'
+        });
+
         jQuery('#datetimepicker1').datetimepicker();
         $("#p_mobile-number").intlTelInput({
             utilsScript: "vendor/utils.js"
@@ -149,9 +155,12 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
             });
             google.maps.event.addListener(marker, 'dragend', function () {
                 //$scope.reverseGeocode(marker.getPosition(), 1);
+                $scope.origin  = marker.getPosition();
                 $scope.lat1 = marker.getPosition().lat();
                 $scope.lng1 = marker.getPosition().lng();
                 $scope.reverseGeocode(marker.getPosition(), 0);
+                if($scope.origin != undefined && $scope.destination != undefined)
+                $scope.getDistance();
                 drawPath($scope.lat1, $scope.lng1, $scope.lat2, $scope.lng2);
             });
 
@@ -190,9 +199,12 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
             });
             google.maps.event.addListener(marker, 'dragend', function () {
                 //$scope.reverseGeocode(marker.getPosition(), 1);
+                $scope.destination = marker.getPosition();
                 $scope.lat2 = marker.getPosition().lat();
                 $scope.lng2 = marker.getPosition().lng();
                 $scope.reverseGeocode(marker.getPosition(), 1);
+                if($scope.origin != undefined && $scope.destination != undefined)
+                $scope.getDistance();
                 drawPath($scope.lat1, $scope.lng1, $scope.lat2, $scope.lng2);
             });
 
@@ -224,7 +236,6 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
 
         $scope.job = {};
         $scope.checkStatus = function (caseNo) {
-            console.log(caseNo)
             switch (caseNo) {
                 case 1:
                     if ($scope.panelDemo4 == 0 && ($scope.job.vehival_id == undefined || $scope.job.email == undefined || $scope.job.parcel_detail == undefined || $scope.job.personal_phone_no == undefined
@@ -333,13 +344,14 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
         $scope.successHit4 = 0;
         $scope.pick_up = {};
         $scope.drop_off = {};
+
+
+
         $scope.addOrder = function (data, status) {
             console.log(data);
-
             var country_code = $("#p_mobile-number").intlTelInput("getSelectedCountryData").dialCode;
-            var country_code1 = $("#d_mobile-number").val();
-            console.log(country_code);
-            console.log(country_code1);
+            var p_phone_no = $("#p_mobile-number").val();
+            var d_phone_no = $("#d_mobile-number").val();
 
      /*       console.log("Place It");
             console.log(data);
@@ -352,52 +364,70 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
             console.log($scope.panelDemo2);
             console.log($scope.panelDemo1);
             console.log(!$scope.panelDemo1);*/
+            console.log(data.pick_up_before+" +0000");
             if ($scope.panelDemo4==1 && $scope.panelDemo3==1 && $scope.panelDemo2==1 && $scope.panelDemo1==1) {
                 $scope.pick_up.latitude = $scope.lat1;
                 $scope.pick_up.longitude = $scope.lng1;
-                $scope.pick_up.pickupTime = data.pick_up_before;
-                $scope.pick_up.companyName = data.company_name;
+                $scope.pick_up.pickupTime = data.pick_up_before+" +0000";
+                $scope.pick_up.companyName = "Mashaweer";
                 $scope.pick_up.senderName = data.sender_name;
-                $scope.pick_up.phoneNumber = data.phone_no;
+                $scope.pick_up.phoneNumber = p_phone_no;
+                $scope.pick_up.city = "Dubai";
                 $scope.pick_up.fullAddress = data.pick_up_address;
-                $scope.pick_up.information = data.info;
-                $scope.pick_up.otherDetails = data.other_details;
-
+                $scope.pick_up.information = "";
+                $scope.pick_up.otherDetails = "";
                 $scope.drop_off.latitude = $scope.lat2;
                 $scope.drop_off.longitude = $scope.lng2;
-                $scope.drop_off.pickupTime = data.d_drop_off_before;
-                $scope.drop_off.companyName = data.d_company_name;
-                $scope.drop_off.senderName = data.d_sender_name;
-                $scope.drop_off.phoneNumber = data.d_phone_no;
+                //$scope.drop_off.pickupTime = data.d_drop_off_before;
+                $scope.drop_off.companyName = "Mashaweer";
+                $scope.drop_off.receiverName = data.d_receiver_name;
+                $scope.drop_off.phoneNumber = d_phone_no;
+                $scope.drop_off.city = "Dubai";
                 $scope.drop_off.fullAddress = data.d_drop_off_address;
-                $scope.drop_off.information = data.d_info;
-                $scope.drop_off.otherDetails = data.d_other_details;
-return false;
+                $scope.drop_off.information = "";
+                $scope.drop_off.otherDetails = "";
+                var subscriptionId = "";
+                var subscriptionType = "";
+                var promoCode = "";
+                var cardAlias = "";
+                console.log(distance);
                 $.post(MY_CONSTANT.url + 'api/admin/createOrder',
                     {
                         accessToken: $cookieStore.get('obj').accesstoken,
                         email: data.email,
                         vehicleId: data.vehival_id,
-                        amount: data.amount,
+                        amount: actualAmount,
+                        estimateFare: estimatedValue,
                         parcelDetails: data.parcel_detail,
+                        distance: distance,
                         pickupLocation: $scope.pick_up,
                         deliveryLocation: $scope.drop_off,
-                        note: data.note,
+                        note: "",
                         paymentMode: data.payment_mode,
-                        subscribedSubscriptionId: data.subscription_id,
+                        subscriptionId: subscriptionId,
+                        subscriptionType: subscriptionType,
                         collectPaymentAt: data.payment_at,
-                        promoCode: data.promo_code
+                        promoCode: promoCode,
+                        cardAlias: cardAlias
                     })
                     .success(function (data,status)  {
-                        if (status != 'success') {
-                            $scope.authMsg = data.message;
+                        if (status != 'success' || status != 201) {
+                            $scope.hitResponse = data.message;
+                            ngDialog.open({
+                                template: 'display_msg',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope,
+                                showClose: true
+                            });
+                            /*$scope.authMsg = data.message;
                             setTimeout(function () {
                                 $scope.authMsg = "";
                                 $scope.$apply();
                             }, 3000);
-                            $scope.$apply();
+                            $scope.$apply();*/
                         } else {
-                            $scope.displaymsg = "Dispatcher Added Successfully";
+                            console.log("else");
+                            $scope.displaymsg = "Order Placed Successfully";
                             ngDialog.open({
                                 template: 'display_msg',
                                 className: 'ngdialog-theme-default',
@@ -407,6 +437,13 @@ return false;
                         }
                     })
                     .error(function(data, status){
+                        $scope.hitResponse = JSON.parse(data.responseText).message;
+                        ngDialog.open({
+                            template: 'display_msg',
+                            className: 'ngdialog-theme-default',
+                            scope: $scope,
+                            showClose: true
+                        });
                     })
             }
             else {
@@ -415,9 +452,6 @@ return false;
                     $scope.errorMsg = "";
                     $scope.$apply();
                 }, 3000);
-
-
-
             }
         }
 
@@ -428,24 +462,95 @@ return false;
             }, function (results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     if (flag == 1) {
+                        $scope.origin = results[0].geometry.location;
                         $scope.lat1 = results[0].geometry.location.lat();
                         $scope.lng1 = results[0].geometry.location.lng();
                         $scope.placeMarker($scope.lat1, $scope.lng1);
+                        if($scope.origin != undefined && $scope.destination != undefined)
+                        $scope.getDistance();
                         //drawPath( $scope.lat1,$scope.lng1,30.7333148,76.7794179);
                     }
                     else {
+                        $scope.destination = results[0].geometry.location;
                         $scope.lat2 = results[0].geometry.location.lat();
                         $scope.lng2 = results[0].geometry.location.lng();
                         $scope.dropoffmarker($scope.lat2, $scope.lng2);
+                        if($scope.origin != undefined && $scope.destination != undefined)
+                        $scope.getDistance();
                         // drawPath( $scope.lat2,$scope.lng2,30.7333148,76.7794179);
                     }
-
                     drawPath($scope.lat1, $scope.lng1, $scope.lat2, $scope.lng2);
                 }
             });
         }
 
+//*===========================================================================================================================*
+//*=============================================GET DISTANCE==============================================
+//*===========================================================================================================================*
 
+        var distance = 0;
+        $scope.getDistance = function () {
+                // show route between the points
+                directionsService = new google.maps.DirectionsService();
+                directionsDisplay = new google.maps.DirectionsRenderer(
+                    {
+                        suppressMarkers: true,
+                        suppressInfoWindows: true
+                    });
+                // directionsDisplay.setMap(map);
+                var request = {
+                    origin: $scope.origin,
+                    destination: $scope.destination,
+                    travelMode: google.maps.DirectionsTravelMode.DRIVING
+                };
+                directionsService.route(request, function (response, status) {
+                    if (status == google.maps.DirectionsStatus.OK) {
+                        var string;
+
+                        directionsDisplay.setDirections(response);
+
+                        var driving_time = parseFloat(response.routes[0].legs[0].duration.value / 60);
+                        distance = parseFloat(response.routes[0].legs[0].distance.value / 1000);
+                        console.log(distance)
+                        getEstimatedFare();
+                    }
+                    $scope.$apply();
+                });
+        }
+
+
+        //*===========================================================================================================================*
+//*=============================================GET ESTIMATED FARE==============================================
+//*===========================================================================================================================*
+
+        var actualAmount = 0;
+        var estimatedValue = 0;
+        var getEstimatedFare = function () {
+            console.log("In fare")
+            console.log($scope.job.email)
+            $http({
+                url: MY_CONSTANT.url + 'api/admin/calculateFare',
+                method: "POST",
+                data: { accessToken : $cookieStore.get('obj').accesstoken,
+                        customerEmail: $scope.job.email,
+                        distanceInKM: distance.toString(),
+                        vehicleType: "TRUCK"
+                }
+            })
+                .then(function(data) {
+                    actualAmount = data.data.data.actualAmount;
+                    estimatedValue = data.data.data.estimatedValue;
+                },
+                function(data) { // optional
+                    // failed
+                    $scope.hitResponse = data.message;
+                    ngDialog.open({
+                        template: 'display_msg',
+                        scope: '$scope',
+                        className: 'ngdialog-theme-default'
+                    })
+                });
+        }
         /*--------------------------------------------------------------------------
          * --------- funtion to draw path between pick-up location and drop-off ----
          ------------------------------- location ----------------------------------*/

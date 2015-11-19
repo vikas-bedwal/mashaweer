@@ -49,13 +49,13 @@
                                     <div class="col-lg-6">
 
                                         <div class="form-group">
-                                            <select id="vehival_id" ng-init="job.vehival_id='BIKE'"
+                                            <select id="vehival_id" ng-init="job.vehival_id='55b083a6da0588448a6ee410'"
                                                     ng-model="job.vehival_id"
                                                     required="required"
                                                     placeholder="Vehicle" name="vehival_id" class="form-control">
-                                                <option value="BIKE">Bike</option>
-                                                <option value="CAR">Car</option>
-                                                <option value="TRUCK">Truck</option>
+                                                <option value="55b083a6da0588448a6ee410">Bike</option>
+                                                <option value="55b083acda0588448a6ee411">Car</option>
+                                                <option value="55a39fe921b83d9dde82b08a">Truck</option>
                                             </select>
                                         </div>
                                     </div>
@@ -186,7 +186,7 @@
                                         <div class="form-group">
                                             <input type="text" name="sender_name"
                                                    class="form-control"
-                                                   placeholder="Sender Name" ng-model="job.d_sender_name"
+                                                   placeholder="Receiver Name" ng-model="job.d_receiver_name"
                                                    ng-required="boxStatus3"
                                                    required="required">
                                         </div>
@@ -237,25 +237,25 @@
 
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <select id="payment_mode" ng-init="job.payment_mode='cash'"
+                                            <select id="payment_mode" ng-init="job.payment_mode='COD'"
                                                     ng-model="job.payment_mode"
                                                     required="required" ng-change="paymentMode(job.payment_mode)"
                                                     placeholder="Payment Mode" name="payment_mode" class="form-control">
-                                                <option value="cash">Cash</option>
-                                                <option value="card">Card</option>
-                                                <option value="subscription">Subscription</option>
+                                                <option value="COD">Cash</option>
+                                                <!--<option value="card">Card</option>
+                                                <option value="subscription">Subscription</option>-->
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-6" ng-show="cash">
                                         <div class="form-group">
-                                            <select id="payment_at" ng-init="job.payment_at='pickup'"
+                                            <select id="payment_at" ng-init="job.payment_at='PICKUP_LOC'"
                                                     ng-model="job.payment_at"
                                                     required="required"
                                                     placeholder="Payment At" name="payment_at" class="form-control">
-                                                <option value="pickup">Pick Up</option>
-                                                <option value="delivery">Delivery</option>
+                                                <option value="PICKUP_LOC">Pick Up</option>
+                                                <option value="DELIVERY_LOC">Delivery</option>
                                             </select>
                                         </div>
                                     </div>
@@ -442,7 +442,6 @@
                 </div>
             </div>
         </form>
-
     </div>
     <div class="col-lg-6">
         <div class="panel widget bg-primary">
@@ -460,8 +459,8 @@
 *******************************************************************************-->
 <script type="text/ng-template" id="display_msg">
     <div class="ngdialog-message">
-        <h4>Dispatcher Added Successfully</h4>
-        <button type="submit" ng-click="close()" class="btn btn-primary"
+        <h4>{{hitResponse}}</h4>
+        <button type="submit" ng-click="closeThisDialog(0)" class="btn btn-success"
                 style="margin-top:20px;float:right;">OK
         </button>
         <div style="clear: both;"></div>

@@ -5,6 +5,10 @@
 App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLogger','uiGmapGoogleMapApi', '$cookies', '$cookieStore', 'MY_CONSTANT','ngDialog'
     , function ($scope, $timeout, $http, $log, GoogleMapApi, $cookies, $cookieStore, MY_CONSTANT,ngDialog) {
 
+
+        jQuery('#datetimepicker').datetimepicker();
+        jQuery('#datetimepicker1').datetimepicker();
+
         $log.currentLevel = $log.LEVELS.debug;
         var center = {
             latitude: "30.7333148",
