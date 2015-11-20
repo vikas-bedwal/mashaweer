@@ -197,8 +197,8 @@
                                 <th>Drop off Location</th>
                                 <th>Pick up Time</th>
                                 <th>Drop off Time</th>
-                                <th>Driver Name</th>
-                                <th>Action</th>
+                                <th style="width: 7% !important;">Driver Name</th>
+                                <th style="width: 10% !important;">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -213,11 +213,11 @@
                                 <td>{{data.driverFullName}}</td>
 
                                 <td style="text-align: center;">
-                                    <button ng-click="editTimings(data._id,data.pickupTime,data.deliveryTime)"
+                                    <button ng-click="editTimings(data.orderId,data.pickupTime,data.deliveryTime)"
                                            title="Edit" class="btn btn-sm btn-success">Edit
                                    </button>
                                     <button ng-click="reAssignList(data._id,data.driverId,data.status)"
-                                                     title="Reassign" class="btn btn-sm btn-success">Reassign
+                                                     title="Reassign" class="btn btn-sm btn-warning">Reassign
                                 </button>
                                 </td>
                             </tr>
@@ -314,20 +314,21 @@
                             <div class="modal-panel-body">
                                 <div class="form-group">
                                     <label class="control-label">Pick Up Time</label>
-                                    <input type="text" id="datetimepicker" name="pick_up_before"
+                                    <input type="text" id="dashdatetimepicker" name="pick_up_before"
                                            class="form-control"
                                            readonly
                                            placeholder="Pick-up Time" ng-model="pickup">
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Drop Off Time</label>
-                                    <input type="text" name="drop_off_before" id="datetimepicker1"
+                                    <input type="text" name="drop_off_before" id="dashdatetimepicker1"
                                            class="form-control"
                                            readonly
-                                           placeholder="Drop-Off Time" ng-model="del">
+                                           placeholder="Drop-Off Time" ng-model="delivery">
                                 </div>
                                 <div class="panel-footer modal-panel-footer">
                                     <button class="btn btn-success" ng-click="edit();closeThisDialog(0)">Submit</button>
+                                    <button class="btn btn-default" ng-click="closeThisDialog(0)">Cancel</button>
                                 </div>
                             </div>
                             </form>

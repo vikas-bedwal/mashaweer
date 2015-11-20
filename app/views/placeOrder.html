@@ -49,10 +49,10 @@
                                     <div class="col-lg-6">
 
                                         <div class="form-group">
-                                            <select id="vehival_id" ng-init="job.vehival_id='55b083a6da0588448a6ee410'"
-                                                    ng-model="job.vehival_id"
+                                            <select id="vehicle_id" ng-init="job.vehicle_id='55b083a6da0588448a6ee410'"
+                                                    ng-model="job.vehicle_id"
                                                     required="required"
-                                                    placeholder="Vehicle" name="vehival_id" class="form-control">
+                                                    placeholder="Vehicle" name="vehicle_id" class="form-control">
                                                 <option value="55b083a6da0588448a6ee410">Bike</option>
                                                 <option value="55b083acda0588448a6ee411">Car</option>
                                                 <option value="55a39fe921b83d9dde82b08a">Truck</option>
@@ -452,6 +452,24 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+        $("#datetimepicker").datetimepicker({
+            format: 'yyyy-mm-dd hh:ii',
+
+            autoclose: true
+            //startDate: start
+            //endDate: e
+        });
+        $("#datetimepicker1").datetimepicker({
+            format: 'yyyy-mm-dd hh:ii',
+
+            autoclose: true
+            //startDate: start
+            //endDate: e
+        });
+    </script>
 </div>
 
 <!-- **************************************************************************
@@ -466,5 +484,6 @@
         <div style="clear: both;"></div>
     </div>
 </script>
+
 
 

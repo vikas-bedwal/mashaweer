@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9668868d-7c3b-418d-95e8-db7ad5491ce6" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/jquery/jquery.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/js/app.js" afterPath="$PROJECT_DIR$/app/js/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/dashboard.html" afterPath="$PROJECT_DIR$/app/views/dashboard.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/js/controllers/map-circle-ctrl.js" afterPath="$PROJECT_DIR$/app/js/controllers/map-circle-ctrl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/js/controllers/map-circle-ctrl1.js" afterPath="$PROJECT_DIR$/app/js/controllers/map-circle-ctrl1.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/js/myApp.js" afterPath="$PROJECT_DIR$/app/js/myApp.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/js/controllers/orders-ctrl.js" afterPath="$PROJECT_DIR$/app/js/controllers/orders-ctrl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/placeOrder.html" afterPath="$PROJECT_DIR$/app/views/placeOrder.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Mashaweer.iws" />
@@ -35,21 +36,21 @@
       <file leaf-file-name="orders-ctrl.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/js/controllers/orders-ctrl.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-54.22222" vertical-offset="4296" max-vertical-offset="5940">
-              <caret line="384" column="35" selection-start-line="384" selection-start-column="35" selection-end-line="384" selection-end-column="35" />
+            <state vertical-scroll-proportion="-16.11111" vertical-offset="2970" max-vertical-offset="6165">
+              <caret line="227" column="97" selection-start-line="226" selection-start-column="23" selection-end-line="227" selection-end-column="97" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="map-circle-ctrl.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="map-circle-ctrl.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/js/controllers/map-circle-ctrl.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4600939" vertical-offset="726" max-vertical-offset="7365">
-              <caret line="68" column="27" selection-start-line="68" selection-start-column="27" selection-end-line="68" selection-end-column="27" />
+            <state vertical-scroll-proportion="-8.888889" vertical-offset="3720" max-vertical-offset="7515">
+              <caret line="264" column="67" selection-start-line="264" selection-start-column="67" selection-end-line="264" selection-end-column="67" />
               <folding>
-                <element signature="e#19842#19920#0" expanded="false" />
-                <element signature="e#21229#21621#0" expanded="false" />
+                <element signature="e#20535#20613#0" expanded="false" />
+                <element signature="e#21922#22314#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -58,9 +59,11 @@
       <file leaf-file-name="dashboard.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/dashboard.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.745098" vertical-offset="2983" max-vertical-offset="5205">
-              <caret line="215" column="75" selection-start-line="215" selection-start-column="75" selection-end-line="215" selection-end-column="75" />
+            <state vertical-scroll-proportion="-4.45098" vertical-offset="4618" max-vertical-offset="5220">
+              <caret line="323" column="86" selection-start-line="323" selection-start-column="86" selection-end-line="323" selection-end-column="86" />
               <folding>
+                <element signature="n#style#0;n#th#6;n#tr#0;n#thead#0;n#table#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#7;n#tr#0;n#thead#0;n#table#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#7;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
               </folding>
             </state>
@@ -70,9 +73,11 @@
       <file leaf-file-name="placeOrder.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/placeOrder.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.882353" vertical-offset="2700" max-vertical-offset="7140">
-              <caret line="200" column="71" selection-start-line="195" selection-start-column="44" selection-end-line="200" selection-end-column="71" />
-              <folding />
+            <state vertical-scroll-proportion="-6.470588" vertical-offset="525" max-vertical-offset="7305">
+              <caret line="57" column="87" selection-start-line="57" selection-start-column="63" selection-end-line="57" selection-end-column="87" />
+              <folding>
+                <element signature="n#div#1;n#div#0;n#!!top" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -80,18 +85,20 @@
       <file leaf-file-name="myApp.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/js/myApp.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="990" max-vertical-offset="4245">
-              <caret line="33" column="37" selection-start-line="33" selection-start-column="37" selection-end-line="33" selection-end-column="37" />
-              <folding />
+            <state vertical-scroll-proportion="-9.0" vertical-offset="1332" max-vertical-offset="4425">
+              <caret line="105" column="87" selection-start-line="105" selection-start-column="87" selection-end-line="105" selection-end-column="87" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="map-circle-ctrl1.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="map-circle-ctrl1.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/js/controllers/map-circle-ctrl1.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-120.40741" vertical-offset="5149" max-vertical-offset="9735">
-              <caret line="560" column="47" selection-start-line="560" selection-start-column="45" selection-end-line="560" selection-end-column="47" />
+            <state vertical-scroll-proportion="0.571885" vertical-offset="7817" max-vertical-offset="9885">
+              <caret line="545" column="44" selection-start-line="545" selection-start-column="44" selection-end-line="545" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -100,8 +107,18 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="3.5294118" vertical-offset="420" max-vertical-offset="1110">
-              <caret line="16" column="7" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
+            <state vertical-scroll-proportion="-9.411765" vertical-offset="315" max-vertical-offset="1110">
+              <caret line="53" column="83" selection-start-line="53" selection-start-column="83" selection-end-line="53" selection-end-column="83" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/js/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1470" max-vertical-offset="17295">
+              <caret line="141" column="42" selection-start-line="141" selection-start-column="42" selection-end-line="141" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -124,16 +141,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="2394" max-vertical-offset="3060">
               <caret line="102" column="43" selection-start-line="102" selection-start-column="43" selection-end-line="102" selection-end-column="43" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="subscription.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/subscription.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.25" vertical-offset="1380" max-vertical-offset="2550">
-              <caret line="102" column="22" selection-start-line="100" selection-start-column="16" selection-end-line="102" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -188,16 +195,16 @@
         <option value="$PROJECT_DIR$/app/views/payment.html" />
         <option value="$PROJECT_DIR$/app/js/controllers/dashboard-ctrl.js" />
         <option value="$PROJECT_DIR$/app/js/controllers/addPromo-ctrl.js" />
-        <option value="$PROJECT_DIR$/app/views/placeOrder.html" />
         <option value="$PROJECT_DIR$/app/views/orders.html" />
-        <option value="$PROJECT_DIR$/app/js/controllers/map-circle-ctrl1.js" />
-        <option value="$PROJECT_DIR$/app/js/myApp.js" />
-        <option value="$PROJECT_DIR$/app/js/app.js" />
-        <option value="$PROJECT_DIR$/app/js/controllers/orders-ctrl.js" />
         <option value="$PROJECT_DIR$/vendor/jquery/jquery.js" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/app/views/dashboard.html" />
+        <option value="$PROJECT_DIR$/app/js/app.js" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/app/js/myApp.js" />
+        <option value="$PROJECT_DIR$/app/js/controllers/orders-ctrl.js" />
         <option value="$PROJECT_DIR$/app/js/controllers/map-circle-ctrl.js" />
+        <option value="$PROJECT_DIR$/app/views/placeOrder.html" />
+        <option value="$PROJECT_DIR$/app/js/controllers/map-circle-ctrl1.js" />
       </list>
     </option>
   </component>
@@ -366,28 +373,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mashaweer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mashaweer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="img" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -403,10 +388,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -845,14 +826,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="17220">
-          <caret line="39" column="30" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/js/controllers/subscription-ctrl.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-5.0" vertical-offset="0" max-vertical-offset="3315">
@@ -893,14 +866,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/js/controllers/map-circle-ctrl1.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-120.40741" vertical-offset="5149" max-vertical-offset="9735">
-          <caret line="560" column="47" selection-start-line="560" selection-start-column="45" selection-end-line="560" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/jquery/jquery.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="666">
@@ -911,43 +876,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$PROJECT_DIR$/app/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.5294118" vertical-offset="420" max-vertical-offset="1110">
-          <caret line="16" column="7" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1470" max-vertical-offset="17280">
+          <caret line="141" column="42" selection-start-line="141" selection-start-column="42" selection-end-line="141" selection-end-column="42" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/placeOrder.html">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.882353" vertical-offset="2700" max-vertical-offset="7140">
-          <caret line="200" column="71" selection-start-line="195" selection-start-column="44" selection-end-line="200" selection-end-column="71" />
+        <state vertical-scroll-proportion="-9.411765" vertical-offset="315" max-vertical-offset="1110">
+          <caret line="53" column="83" selection-start-line="53" selection-start-column="83" selection-end-line="53" selection-end-column="83" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/js/myApp.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="990" max-vertical-offset="4245">
-          <caret line="33" column="37" selection-start-line="33" selection-start-column="37" selection-end-line="33" selection-end-column="37" />
-          <folding />
+        <state vertical-scroll-proportion="-9.0" vertical-offset="1332" max-vertical-offset="4425">
+          <caret line="105" column="87" selection-start-line="105" selection-start-column="87" selection-end-line="105" selection-end-column="87" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/js/controllers/orders-ctrl.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-54.22222" vertical-offset="4296" max-vertical-offset="5940">
-          <caret line="384" column="35" selection-start-line="384" selection-start-column="35" selection-end-line="384" selection-end-column="35" />
+        <state vertical-scroll-proportion="-16.11111" vertical-offset="2970" max-vertical-offset="6165">
+          <caret line="227" column="97" selection-start-line="226" selection-start-column="23" selection-end-line="227" selection-end-column="97" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/dashboard.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.745098" vertical-offset="2983" max-vertical-offset="5205">
-          <caret line="215" column="75" selection-start-line="215" selection-start-column="75" selection-end-line="215" selection-end-column="75" />
+        <state vertical-scroll-proportion="-4.45098" vertical-offset="4618" max-vertical-offset="5220">
+          <caret line="323" column="86" selection-start-line="323" selection-start-column="86" selection-end-line="323" selection-end-column="86" />
           <folding>
+            <element signature="n#style#0;n#th#6;n#tr#0;n#thead#0;n#table#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#7;n#tr#0;n#thead#0;n#table#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
             <element signature="n#style#0;n#td#7;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
           </folding>
         </state>
@@ -955,12 +924,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/js/controllers/map-circle-ctrl.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4600939" vertical-offset="726" max-vertical-offset="7365">
-          <caret line="68" column="27" selection-start-line="68" selection-start-column="27" selection-end-line="68" selection-end-column="27" />
+        <state vertical-scroll-proportion="-8.888889" vertical-offset="3720" max-vertical-offset="7515">
+          <caret line="264" column="67" selection-start-line="264" selection-start-column="67" selection-end-line="264" selection-end-column="67" />
           <folding>
-            <element signature="e#19842#19920#0" expanded="false" />
-            <element signature="e#21229#21621#0" expanded="false" />
+            <element signature="e#20535#20613#0" expanded="false" />
+            <element signature="e#21922#22314#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/placeOrder.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.470588" vertical-offset="525" max-vertical-offset="7305">
+          <caret line="57" column="87" selection-start-line="57" selection-start-column="63" selection-end-line="57" selection-end-column="87" />
+          <folding>
+            <element signature="n#div#1;n#div#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/js/controllers/map-circle-ctrl1.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.571885" vertical-offset="7817" max-vertical-offset="9885">
+          <caret line="545" column="44" selection-start-line="545" selection-start-column="44" selection-end-line="545" selection-end-column="44" />
+          <folding />
         </state>
       </provider>
     </entry>

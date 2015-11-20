@@ -7,28 +7,32 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
     /*--------------------------------------------------------------------------
      * --------- Only One Datepicker will display at a time ---------------------------------------
      --------------------------------------------------------------------------*/
-    $scope.datepicker={
-        dt1:false,
-        dt2:false
-    };
-    $scope.openDt1 = function($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
 
-        $scope.datepicker.dt2 = false;
-        $scope.datepicker.dt1 = true;
-    };
 
-    $scope.openDt2 = function($event) {
-        console.log("here");
-        console.log("$scope.datepicker.dt2"+$scope.datepicker.dt2);
-        $event.preventDefault();
-        $event.stopPropagation();
 
-        $scope.datepicker.dt1 = false;
-        $scope.datepicker.dt2 = true;
-        console.log("$scope.datepicker.dt2"+$scope.datepicker.dt2);
-    };
+
+    //$scope.datepicker={
+    //    dt1:false,
+    //    dt2:false
+    //};
+    //$scope.openDt1 = function($event) {
+    //    $event.preventDefault();
+    //    $event.stopPropagation();
+    //
+    //    $scope.datepicker.dt2 = false;
+    //    $scope.datepicker.dt1 = true;
+    //};
+    //
+    //$scope.openDt2 = function($event) {
+    //    console.log("here");
+    //    console.log("$scope.datepicker.dt2"+$scope.datepicker.dt2);
+    //    $event.preventDefault();
+    //    $event.stopPropagation();
+    //
+    //    $scope.datepicker.dt1 = false;
+    //    $scope.datepicker.dt2 = true;
+    //    console.log("$scope.datepicker.dt2"+$scope.datepicker.dt2);
+    //};
 
     $scope.$on('$destroy',function() {
         clearInterval($scope.setinterval);
@@ -97,17 +101,24 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
                         d.customerName = column.customerName;
                         d.driverName = column.driverName;
                         d.parcelDetails = column.parcelDetails;
-                        tm = (new Date(column.timeLine[0].scheduledPickUp));
+                       /* tm = (new Date(column.timeLine[0].scheduledPickUp));
                         var tm = addHour.addHours(tm,4)
-                        /*tm = tm.addHours(4);*/
-                        d.scheduledPickUp = moment.utc(tm).format("Do MMM YYYY hh:mm A");
-                        tm = (new Date(column.timeLine[0].scheduledDelivery));
+                        *//*tm = tm.addHours(4);*//*
+                        d.scheduledPickUp = moment.utc(tm).format("Do MMM YYYY hh:mm A");*/
+                        var DATE = new Date(column.timeLine[0].scheduledPickUp);
+                        d.scheduledPickUp =  moment.utc(DATE.toString()).format("Do MMM YYYY hh:mm A");
+                        /*tm = (new Date(column.timeLine[0].scheduledDelivery));
                         var tm = addHour.addHours(tm,4)
-                        d.scheduledDelivery = moment.utc(tm).format("Do MMM YYYY hh:mm A");
+                        d.scheduledDelivery = moment.utc(tm).format("Do MMM YYYY hh:mm A");*/
+                        var DATE = new Date(column.timeLine[0].scheduledDelivery);
+                        d.scheduledDelivery =  moment.utc(DATE.toString()).format("Do MMM YYYY hh:mm A");
+
                         if(column.timeLine[0].pickedUp){
-                            tm = (new Date(column.timeLine[0].pickedUp));
+                           /* tm = (new Date(column.timeLine[0].pickedUp));
                             var tm = addHour.addHours(tm,4);
-                            d.actualCollectionTime = moment.utc(tm).format("Do MMM YYYY hh:mm A");
+                            d.actualCollectionTime = moment.utc(tm).format("Do MMM YYYY hh:mm A");*/
+                            var DATE = new Date(column.timeLine[0].pickedUp);
+                            d.actualCollectionTime =  moment.utc(DATE.toString()).format("Do MMM YYYY hh:mm A");
                         }
                         else{
                             d.actualCollectionTime = '-';
@@ -116,9 +127,11 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
                         if (column.timeLine[0].delivered == undefined)
                             d.actualDeliveryTime = "-";
                         else{
-                            tm = (new Date(column.timeLine[0].delivered));
+                            /*tm = (new Date(column.timeLine[0].delivered));
                             var tm = addHour.addHours(tm,4)
-                            d.actualDeliveryTime = moment.utc(tm ).format("Do MMM YYYY hh:mm A");
+                            d.actualDeliveryTime = moment.utc(tm ).format("Do MMM YYYY hh:mm A");*/
+                            var DATE = new Date(column.timeLine[0].delivered);
+                            d.actualDeliveryTime =  moment.utc(DATE.toString()).format("Do MMM YYYY hh:mm A");
                         }
 
                         d.collectionFrom = column.collectionFrom;
@@ -208,9 +221,11 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
                         d.totalChargedCost = Math.round(column.paymentBreakup.totalChargedCost);
                         d.waitingChargeAtPickup = Math.round(column.paymentBreakup.waitingChargeAtPickup);
                         d.waitingChargeAtDelivery = Math.round(column.paymentBreakup.waitingChargeAtDelivery);
-                        tm = (new Date(column.timeLine[0].createdAt));
+                       /* tm = (new Date(column.timeLine[0].createdAt));
                         var tm = addHour.addHours(tm,4)
-                        d.createdAt = moment.utc(tm).format("Do MMM YYYY hh:mm A");
+                        d.createdAt = moment.utc(tm).format("Do MMM YYYY hh:mm A");*/
+                        var DATE = new Date(column.timeLine[0].createdAt);
+                        d.createdAt =  moment.utc(DATE.toString()).format("Do MMM YYYY hh:mm A");
                         dataArray.push(d);
                     });
                     $scope.list = dataArray;
@@ -386,6 +401,6 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
             $('[class*=ColVis]').remove();
         })
         $scope.recordsPerPage();
-    }, 12000);
+    }, 100000);
 
 });

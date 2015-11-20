@@ -238,13 +238,13 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
         $scope.checkStatus = function (caseNo) {
             switch (caseNo) {
                 case 1:
-                    if ($scope.panelDemo4 == 0 && ($scope.job.vehival_id == undefined || $scope.job.email == undefined || $scope.job.parcel_detail == undefined || $scope.job.personal_phone_no == undefined
-                        || $scope.job.vehival_id == "" || $scope.job.email == "" || $scope.job.parcel_detail == "" || $scope.job.personal_phone_no == "")) {
+                    if ($scope.panelDemo4 == 0 && ($scope.job.vehicle_id == undefined || $scope.job.email == undefined || $scope.job.parcel_detail == undefined || $scope.job.personal_phone_no == undefined
+                        || $scope.job.vehicle_id == "" || $scope.job.email == "" || $scope.job.parcel_detail == "" || $scope.job.personal_phone_no == "")) {
                         console.log("case1 col 0")
                         $scope.boxStatus1 = 0;
                     }
-                    else if ($scope.panelDemo4 == 1 && ($scope.job.vehival_id == undefined || $scope.job.email == undefined || $scope.job.parcel_detail == undefined || $scope.job.personal_phone_no == undefined
-                        || $scope.job.vehival_id == "" || $scope.job.email == "" || $scope.job.parcel_detail == "" || $scope.job.personal_phone_no == "")) {
+                    else if ($scope.panelDemo4 == 1 && ($scope.job.vehicle_id == undefined || $scope.job.email == undefined || $scope.job.parcel_detail == undefined || $scope.job.personal_phone_no == undefined
+                        || $scope.job.vehicle_id == "" || $scope.job.email == "" || $scope.job.parcel_detail == "" || $scope.job.personal_phone_no == "")) {
                         $scope.boxStatus1 = 1;
                         console.log("case1 col 1")
                     }
@@ -345,10 +345,7 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
         $scope.pick_up = {};
         $scope.drop_off = {};
 
-
-
         $scope.addOrder = function (data, status) {
-            console.log(data);
             var country_code = $("#p_mobile-number").intlTelInput("getSelectedCountryData").dialCode;
             var p_phone_no = $("#p_mobile-number").val();
             var d_phone_no = $("#d_mobile-number").val();
@@ -368,7 +365,12 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
             if ($scope.panelDemo4==1 && $scope.panelDemo3==1 && $scope.panelDemo2==1 && $scope.panelDemo1==1) {
                 $scope.pick_up.latitude = $scope.lat1;
                 $scope.pick_up.longitude = $scope.lng1;
-                $scope.pick_up.pickupTime = data.pick_up_before+" +0000";
+                //$scope.pick_up.pickupTime = data.pick_up_before+" +0000";
+                var DATE = new Date($("#datetimepicker").val());
+                console.log(DATE)
+                console.log($("#datetimepicker").val())
+                $scope.pick_up.pickupTime = moment.utc(DATE).format("YYYY-MM-DD HH:mm")+" +0000";
+                console.log($scope.pick_up.pickupTime)
                 $scope.pick_up.companyName = "Mashaweer";
                 $scope.pick_up.senderName = data.sender_name;
                 $scope.pick_up.phoneNumber = p_phone_no;
@@ -395,7 +397,7 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
                     {
                         accessToken: $cookieStore.get('obj').accesstoken,
                         email: data.email,
-                        vehicleId: data.vehival_id,
+                        vehicleId: data.vehicle_id,
                         amount: actualAmount,
                         estimateFare: estimatedValue,
                         parcelDetails: data.parcel_detail,
@@ -528,17 +530,25 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
         var getEstimatedFare = function () {
             console.log("In fare")
             console.log($scope.job.email)
+            console.log($scope.job.vehicle_id)
+            if($scope.job.vehicle_id == "55b083a6da0588448a6ee410")
+                $scope.vehicle = "BIKE";
+            if($scope.job.vehicle_id == "55b083acda0588448a6ee411")
+                $scope.vehicle = "CAR";
+            if($scope.job.vehicle_id == "55a39fe921b83d9dde82b08a")
+                $scope.vehicle = "TRUCK";
             $http({
                 url: MY_CONSTANT.url + 'api/admin/calculateFare',
                 method: "POST",
                 data: { accessToken : $cookieStore.get('obj').accesstoken,
                         customerEmail: $scope.job.email,
                         distanceInKM: distance.toString(),
-                        vehicleType: "TRUCK"
+                        vehicleType: $scope.vehicle
                 }
             })
                 .then(function(data) {
                     actualAmount = data.data.data.actualAmount;
+                    console.log(actualAmount);
                     estimatedValue = data.data.data.estimatedValue;
                 },
                 function(data) { // optional

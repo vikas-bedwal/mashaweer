@@ -6,8 +6,8 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
     , function ($scope,$state, $timeout, $http, $log, GoogleMapApi, $cookies, $cookieStore, MY_CONSTANT,ngDialog) {
 
 
-        jQuery('#datetimepicker').datetimepicker();
-        jQuery('#datetimepicker1').datetimepicker();
+        //jQuery('#datetimepicker').datetimepicker();
+        //jQuery('#datetimepicker1').datetimepicker();
         $scope.datepicker={
             dt1:false,
             dt2:false
@@ -63,7 +63,7 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
         /*================ Edit Timings for  ongoing order ===================*/
         $scope.editTimings = function (_id,pickupTime,deliveryTime) {
             $scope.pickup = pickupTime;
-            $scope.del = deliveryTime;
+            $scope.delivery = deliveryTime;
             $scope.orderId = _id;
             console.log(_id);
             ngDialog.open({
@@ -75,8 +75,8 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
 
 
             $scope.$on('ngDialog.opened', function (e, element) {
-                $("#datetimepicker").datetimepicker({
-                    format: 'yyyy-mm-dd hh:ii',
+                $("#dashdatetimepicker").datetimepicker({
+                    format: 'yyyy/mm/dd hh:ii',
 
                     autoclose: true
                     //startDate: start
@@ -84,8 +84,8 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
                 });
             });
             $scope.$on('ngDialog.opened', function (e, element) {
-                $("#datetimepicker1").datetimepicker({
-                    format: 'yyyy-mm-dd hh:ii',
+                $("#dashdatetimepicker1").datetimepicker({
+                    format: 'yyyy/mm/dd hh:ii',
 
                     autoclose: true
                     //startDate: start
@@ -95,18 +95,25 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
         }
 
         $scope.edit = function(){
+            var DATE = new Date($scope.pickup);
+            //var pick = DATE.toUTCString();
+            console.log(moment.utc(DATE).format("YYYY-MM-DD HH:mm"));
+            $scope.pickup = moment.utc(DATE).format("YYYY-MM-DD HH:mm");
+            var DATE = new Date($scope.delivery);
+            //var pick = DATE.toUTCString();
+            console.log(moment.utc(DATE).format("YYYY-MM-DD HH:mm"));
+            $scope.delivery = moment.utc(DATE).format("YYYY-MM-DD HH:mm");
             $http({
-                method: 'POST',
+                method: 'PUT',
                 url: MY_CONSTANT.url + 'api/admin/editOrderTiming',
-               /* headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 transformRequest: function (obj) {
                     var str = [];
                     for (var p in obj)
                         str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                     return str.join("&");
-                },*/
-                data: {accessToken: $cookieStore.get('obj').accesstoken, orderId: $scope.orderId, pickUpTime: $scope.pickUp, pickUpTime: $scope.del}
-
+                },
+                data: {accessToken: $cookieStore.get('obj').accesstoken, orderId: $scope.orderId, pickUpTime: $scope.pickup+":00 +0000", dropUpTime: $scope.delivery+":00 +0000"}
             })
                 .success(function (response, status) {
                     console.log(response);
@@ -119,6 +126,7 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
                     });*/
                 })
                 .error(function (response, status) {
+                    console.log(response);
                     alert("Oops not updated.");
                 })
         }
@@ -255,8 +263,10 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
                             d.driverFullName = column.driverFullName;
                             d.dropUpAddress = column.dropUpAddress;
                             d.pickupAddress = column.pickupAddress;
-                            d.pickupTime = moment.utc(column.pickupTime).format("YYYY-MM-DD HH:mm");
-                            d.deliveryTime = moment.utc(column.deliveryTime).format("YYYY-MM-DD HH:mm");
+                            var DATE = new Date(column.pickupTime);
+                            d.pickupTime =  moment.utc(DATE.toString()).format("YYYY-MM-DD HH:mm");
+                            var DATE = new Date(column.deliveryTime);
+                            d.deliveryTime =  moment.utc(DATE.toString()).format("YYYY-MM-DD HH:mm");
                             d.status = column.status;
                             dataArray1.push(d);
                         });

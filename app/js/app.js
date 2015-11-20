@@ -139,6 +139,11 @@ App
                 'vendor/datatables-colvis/js/dataTables.colVis.js',
                 'vendor/datatables-colvis/css/dataTables.colVis.css'],
             'loadGoogleMapsJS':   ['vendor/gmap/load-google-maps.js'],
+            'bootstrapDateTimePicker':   [],
+            //'bootstrapDateTimePicker':   [
+            //    'vendor/jquery/jquery.js',
+            //    'vendor/bootstrap-dateTimePicker/bootstrap-datetimepicker.min.css',
+            //'vendor/bootstrap-dateTimePicker/bootstrap-datetimepicker.min.js'],
             'google-map':         ['vendor/jQuery-gMap/jquery.gmap.min.js']
         },
 

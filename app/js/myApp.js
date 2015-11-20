@@ -260,6 +260,14 @@ App.factory('addHour', function() {
         }
     }
 });
+App.factory('subHour', function() {
+    return {
+        subHours: function(tm,h){
+            tm.setHours(tm.getHours()-4);
+            return tm;
+        }
+    }
+});
 
 App.directive('googleplace', function() {
     return {
