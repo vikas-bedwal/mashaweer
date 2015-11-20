@@ -2,13 +2,30 @@
  * Created by Vikas on 05/08/15.
  */
 
-App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLogger','uiGmapGoogleMapApi', '$cookies', '$cookieStore', 'MY_CONSTANT','ngDialog'
-    , function ($scope, $timeout, $http, $log, GoogleMapApi, $cookies, $cookieStore, MY_CONSTANT,ngDialog) {
+App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', 'uiGmapLogger','uiGmapGoogleMapApi', '$cookies', '$cookieStore', 'MY_CONSTANT','ngDialog'
+    , function ($scope,$state, $timeout, $http, $log, GoogleMapApi, $cookies, $cookieStore, MY_CONSTANT,ngDialog) {
 
 
         jQuery('#datetimepicker').datetimepicker();
         jQuery('#datetimepicker1').datetimepicker();
+        $scope.datepicker={
+            dt1:false,
+            dt2:false
+        };
+        $scope.openDt1 = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.datepicker.dt1 = true;
+            $scope.datepicker.dt2 = false;
+        };
 
+        $scope.openDt2 = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+
+            $scope.datepicker.dt1 = false;
+            $scope.datepicker.dt2 = true;
+        };
         $log.currentLevel = $log.LEVELS.debug;
         var center = {
             latitude: "30.7333148",
@@ -37,6 +54,74 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
         }
         $scope.mapContainer = new google.maps.Map(document.getElementById('map-container'), $scope.map);
         var infoWindow = new google.maps.InfoWindow();
+
+
+        $scope.$on('$destroy',function() {
+            clearInterval($scope.setinterval);
+        });
+
+        /*================ Edit Timings for  ongoing order ===================*/
+        $scope.editTimings = function (_id,pickupTime,deliveryTime) {
+            $scope.pickup = pickupTime;
+            $scope.del = deliveryTime;
+            $scope.orderId = _id;
+            console.log(_id);
+            ngDialog.open({
+                template: 'edit_timings',
+                className: 'ngdialog-theme-default',
+                scope: $scope,
+                showClose: false
+            });
+
+
+            $scope.$on('ngDialog.opened', function (e, element) {
+                $("#datetimepicker").datetimepicker({
+                    format: 'yyyy-mm-dd hh:ii',
+
+                    autoclose: true
+                    //startDate: start
+                    //endDate: e
+                });
+            });
+            $scope.$on('ngDialog.opened', function (e, element) {
+                $("#datetimepicker1").datetimepicker({
+                    format: 'yyyy-mm-dd hh:ii',
+
+                    autoclose: true
+                    //startDate: start
+                    //endDate: e
+                });
+            });
+        }
+
+        $scope.edit = function(){
+            $http({
+                method: 'POST',
+                url: MY_CONSTANT.url + 'api/admin/editOrderTiming',
+               /* headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj)
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },*/
+                data: {accessToken: $cookieStore.get('obj').accesstoken, orderId: $scope.orderId, pickUpTime: $scope.pickUp, pickUpTime: $scope.del}
+
+            })
+                .success(function (response, status) {
+                    console.log(response);
+                /*    ngDialog.open({
+                        template: 'display_reAssign_msg',
+                        className: 'ngdialog-theme-default',
+                        scope: $scope,
+                        showClose: true,
+                        closeByDocument: false
+                    });*/
+                })
+                .error(function (response, status) {
+                    alert("Oops not updated.");
+                })
+        }
 
 
         /*================Setting marker for Live driver===================*/
@@ -127,6 +212,10 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
         }
 
         $scope.drawMap = function () {
+            $scope.datepicker={
+                dt1:false,
+                dt2:false
+            };
             $http.get(MY_CONSTANT.url + 'api/admin/getLiveView/' + $cookieStore.get('obj').accesstoken)
                 .success(function (response, status) {
                     console.log(response)
@@ -166,6 +255,8 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                             d.driverFullName = column.driverFullName;
                             d.dropUpAddress = column.dropUpAddress;
                             d.pickupAddress = column.pickupAddress;
+                            d.pickupTime = moment.utc(column.pickupTime).format("YYYY-MM-DD HH:mm");
+                            d.deliveryTime = moment.utc(column.deliveryTime).format("YYYY-MM-DD HH:mm");
                             d.status = column.status;
                             dataArray1.push(d);
                         });
@@ -197,11 +288,11 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                                     dtInstance.fnFilter(this.value, columnInputs.index(this));
                                 });
                         });
-/*
+
                         $scope.$on('$destroy', function () {
                             dtInstance.fnDestroy();
                             $('[class*=ColVis]').remove();
-                        })*/
+                        })
 
                         /*================Calling Live driver marker set function===================*/
                         if (driverLength) {
@@ -280,17 +371,20 @@ App.controller('MapCircleController', ['$scope', '$timeout', '$http', 'uiGmapLog
                 });
         };
         $scope.drawMap();
+
+
+        var dtInstance;
         $scope.setinterval= setInterval(function(){
-            $scope.$on('$destroy', function () {
-                dtInstance.fnDestroy();
-                $('[class*=ColVis]').remove();
-            })
-            markerArr = [];    //empty the markerArray to refresh the map
-            markerCount = 0;
-
-            $scope.drawMap();
-        }, 60000);
-
+            //$scope.$on('$destroy', function () {
+            //    dtInstance.fnDestroy();
+            //    $('[class*=ColVis]').remove();
+            //})
+            //markerArr = [];    //empty the markerArray to refresh the map
+            //markerCount = 0;
+            //
+            //$scope.drawMap1();
+            $state.reload();
+        }, 50000);
 
         /*================ Listing Reassignable  driver for  ongoing order ===================*/
         $scope.reAssignList = function(orderId,driverId,status){

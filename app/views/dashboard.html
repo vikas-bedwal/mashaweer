@@ -1,3 +1,24 @@
+<style>
+    .modal-panel {
+        margin-bottom: 21px;
+        background-color: #ffffff;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    }
+    .modal-panel-default {
+        border-color: #cfdbe2;
+    }
+    .modal-panel.modal-panel-default {
+        border-top-width: 3px;
+    }
+    .modal-panel-body{
+        padding: 15px;
+        margin-top: 25px;
+    }
+</style>
+
 <h3>
     Mashaweer Dashboard
     <small>Welcome to Mashaweer</small>
@@ -177,29 +198,28 @@
                                 <th>Pick up Time</th>
                                 <th>Drop off Time</th>
                                 <th>Driver Name</th>
-                               <!-- <th>Action</th>-->
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
+
                             <tr ng-repeat="data in orderList">
                                 <td>{{data.orderId}}</td>
                                 <td hidden="hidden">{{data._id}}</td>
                                 <td>{{data.pickupAddress}}</td>
                                 <td>{{data.dropUpAddress}}</td>
-                                <td><input type="text" id="datetimepicker" name="pick_up_before"
-                                           class="form-control"
-                                           readonly
-                                           placeholder="Pick-up Time" ng-model="job.pick_up_before"></td>
-                                <td><input type="text" name="drop_off_before" id="datetimepicker1"
-                                             class="form-control"
-                                             readonly
-                                             placeholder="Drop-Off Time" ng-model="job.d_drop_off_before"></td>
+                                <td>{{data.pickupTime}}</td>
+                                <td>{{data.deliveryTime}}</td>
                                 <td>{{data.driverFullName}}</td>
-                                <!--<td style="text-align: center;">
+
+                                <td style="text-align: center;">
+                                    <button ng-click="editTimings(data._id,data.pickupTime,data.deliveryTime)"
+                                           title="Edit" class="btn btn-sm btn-success">Edit
+                                   </button>
                                     <button ng-click="reAssignList(data._id,data.driverId,data.status)"
-                                            title="Reassign" class="btn btn-sm btn-success">Reassign
-                                    </button>
-                                </td>-->
+                                                     title="Reassign" class="btn btn-sm btn-success">Reassign
+                                </button>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -276,4 +296,46 @@
         <button class="btn btn-success" ng-click="reAssign();closeThisDialog(0)">Assign</button>
         </div>
     </div>
+</script>
+
+
+<!-- **************************************************************************
+******************* Modal to display driver list **************************************
+*******************************************************************************-->
+<script type="text/ng-template" id="edit_timings">
+    <div class="ngdialog-message">
+    <h3 class="" style="font-weight: bolder; color: gray">
+        <h4>Edit Timings</h4>
+    </h3>
+                        <!-- START panel-->
+                        <div class="modal-panel modal-panel-default">
+                            <form method="post" ng-submit="editDriver(pop)" validate-form=""
+                                  novalidate="" id="add-promo">
+                            <div class="modal-panel-body">
+                                <div class="form-group">
+                                    <label class="control-label">Pick Up Time</label>
+                                    <input type="text" id="datetimepicker" name="pick_up_before"
+                                           class="form-control"
+                                           readonly
+                                           placeholder="Pick-up Time" ng-model="pickup">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Drop Off Time</label>
+                                    <input type="text" name="drop_off_before" id="datetimepicker1"
+                                           class="form-control"
+                                           readonly
+                                           placeholder="Drop-Off Time" ng-model="del">
+                                </div>
+                                <div class="panel-footer modal-panel-footer">
+                                    <button class="btn btn-success" ng-click="edit();closeThisDialog(0)">Submit</button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+        </div>
+                        <!-- END panel-->
+
+
+
+
 </script>

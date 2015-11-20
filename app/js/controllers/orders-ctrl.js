@@ -30,6 +30,10 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
         console.log("$scope.datepicker.dt2"+$scope.datepicker.dt2);
     };
 
+    $scope.$on('$destroy',function() {
+        clearInterval($scope.setinterval);
+    });
+
 
     $scope.loading = true;
         var tm = '';
@@ -375,13 +379,13 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
     $scope.advanceSearch = function(get_data){
         console.log(get_data);
     }
-
+    var dtInstance;
     $scope.setinterval= setInterval(function(){
         $scope.$on('$destroy', function () {
             dtInstance.fnDestroy();
             $('[class*=ColVis]').remove();
         })
         $scope.recordsPerPage();
-    }, 60000);
+    }, 12000);
 
 });
