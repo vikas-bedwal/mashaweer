@@ -315,57 +315,75 @@ App.controller('ordersController', function ($scope, $http, $cookies, $cookieSto
         for (var i = 0; i < $scope.response.data.length; i++) {
             if ($scope.response.data[i]._id == _id) {
                 if ($scope.response.data[i].timeLine[0].createdAt){
-                    tm = (new Date($scope.response.data[i].timeLine[0].createdAt));
+                   /* tm = (new Date($scope.response.data[i].timeLine[0].createdAt));
                     var tm = addHour.addHours(tm,4)
-                    timeLine.push("Order placed at " +  moment.utc(tm).format("Do MMM YYYY hh:mm A"));
+                    timeLine.push("Order placed at " +  moment.utc(tm).format("Do MMM YYYY hh:mm A"));*/
+                    var DATE = new Date($scope.response.data[i].timeLine[0].createdAt);
+                    timeLine.push("Order placed at " +  moment.utc(DATE).format("Do MMM YYYY hh:mm A"));
                 }
 
                 if ($scope.response.data[i].timeLine[0].driverAssigned){
-                    tm = (new Date($scope.response.data[i].timeLine[0].driverAssigned));
+                    /*tm = (new Date($scope.response.data[i].timeLine[0].driverAssigned));
                     var tm = addHour.addHours(tm,4)
-                    timeLine.push("Driver assigned at " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));
+                    timeLine.push("Driver assigned at " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));*/
+                    var DATE = new Date($scope.response.data[i].timeLine[0].driverAssigned);
+                    timeLine.push("Driver assigned at " + moment.utc(DATE).format("Do MMM YYYY hh:mm A"));
                 }
 
                 if ($scope.response.data[i].timeLine[0].scheduledPickUp){
-                    tm = (new Date($scope.response.data[i].timeLine[0].scheduledPickUp));
+                    /*tm = (new Date($scope.response.data[i].timeLine[0].scheduledPickUp));
                     var tm = addHour.addHours(tm,4)
-                    timeLine.push("Scheduled pick up time is " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));
+                    timeLine.push("Scheduled pick up time is " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));*/
+                    var DATE = new Date($scope.response.data[i].timeLine[0].scheduledPickUp);
+                    timeLine.push("Scheduled pick up time is " + moment.utc(DATE).format("Do MMM YYYY hh:mm A"));
                 }
 
 
                 if ($scope.response.data[i].timeLine[0].scheduledDelivery) {
-                    tm = (new Date($scope.response.data[i].timeLine[0].scheduledDelivery));
+                    /*tm = (new Date($scope.response.data[i].timeLine[0].scheduledDelivery));
                     var tm = addHour.addHours(tm,4)
-                    timeLine.push("Scheduled delivery time is " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));
+                    timeLine.push("Scheduled delivery time is " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));*/
+                    var DATE = new Date($scope.response.data[i].timeLine[0].scheduledDelivery);
+                    timeLine.push("Scheduled delivery time is " + moment.utc(DATE).format("Do MMM YYYY hh:mm A"));
                 }
 
                 if ($scope.response.data[i].timeLine[0].reachedPickUpPoint) {
-                    tm = (new Date($scope.response.data[i].timeLine[0].reachedPickUpPoint));
+                    /*tm = (new Date($scope.response.data[i].timeLine[0].reachedPickUpPoint));
                     var tm = addHour.addHours(tm,4)
-                    timeLine.push($scope.response.data[i].driverName+" reached at pickup point at " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));
+                    timeLine.push($scope.response.data[i].driverName+" reached at pickup point at " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));*/
+                    var DATE = new Date($scope.response.data[i].timeLine[0].reachedPickUpPoint);
+                    timeLine.push($scope.response.data[i].driverName+" reached at pickup point at " + moment.utc(DATE).format("Do MMM YYYY hh:mm A"));
                 }
 
                 if ($scope.response.data[i].timeLine[0].pickedUp) {
-                    tm = (new Date($scope.response.data[i].timeLine[0].pickedUp));
+                   /* tm = (new Date($scope.response.data[i].timeLine[0].pickedUp));
                     var tm = addHour.addHours(tm,4)
-                    timeLine.push($scope.response.data[i].driverName+" picked up order at " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));
+                    timeLine.push($scope.response.data[i].driverName+" picked up order at " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));*/
+                    var DATE = new Date($scope.response.data[i].timeLine[0].pickedUp);
+                    timeLine.push($scope.response.data[i].driverName+" picked up order at " + moment.utc(DATE).format("Do MMM YYYY hh:mm A"));
                 }
                 if ($scope.response.data[i].timeLine[0].reachedDeliveryPoint) {
-                    tm = (new Date($scope.response.data[i].timeLine[0].reachedDeliveryPoint));
+                    /*tm = (new Date($scope.response.data[i].timeLine[0].reachedDeliveryPoint));
                     var tm = addHour.addHours(tm,4)
-                            timeLine.push($scope.response.data[i].driverName+" reached at delivery point at " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));
+                            timeLine.push($scope.response.data[i].driverName+" reached at delivery point at " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));*/
+                    var DATE = new Date($scope.response.data[i].timeLine[0].reachedDeliveryPoint);
+                    timeLine.push($scope.response.data[i].driverName+" reached at delivery point at " + moment.utc(DATE).format("Do MMM YYYY hh:mm A"));
                 }
 
                 if ($scope.response.data[i].timeLine[0].cancelled) {
-                    tm = (new Date($scope.response.data[i].timeLine[0].cancelled));
+                    /*tm = (new Date($scope.response.data[i].timeLine[0].cancelled));
                     var tm = addHour.addHours(tm,4)
-                    timeLine.push("Order cancelled at " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));
+                    timeLine.push("Order cancelled at " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));*/
+                    var DATE = new Date($scope.response.data[i].timeLine[0].cancelled);
+                    timeLine.push("Order cancelled at " + moment.utc(DATE).format("Do MMM YYYY hh:mm A"));
                 }
 
                 if ($scope.response.data[i].timeLine[0].delivered) {
-                    tm = (new Date($scope.response.data[i].timeLine[0].delivered));
+                    /*tm = (new Date($scope.response.data[i].timeLine[0].delivered));
                     var tm = addHour.addHours(tm,4)
-                    timeLine.push("Order delivered at " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));
+                    timeLine.push("Order delivered at " + moment.utc(tm).format("Do MMM YYYY hh:mm A"));*/
+                    var DATE = new Date($scope.response.data[i].timeLine[0].delivered);
+                    timeLine.push("Order delivered at " + moment.utc(DATE).format("Do MMM YYYY hh:mm A"));
                 }
             }
         }

@@ -8,24 +8,10 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
 
         //jQuery('#datetimepicker').datetimepicker();
         //jQuery('#datetimepicker1').datetimepicker();
-        $scope.datepicker={
-            dt1:false,
-            dt2:false
-        };
-        $scope.openDt1 = function($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-            $scope.datepicker.dt1 = true;
-            $scope.datepicker.dt2 = false;
-        };
-
-        $scope.openDt2 = function($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-
-            $scope.datepicker.dt1 = false;
-            $scope.datepicker.dt2 = true;
-        };
+  var orderCount = 0;
+  var reassignedorderList = {'reassignedorderList': {}};
+        $cookieStore.put('obj3', reassignedorderList);
+        console.log($cookieStore.get('obj3').reassignedorderList)
         $log.currentLevel = $log.LEVELS.debug;
         var center = {
             latitude: "30.7333148",
@@ -95,11 +81,11 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
         }
 
         $scope.edit = function(){
-            var DATE = new Date($scope.pickup);
+            var DATE = new Date($("#dashdatetimepicker").val());
             //var pick = DATE.toUTCString();
             console.log(moment.utc(DATE).format("YYYY-MM-DD HH:mm"));
             $scope.pickup = moment.utc(DATE).format("YYYY-MM-DD HH:mm");
-            var DATE = new Date($scope.delivery);
+            var DATE = new Date($("#dashdatetimepicker1").val());
             //var pick = DATE.toUTCString();
             console.log(moment.utc(DATE).format("YYYY-MM-DD HH:mm"));
             $scope.delivery = moment.utc(DATE).format("YYYY-MM-DD HH:mm");
@@ -124,6 +110,7 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
                         showClose: true,
                         closeByDocument: false
                     });*/
+                    $state.reload();
                 })
                 .error(function (response, status) {
                     console.log(response);
@@ -134,8 +121,10 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
 
         /*================Setting marker for Live driver===================*/
         var createMarker = function (info) {
+            console.log(info);
             var marker = new MarkerWithLabel({
                 position: new google.maps.LatLng(info.longitude, info.latitude),
+                labelContent: '<span style="color: #F7584B">' + info.fullName +'</span>',
                 map: $scope.mapContainer
             });
 
@@ -160,9 +149,11 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
         /*================Setting marker for Live order pick up location===================*/
         var createMarker1 = function (info) {
             var icon = 'app/img/map_icon.png';
+            orderCount++;
             var marker = new MarkerWithLabel({
                 icon: icon,
                 position: new google.maps.LatLng(info.pickupLat, info.pickupLong),
+                labelContent: '<span style="color: #F7584B">' + orderCount +'</span>',
                 map: $scope.mapContainer
             });
 
@@ -185,9 +176,11 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
         /*================Setting marker for Live order drop off location===================*/
         var createMarker2 = function (info) {
             var icon = 'app/img/map_icon.png';
+            orderCount++;
             var marker = new MarkerWithLabel({
                 icon: icon,
                 position: new google.maps.LatLng(info.dropUpLat, info.dropUpLong),
+                labelContent: '<span style="color: #F7584B">' + orderCount +'</span>',
                 map: $scope.mapContainer
             });
 
@@ -220,10 +213,7 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
         }
 
         $scope.drawMap = function () {
-            $scope.datepicker={
-                dt1:false,
-                dt2:false
-            };
+            orderCount = 0;
             $http.get(MY_CONSTANT.url + 'api/admin/getLiveView/' + $cookieStore.get('obj').accesstoken)
                 .success(function (response, status) {
                     console.log(response)
@@ -383,21 +373,40 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
         $scope.drawMap();
 
 
-        var dtInstance;
-        $scope.setinterval= setInterval(function(){
-            //$scope.$on('$destroy', function () {
-            //    dtInstance.fnDestroy();
-            //    $('[class*=ColVis]').remove();
-            //})
-            //markerArr = [];    //empty the markerArray to refresh the map
-            //markerCount = 0;
-            //
-            //$scope.drawMap1();
-            $state.reload();
-        }, 50000);
+        //var dtInstance;
+   /*     $scope.setinterval= setInterval(function(){
+            $scope.$on('$destroy', function () {
+                dtInstance.fnDestroy();
+                $('[class*=ColVis]').remove();
+            })
+            markerArr = [];    //empty the markerArray to refresh the map
+            markerCount = 0;
+
+            $scope.drawMap1();
+            // $state.reload();
+        }, 1000);*/
+
+  /*      $scope.setinterval= setInterval(function(){
+            $scope.$on('$destroy', function () {
+                dtInstance.fnDestroy();
+                $('[class*=ColVis]').remove();
+            })
+            markerArr = [];    //empty the markerArray to refresh the map
+            markerCount = 0;
+
+            $scope.drawMap1();
+           // $state.reload();
+        }, 1000);*/
 
         /*================ Listing Reassignable  driver for  ongoing order ===================*/
         $scope.reAssignList = function(orderId,driverId,status){
+            var list = $cookieStore.get('obj3').reassignedorderList;
+            console.log(list)
+            for(i=0;i<list.length;i++) {
+                if(orderId == list[i].orderId)
+                alert("Cant Reassign Again");
+            }
+
             if(status == 'DRIVER_ASSIGNED' || status == 'SUCCESS' ||  status == 'REACHED_PICKUP_POINT' || status == 'REQUEST_SENT_TO_DRIVER' ||
                 status == 'ACCEPTED' || status == 'REFUSED' || status == 'DRIVER_RESPONDED'){
                 $scope.orderId = orderId;
@@ -465,6 +474,11 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
 
         /*================ Reassigning driver for  ongoing order ===================*/
         $scope.reAssign = function() {
+            reassignedorderList.push($scope.orderId)
+            console.log("Lenth = "+reassignedorderList);
+            reassignedorderList = {'reassignedorderList': reassignedorderList}
+                $cookieStore.put('obj3', reassignedorderList);
+            console.log("Cookie Result = "+$cookieStore.get('obj').reassignedorderList);
             $http({
                 method: 'POST',
                 url: MY_CONSTANT.url + 'api/admin/orderAssignDriver',
