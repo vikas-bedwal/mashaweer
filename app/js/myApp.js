@@ -114,7 +114,7 @@ App.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteH
                 url: '/customers',
                 title: 'Customers',
                 templateUrl: helper.basepath('customers.html'),
-                resolve: helper.resolveFor('datatables', 'datatables-pugins', 'ngDialog','parsley')
+                resolve: helper.resolveFor('datatables', 'datatables-pugins', 'parsley', 'ngDialog')
             })
             .state('app.drivers', {
                 url: '/drivers',

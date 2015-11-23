@@ -9,9 +9,6 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
         //jQuery('#datetimepicker').datetimepicker();
         //jQuery('#datetimepicker1').datetimepicker();
   var orderCount = 0;
-  var reassignedorderList = {'reassignedorderList': {}};
-        $cookieStore.put('obj3', reassignedorderList);
-        console.log($cookieStore.get('obj3').reassignedorderList)
         $log.currentLevel = $log.LEVELS.debug;
         var center = {
             latitude: "30.7333148",
@@ -121,7 +118,6 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
 
         /*================Setting marker for Live driver===================*/
         var createMarker = function (info) {
-            console.log(info);
             var marker = new MarkerWithLabel({
                 position: new google.maps.LatLng(info.longitude, info.latitude),
                 labelContent: '<span style="color: #F7584B">' + info.fullName +'</span>',
@@ -211,7 +207,6 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
             }
             return 1;
         }
-
         $scope.drawMap = function () {
             orderCount = 0;
             $http.get(MY_CONSTANT.url + 'api/admin/getLiveView/' + $cookieStore.get('obj').accesstoken)
@@ -220,6 +215,7 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
                     if (status == 200) {
                         var dataArray = [];
                         var dataArray1 = [];
+                        $scope.liveDriverList = response.data.driverDetailArray;
                         var liveDriverList = response.data.driverDetailArray;
                         var liveOrderList = response.data.orderDetail;
                         console.log(liveOrderList)
@@ -372,9 +368,8 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
         };
         $scope.drawMap();
 
-
-        //var dtInstance;
-   /*     $scope.setinterval= setInterval(function(){
+    /*    var dtInstance;
+        $scope.setinterval= setInterval(function(){
             $scope.$on('$destroy', function () {
                 dtInstance.fnDestroy();
                 $('[class*=ColVis]').remove();
@@ -384,7 +379,7 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
 
             $scope.drawMap1();
             // $state.reload();
-        }, 1000);*/
+        }, 10000);*/
 
   /*      $scope.setinterval= setInterval(function(){
             $scope.$on('$destroy', function () {
@@ -402,9 +397,34 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
         $scope.reAssignList = function(orderId,driverId,status){
             var list = $cookieStore.get('obj3').reassignedorderList;
             console.log(list)
-            for(i=0;i<list.length;i++) {
-                if(orderId == list[i].orderId)
-                alert("Cant Reassign Again");
+            function isEmpty(obj) {
+                for(var prop in obj) {
+                    if(obj.hasOwnProperty(prop))
+                        return false;
+                }
+
+                return true;
+            }
+            Object.size = function(obj) {
+                var size = 0, key;
+                for (key in obj) {
+                    if (obj.hasOwnProperty(key)) size++;
+                }
+                return size;
+            };
+            if(!isEmpty(list)) {
+                var size = Object.size(list);
+                for(i=0;i<size;i++) {
+                    if(orderId == list[i]) {
+                        ngDialog.open({
+                            template: 'can_not_reassign_again',
+                            className: 'ngdialog-theme-default',
+                            scope: $scope,
+                            showClose: true
+                        });
+                        return false;
+                    }
+                }
             }
 
             if(status == 'DRIVER_ASSIGNED' || status == 'SUCCESS' ||  status == 'REACHED_PICKUP_POINT' || status == 'REQUEST_SENT_TO_DRIVER' ||
@@ -474,11 +494,12 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
 
         /*================ Reassigning driver for  ongoing order ===================*/
         $scope.reAssign = function() {
+            var reassignedorderList = [];
             reassignedorderList.push($scope.orderId)
             console.log("Lenth = "+reassignedorderList);
             reassignedorderList = {'reassignedorderList': reassignedorderList}
-                $cookieStore.put('obj3', reassignedorderList);
-            console.log("Cookie Result = "+$cookieStore.get('obj').reassignedorderList);
+            $cookieStore.put('obj3', reassignedorderList);
+            console.log("Cookie Result = "+$cookieStore.get('obj3').reassignedorderList);
             $http({
                 method: 'POST',
                 url: MY_CONSTANT.url + 'api/admin/orderAssignDriver',
@@ -502,6 +523,7 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
                     });
                 })
                 .error(function (response, status) {
+                    console.log(response);
                     alert("Oops driver not assigned.");
                 })
         }
@@ -519,6 +541,117 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
             }
             });
         }
-
-
     }]);
+
+/*  $scope.drawMap1 = function () {
+ orderCount = 0;
+ $http.get(MY_CONSTANT.url + 'api/admin/getLiveView/' + $cookieStore.get('obj').accesstoken)
+ .success(function (response, status) {
+ console.log(response)
+ if (status == 200) {
+ var dataArray = [];
+ var marker = undefined;
+ var dataArray1 = [];
+ var liveDriverList = response.data.driverDetailArray;
+ transition(liveDriverList);
+ var numDeltas = 100;
+ var delay = 10; //milliseconds
+ var i = 0;
+ var deltaLat;
+ var deltaLng;
+ function transition(liveDriverList){
+ i = 0;
+ deltaLat = (liveDriverList.latitude - $scope.liveDriverList.latitude)/numDeltas;
+ deltaLng = (liveDriverList.longitude - $scope.liveDriverList.longitude)/numDeltas;
+ moveMarker();
+ }
+
+ function moveMarker(){
+ $scope.liveDriverList.latitude += deltaLat;
+ $scope.liveDriverList.longitude += deltaLng;
+ var latlng = new google.maps.LatLng($scope.liveDriverList.latitude, $scope.liveDriverList.longitude);
+ marker.setPosition(latlng);
+ if(i!=numDeltas){
+ i++;
+ setTimeout(moveMarker, delay);
+ }
+ }
+
+ $scope.list = dataArray;
+
+ *//*           *//**//*================Calling Live driver marker set function===================*//**//*
+ if (driverLength) {
+ liveDriverList.forEach(function (column) {
+ createMarker(column);
+ $scope.openInfoWindow = function (e, selectedMarker) {
+ e.preventDefault();
+ google.maps.event.trigger(selectedMarker, 'click');
+ }
+ });
+ $scope.mcOptions = {gridSize: 50, maxZoom: 20};
+
+ if ($scope.markerClusterer) {
+ $scope.markerClusterer.clearMarkers();   //clearing the markercluster to add new
+ }
+
+ $scope.markerClusterer = new MarkerClusterer($scope.mapContainer, markerArr, $scope.mcOptions);
+
+ //function to get lat long bounds according to marker position
+ bound_val = $scope.setBounds();
+ }
+ else {
+ }
+
+ *//**//*================Calling marker set function for Live order pickup location===================*//**//*
+ if (orderLength) {
+ liveOrderList.forEach(function (column) {
+ createMarker1(column);
+ $scope.openInfoWindow = function (e, selectedMarker) {
+ e.preventDefault();
+ google.maps.event.trigger(selectedMarker, 'click');
+ }
+
+ });
+ $scope.mcOptions = {gridSize: 50, maxZoom: 20};
+
+ if ($scope.markerClusterer) {
+ $scope.markerClusterer.clearMarkers();   //clearing the markercluster to add new
+ }
+
+ $scope.markerClusterer = new MarkerClusterer($scope.mapContainer, markerArr, $scope.mcOptions);
+
+ //function to get lat long bounds according to marker position
+ bound_val = $scope.setBounds();
+ }
+ else
+
+ *//**//*================Calling marker set function for Live order drop off location===================*//**//*
+ if (orderLength) {
+ liveOrderList.forEach(function (column) {
+ createMarker2(column);
+ $scope.openInfoWindow = function (e, selectedMarker) {
+ e.preventDefault();
+ google.maps.event.trigger(selectedMarker, 'click');
+ }
+ });
+ $scope.mcOptions = {gridSize: 50, maxZoom: 20};
+ if ($scope.markerClusterer) {
+ $scope.markerClusterer.clearMarkers();   //clearing the markercluster to add new
+ }
+ $scope.markerClusterer = new MarkerClusterer($scope.mapContainer, markerArr, $scope.mcOptions);
+ //function to get lat long bounds according to marker position
+ bound_val = $scope.setBounds();
+ }
+ else {
+
+ }*//*
+ } else {
+ alert("Something went wrong, please try again later.");
+ return false;
+ }
+ })
+ .error(function (error) {
+ console.log(error);
+ $state.go('page.login');
+ });
+ };*/

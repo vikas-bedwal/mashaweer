@@ -20,6 +20,8 @@ App.controller('LoginController', function ($scope, $http, $cookies, $cookieStor
                     var someSessionObj1 = {'adminType': response.data.data.adminType};
                     $cookieStore.put('obj', someSessionObj);
                     $cookieStore.put('obj1', someSessionObj1);
+                    var someSessionObj2 = {'reassignedorderList': {}};
+                    $cookieStore.put('obj3', someSessionObj2);
                     $state.go('app.dashboard');
                 },
                 function(response) { // optional

@@ -273,7 +273,20 @@
 *******************************************************************************-->
 <script type="text/ng-template" id="can_not_reassign">
     <div class="ngdialog-message">
-        <h4>Sorry this order has already been picked up.</h4>
+        <h4>Sorry order has already been picked up.</h4>
+        <button type="submit" ng-click="closeThisDialog(0)" class="btn btn-success"
+                style="margin-top:20px;float:right;">OK
+        </button>
+        <div style="clear: both;"></div>
+    </div>
+</script>
+
+<!-- **************************************************************************
+******************* Modal to display msg when driver can not reassigned **************************************
+*******************************************************************************-->
+<script type="text/ng-template" id="can_not_reassign_again">
+    <div class="ngdialog-message">
+        <h4>Sorry order can not reassign again.</h4>
         <button type="submit" ng-click="closeThisDialog(0)" class="btn btn-success"
                 style="margin-top:20px;float:right;">OK
         </button>

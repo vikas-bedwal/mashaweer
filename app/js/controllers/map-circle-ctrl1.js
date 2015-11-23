@@ -49,10 +49,16 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
         $scope.minYear = parseInt(new Date().getYear()) + 1900;
         $scope.maxYear = parseInt(new Date().getYear()) + 1920;
         $scope.paymentMode = function(mode){
-            if(mode=="cash"){
+            if(mode=="COD"){
                 $scope.cash = 1;
                 $scope.subscription = 0;
                 $scope.card = 0;
+            }
+            else if(mode=="CREDITS"){
+                $scope.cash = 0;
+                $scope.subscription = 0;
+                $scope.card = 0;
+                $scope.credits = 1;
             }
             else if(mode=="card"){
                 $scope.cash = 0;
@@ -85,6 +91,16 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
             utilsScript: "vendor/utils.js"
         });
         $("#d_mobile-number").intlTelInput("selectCountry", "ae");
+
+       /* ============= Prevent Users from submitting form by hitting enter============ */
+        $(document).ready(function() {
+            $(window).keydown(function(event){
+                if(event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        });
 
         $log.currentLevel = $log.LEVELS.debug;
 
@@ -255,14 +271,13 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
                     break;
 
                 case 2:
-                    console.log($("#p_mobile-number").val());
-                    if ($scope.panelDemo3 == 0 && ($("#p_mobile-number").val() == undefined || $scope.job.sender_name == undefined || $scope.job.pick_up_before == undefined || $scope.job.pick_up_address == undefined || $scope.job.info == undefined
-                        ||$("#p_mobile-number").val() == "" || $scope.job.sender_name == "" || $scope.job.pick_up_before == "" || $scope.job.pick_up_address == "" || $scope.job.info == "")) {
+                    if ($scope.panelDemo3 == 0 && ($("#p_mobile-number").val() == undefined || $scope.job.sender_name == undefined || $("#datetimepicker").val() == undefined || $scope.job.pick_up_address == undefined || $scope.job.info == undefined
+                        ||$("#p_mobile-number").val() == "" || $scope.job.sender_name == "" || $("#datetimepicker").val() == "" || $scope.job.pick_up_address == "" || $scope.job.info == "")) {
                         $scope.boxStatus2 = 0;
                         console.log("case2 col 0")
                     }
-                    else if ($scope.panelDemo3 == 1 && ($("#p_mobile-number").val() == undefined || $scope.job.sender_name == undefined || $scope.job.pick_up_before == undefined || $scope.job.pick_up_address == undefined || $scope.job.info == undefined
-                        || $("#p_mobile-number").val() == "" || $scope.job.sender_name == "" || $scope.job.pick_up_before == "" || $scope.job.pick_up_address == "" || $scope.job.info == "")) {
+                    else if ($scope.panelDemo3 == 1 && ($("#p_mobile-number").val() == undefined || $scope.job.sender_name == undefined || $("#datetimepicker").val() == undefined || $scope.job.pick_up_address == undefined || $scope.job.info == undefined
+                        || $("#p_mobile-number").val() == "" || $scope.job.sender_name == "" || $("#datetimepicker").val() == "" || $scope.job.pick_up_address == "" || $scope.job.info == "")) {
                         $scope.boxStatus2 = 1;
                         console.log("case2 col 1")
                     }
@@ -273,13 +288,13 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
                     break;
 
                 case 3:
-                    if ($scope.panelDemo2 == 0 && ($("#d_mobile-number").val() == undefined || $scope.job.d_sender_name == undefined || $scope.job.d_drop_off_before == undefined || $scope.job.d_drop_off_address == undefined || $scope.job.d_info == undefined
-                        || $("#d_mobile-number").val() == null || $scope.job.d_sender_name == "" || $scope.job.d_drop_off_before == "" || $scope.job.d_drop_off_address == "" || $scope.job.d_info == "")) {
+                    if ($scope.panelDemo2 == 0 && ($("#d_mobile-number").val() == undefined || $scope.job.d_receiver_name == undefined|| $scope.job.d_drop_off_address == undefined || $scope.job.d_info == undefined
+                        || $("#d_mobile-number").val() == "" || $scope.job.d_receiver_name == "" || $scope.job.d_drop_off_address == "" || $scope.job.d_info == "")) {
                         $scope.boxStatus3 = 0;
                         console.log("case3 col 0")
                     }
-                    else if ($scope.panelDemo2 == 1 && ($("#p_mobile-number").val() == undefined || $scope.job.d_sender_name == undefined || $scope.job.d_drop_off_before == undefined || $scope.job.d_drop_off_address == undefined || $scope.job.d_info == undefined
-                        || $("#d_mobile-number").val() == "" || $scope.job.d_sender_name == "" || $scope.job.d_drop_off_before == "" || $scope.job.d_drop_off_address == "" || $scope.job.d_info == "")) {
+                    else if ($scope.panelDemo2 == 1 && ($("#p_mobile-number").val() == undefined || $scope.job.d_receiver_name == undefined || $scope.job.d_drop_off_address == undefined || $scope.job.d_info == undefined
+                        || $("#d_mobile-number").val() == "" || $scope.job.d_receiver_name == "" || $scope.job.d_drop_off_address == "" || $scope.job.d_info == "")) {
                         $scope.boxStatus3 = 1;
                         console.log("case3 col 1")
                     }

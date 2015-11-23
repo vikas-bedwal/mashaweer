@@ -1,3 +1,9 @@
+<style>
+    .table-hover > tbody > tr:hover {
+        background-color: #51c6ea;
+        color: #000000;
+    }
+</style>
 <h3>
     Price List
     <small>Displaying price list for all Transportation Vehicle</small>
@@ -19,7 +25,7 @@
             <button ng-show="updateBtnStatus" type="submit" class="fa fa-arrow-right base-color" ng-click="updateBasePrice(bikeBasePrice)">
                </button>
             </span></h4>
-    <table id="bike_dis_pricing" class="table table-bordered table-hover bg-white full-width">
+    <table id="bike_dis_pricing" class="table table-bordered table-hover bg-white full-width pricing">
         <tr style="font-weight: bold">
             <td style="width:35%">From (Km)</td>
             <td style="width:20%">To (Km)</td>

@@ -6,7 +6,7 @@
     <div class="col-lg-6">
         <div ng-show="successMsg" class="alert alert-success text-center">{{successMsg}}</div>
         <div ng-show="errorMsg" class="alert alert-danger text-center">{{errorMsg}}</div>
-        <form method="post" validate-form="" novalidate="" ng-submit="addOrder(job)">
+        <form method="post" name="addOrderForm" validate-form="" novalidate="" ng-submit="addOrderForm.$valid && addOrder(job)">
             <div class="panel panel-default">
                 <div id="panelDemo4" class="panel panel-default custom-panel" ng-class="{'whirl standard' : loading }">
                     <div class="panel-heading">
@@ -33,7 +33,7 @@
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                                 <ui-select ng-model="person.selected" theme="bootstrap"
-                                                           ng-disabled="disabled" ng-click="cust(person.selected)">
+                                                           ng-disabled="disabled" ng-change="cust(person.selected)">
                                                     <ui-select-match placeholder="Select or search a customer...">
                                                         {{$select.selected.name}}
                                                     </ui-select-match>
@@ -191,7 +191,7 @@
                                                    required="required">
                                         </div>
                                     </div>
-                                    <div class="col-lg-12">
+                                   <!-- <div class="col-lg-12">
                                         <div class="form-group">
                                             <input type="text" name="drop_off_before" id="datetimepicker1"
                                                    class="form-control"
@@ -200,7 +200,7 @@
                                                    ng-required="boxStatus3"
                                                    required="required">
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <input type="text" name="drop_off_address"
@@ -242,6 +242,7 @@
                                                     required="required" ng-change="paymentMode(job.payment_mode)"
                                                     placeholder="Payment Mode" name="payment_mode" class="form-control">
                                                 <option value="COD">Cash</option>
+                                                <option value="CREDITS">Credits</option>
                                                 <!--<option value="card">Card</option>
                                                 <option value="subscription">Subscription</option>-->
                                             </select>
@@ -484,6 +485,3 @@
         <div style="clear: both;"></div>
     </div>
 </script>
-
-
-

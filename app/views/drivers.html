@@ -54,7 +54,7 @@
 <!---------------- Start Edit Driver View--------------------->
 
 <script type="text/ng-template" id="modalDialogId">
-    <form method="post" validate-form="" novalidate="" ng-submit="editDriver()">
+    <form method="post" name="driverEditForm" validate-form="" novalidate="" ng-submit="driverEditForm.$valid && editDriver()">
         <div class="ngdialog-message">
             <div class="panel-body">
 
@@ -79,7 +79,6 @@
                                         ng-model="pop.lastName"/>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label class="control-label">Email</label>
                             <input name="email" ng-disabled="1" required="required"
@@ -122,15 +121,16 @@
 
 <!---------------- Start Add Driver View--------------------->
 
+
+
 <script type="text/ng-template" id="addDriver">
-    <form method="post" validate-form="" novalidate="" ng-submit="addDriver(data)">
         <div class="ngdialog-message">
             <div class="panel-body">
 
                 <div class="panel-heading" style="font-weight: bolder; color: gray">
                     <h4>Add Driver Details</h4>
                 </div>
-                <form method="post" ng-submit="addDriver()" validate-form=""
+                <form method="post" name="driverAddForm" ng-submit="driverAddForm.$valid && addDriver(data)" validate-form=""
                       novalidate="">
                     <!-- START panel-->
                     <div class="panel-body">
@@ -161,7 +161,7 @@
                                 </div>
                                 <div class="col-sm-9" style="padding-right: 0">
                                     <input id="business_phone_number"
-                                           ng-model="add.phone_number"
+                                           ng-model="data.phone_number"
                                            required="required" numbers-only="numbers-only"
                                            class="form-control"/>
                                 </div>
@@ -173,42 +173,316 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label">Email</label>
-                            <input type="email" name="email" required="required"
-                                   class="form-control"
-                                   ng-model="data.email"/>
+                                <div class="col-lg-6 padding-left">
+                                    <label class="control-label">Company Name</label>
+                                    <input type="text" required="required"
+                                           class="form-control"
+                                           ng-model="data.companyName"/>
+                                </div>
+                            <div class="col-lg-6 padding-right">
+                                <label class="control-label">Email</label>
+                                <input type="email" name="email" required="required"
+                                       class="form-control"
+                                       ng-model="data.email"/>
+                            </div>
                         </div>
 
+
                         <div class="form-group">
-                            <label class="control-label">Vehicle</label>
-                            <select id="data.add_vehical_type" ng-init="data.add_vehical_type='BIKE'" ng-model="data.add_vehical_type"
-                                    required="required"
-                                    placeholder="Vehicle Type" name="vehival_type" class="form-control">
-                                <option value="BIKE">Bike</option>
-                                <option value="CAR">Car</option>
-                                <option value="TRUCK">Truck</option>
-                            </select>
+                            <div class="col-lg-6 padding-left" ng-if="1">
+                                <p class="input-group">
+                                    <label class="control-label">Comm. Date</label>
+                                    <input type="text" readonly="" id="commencementDate"
+                                           datepicker-popup="{{format}}"
+                                           ng-model="data.commencementDate"
+                                           is-open="datepicker.dt1"
+                                           min-date="min_date"
+                                           max-date="" datepicker-options="dateOptions"
+                                           date-disabled="disabled(date, mode)"
+                                           ng-required="true" close-text="Close"
+                                           class="form-control"/>
+            <span class="input-group-btn promoCOdeClndr">
+               <button type="button" ng-click="openDt1($event)" class="btn btn-default">
+                   <em class="fa fa-calendar"></em>
+               </button>
+            </span>
+                                </p>
+                            </div>
+
+                            <div class="col-lg-6 padding-right" ng-if="1">
+                                <p class="input-group">
+                                    <label class="control-label">Visa Exp Date</label>
+                                    <input type="text" readonly="" id="residenceVisaExpiryDate"
+                                           datepicker-popup="{{format}}"
+                                           ng-model="data.residenceVisaExpiryDate"
+                                           is-open="datepicker.dt2"
+                                           min-date="pop.residenceVisaExpiryDate"
+                                           max-date="maxDate"
+                                           datepicker-options="dateOptions"
+                                           date-disabled="disabled(date, mode)"
+                                           ng-required="true" close-text="Close"
+                                           class="form-control"/>
+            <span class="input-group-btn promoCOdeClndr">
+               <button type="button" ng-click="openDt2($event)" class="btn btn-default">
+                   <em class="fa fa-calendar"></em>
+               </button>
+            </span>
+                                </p>
+                            </div>
+
                         </div>
+
+
                         <div class="form-group">
-                            <label class="control-label">Driver Type</label>
-                            <select id="data.add_driver_type" ng-init="data.add_driver_type='Freelancer'" ng-model="data.add_driver_type"
-                                    required="required"
-                                    placeholder="Vehicle Type" name="driver_type" class="form-control">
-                                <option value="Freelancer">Freelancer</option>
-                                <option value="Dedicated">Dedicated</option>
-                            </select>
+                            <div class="col-lg-6 padding-left">
+                                <label class="control-label">Vehicle</label>
+                                <select id="data.add_vehical_type" ng-init="data.add_vehicle_type='BIKE'" ng-model="data.add_vehicle_type"
+                                        required="required"
+                                        placeholder="Vehicle Type" name="vehicle_type" class="form-control">
+                                    <option value="BIKE">Bike</option>
+                                    <option value="CAR">Car</option>
+                                    <option value="TRUCK">Truck</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-6 padding-right">
+                                <label class="control-label">Driver Type</label>
+                                <select id="data.add_driver_type" ng-init="data.add_driver_type='Freelancer'" ng-model="data.add_driver_type"
+                                        required="required"
+                                        placeholder="Vehicle Type" name="driver_type" class="form-control">
+                                    <option value="Freelancer">Freelancer</option>
+                                    <option value="Dedicated">Dedicated</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-
+                    <button type="submit" class="btn btn-success mr" style="margin-left: 25px">Add
+                    </button>
+                    <button type="button" ng-click="closeThisDialog('button')" class="btn btn-default">
+                        Cancel
+                    </button>
                     <!-- END panel-->
                 </form>
 
             </div>
-            <button type="submit" class="btn btn-success mr" style="margin-left: 25px">Add
-            </button>
-            <button type="button" ng-click="closeThisDialog('button')" class="btn btn-default">
-                Cancel
-            </button>
+        </div>
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<script type="text/ng-template" id="addDriver">
+    <form method="post" name="myForm" validate-form="" novalidate="" ng-submit="myForm.$valid && addDriver(data)">
+        <div class="ngdialog-message">
+            <div class="panel-body">
+
+                <div class="panel-heading" style="font-weight: bolder; color: gray">
+                    <h4>Add Driver Details</h4>
+                </div>
+                <form method="post"  validate-form="" novalidate="" ng-submit="addDriver()">
+                    &lt;!&ndash; START panel&ndash;&gt;
+                    <div class="panel-body">
+
+                        <div class="col-lg-6 padding-left">
+                            <div class="form-group">
+                            <label class="control-label">First Name</label>
+                            <input  name="firstName" required="required"
+                                    class="form-control"
+                                    ng-model="data.firstName"/>
+                                </div>
+                        </div>
+
+                        &lt;!&ndash;<div class="form-group">&ndash;&gt;
+                            <div class="col-lg-6 padding-right">
+                                <div class="form-group">
+                                <label class="control-label">Last Name</label>
+                                <input  name="lastName" required="required"
+                                        class="form-control"
+                                        ng-model="data.lastName"/>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="control-label">Mobile Number<span class="astrick">*</span></label><br>
+
+                                <div style="float: left;background: rgb(238,241,242);padding:5px;" ng-model="data.prefix">+971</div>
+                                <div style="float: right;width: 85%;">
+                                    &lt;!&ndash;<input type="text" name="phn_no" required="required" data-parsley-type="digits"&ndash;&gt;
+                                           &lt;!&ndash;class="form-control"&ndash;&gt;
+                                           &lt;!&ndash;ng-model="approveDriver.phn_no"&ndash;&gt;
+                                           &lt;!&ndash;placeholder="Phone number with country code" data-parsley-maxlength="12"/>&ndash;&gt;
+                                    <input id="business_phone_number"
+                                           ng-model="data.phone_number"
+                                           required="required" numbers-only="numbers-only"
+                                           class="form-control"/>
+                                </div>
+                                <div style="clear:both"></div>
+                            </div>
+                        </div>
+
+
+
+                        &lt;!&ndash;<div class="form-group">&ndash;&gt;
+
+
+                        &lt;!&ndash;<label class="control-label">Phone No.</label>&ndash;&gt;
+
+                        &lt;!&ndash;<div>&ndash;&gt;
+                            &lt;!&ndash;<div class="col-sm-3" style="padding-left: 0;">&ndash;&gt;
+                                &lt;!&ndash;<div class="form-group">&ndash;&gt;
+                                    &lt;!&ndash;<label class="control-label">Phone No.</label>&ndash;&gt;
+                                    &lt;!&ndash;<input id="business_phone_number_prefix" ng-init="data.prefix='+971'"&ndash;&gt;
+                                           &lt;!&ndash;ng-model="data.prefix" ng-disabled="1"&ndash;&gt;
+                                           &lt;!&ndash;required="required"&ndash;&gt;
+                                           &lt;!&ndash;numbers-only="numbers-only" class="form-control"/>&ndash;&gt;
+                                &lt;!&ndash;</div>&ndash;&gt;
+                            &lt;!&ndash;</div>&ndash;&gt;
+                            &lt;!&ndash;<div class="col-sm-9" style="padding-right: 0">&ndash;&gt;
+                                &lt;!&ndash;<div class="form-group">&ndash;&gt;
+                                    &lt;!&ndash;<label class="control-label">Phone No.</label>&ndash;&gt;
+                                    &lt;!&ndash;<input id="business_phone_number"&ndash;&gt;
+                                           &lt;!&ndash;ng-model="data.phone_number"&ndash;&gt;
+                                           &lt;!&ndash;required="required" numbers-only="numbers-only"&ndash;&gt;
+                                           &lt;!&ndash;class="form-control"/>&ndash;&gt;
+                                &lt;!&ndash;</div>&ndash;&gt;
+                            &lt;!&ndash;</div>&ndash;&gt;
+                            &lt;!&ndash;<div style="clear: both;"></div>&ndash;&gt;
+                        &lt;!&ndash;</div>&ndash;&gt;
+
+
+
+                            &lt;!&ndash;<input type="text" name="estimated_time" required="required" numbers-only="numbers-only" class="form-control"
+                                   ng-model="add.estimated_time"/>&ndash;&gt;
+                        &lt;!&ndash;</div>&ndash;&gt;
+
+
+
+
+
+
+                            <div class="col-lg-6 padding-left">
+                                <div class="form-group">
+                                <label class="control-label">Company Name</label>
+                                <input type="text" required="required"
+                                       class="form-control"
+                                       ng-model="data.companyName"/>
+                                    </div>
+                            </div>
+                            <div class="col-lg-6 padding-right">
+                                <div class="form-group">
+                                <label class="control-label">Email</label>
+                                <input type="email" name="email" required="required"
+                                       class="form-control"
+                                       ng-model="data.email"/>
+                                    </div>
+                            </div>
+
+
+
+
+
+                        <div class="row form-group">
+                          <div class="row">
+                              <div class="col-lg-6" ng-if="1">
+
+                                      <p class="input-group">
+                                  <div class="form-group">
+                                          <label class="control-label">Comm. Date</label>
+                                          <input type="text" readonly="" id="commencementDate"
+                                                 datepicker-popup="{{format}}"
+                                                 ng-model="data.commencementDate"
+                                                 is-open="datepicker.dt1"
+                                                 min-date="min_date"
+                                                 max-date="" datepicker-options="dateOptions"
+                                                 date-disabled="disabled(date, mode)"
+                                                 ng-required="true" close-text="Close"
+                                                 class="form-control" style="float:left;width:80%;"/>
+                              </div>
+            <span class="input-group-btn promoCOdeClndr" style="float:right;width:20%;margin-top: -14px;">
+               <button type="button" ng-click="openDt1($event)" class="btn btn-default" style="margin-top:0px;">
+                   <em class="fa fa-calendar"></em>
+               </button>
+            </span>
+                                      </p>
+
+                              </div>
+
+                              <div class="col-lg-6" ng-if="1">
+
+                                      <p class="input-group padding-right">
+                                  <div class="form-group">
+                                          <label class="control-label">Visa Exp Date</label>
+                                          <input type="text" readonly="" id="residenceVisaExpiryDate"
+                                                 datepicker-popup="{{format}}"
+                                                 ng-model="data.residenceVisaExpiryDate"
+                                                 is-open="datepicker.dt2"
+                                                 min-date="data.endTime"
+                                                 max-date="maxDate"
+                                                 datepicker-options="dateOptions"
+                                                 date-disabled="disabled(date, mode)"
+                                                 ng-required="true" close-text="Close"
+                                                 class="form-control" style="float:left;width:80%;"/>
+                              </div>
+            <span class="input-group-btn promoCOdeClndr" style="float:right;width:20%;margin-top: -14px;">
+               <button type="button" ng-click="openDt2($event)" class="btn btn-default" style="margin-top:0px;">
+                   <em class="fa fa-calendar"></em>
+               </button>
+            </span>
+                                      </p>
+
+                              </div>
+                          </div>
+                        </div>
+
+                        &lt;!&ndash;<div class="form-group">&ndash;&gt;
+                            <div class="col-lg-6 padding-left">
+                                <div class="form-group">
+                                <label class="control-label">Vehicle</label>
+                                <select id="data.add_vehical_type" ng-model="data.add_vehical_type"
+                                        required="required"  name="vehicle_type" class="form-control">
+                                    <option value="" style="display: none">Select Vehicle</option>
+                                    <option value="BIKE">Bike</option>
+                                    <option value="CAR">Car</option>
+                                    <option value="TRUCK">Truck</option>
+                                </select>
+                                    </div>
+                            </div>
+                            <div class="col-lg-6 padding-right">
+                                <div class="form-group">
+                                <label class="control-label">Driver Type</label>
+                                <select id="data.add_driver_type" ng-model="data.add_driver_type"
+                                        required="required"  name="driver_type" class="form-control">
+                                    <option value="" style="display: none">Select Driver Type</option>
+                                    <option value="Freelancer">Freelancer</option>
+                                    <option value="Dedicated">Dedicated</option>
+                                </select>
+                                    </div>
+                            </div>
+
+
+
+                        </div>
+                    &lt;!&ndash;</div>&ndash;&gt;
+                    <button type="submit" class="btn btn-success mr" style="margin-left: 25px">Add
+                    </button>
+                    <button type="button" ng-click="closeThisDialog('button')" class="btn btn-default">
+                        Cancel
+                    </button>
+                    &lt;!&ndash; END panel&ndash;&gt;
+                </form>
+
+            </div>
         </div>
     </form>
-</script>
+</script>-->

@@ -1,6 +1,5 @@
 
 /*Common CSS*/
-
 .orderPagination{
     float: right;
     margin: 10px 15px 15px 0;
@@ -133,11 +132,6 @@
     border-color: #f4bf00;
     color: #f4bf00;
 }
-
-/*.table-hover > tbody > tr:hover {
-    background-color: #f04f7e;
-    color: white;
-}*/
 
 .pagination > .active > a,
 .pagination > .active > span,

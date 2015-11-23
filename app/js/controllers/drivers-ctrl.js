@@ -3,6 +3,28 @@
  */
 App.controller('driversController', function ($scope, $http, $cookies, $cookieStore, MY_CONSTANT, $timeout,$state,ngDialog) {
     'use strict';
+
+    /*--------------------------------------------------------------------------
+     * --------- Only One Datepicker will display at a time ---------------------------------------
+     --------------------------------------------------------------------------*/
+    $scope.datepicker={
+        dt1:false,
+        dt2:false
+    };
+    $scope.openDt1 = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.datepicker.dt1 = true;
+        $scope.datepicker.dt2 = false;
+    };
+
+    $scope.openDt2 = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.datepicker.dt1 = false;
+        $scope.datepicker.dt2 = true;
+    };
+
     $http.get(MY_CONSTANT.url + 'api/admin/driverList/' + $cookieStore.get('obj').accesstoken)
         .success(function (response, status) {
             if (status == 200) {
@@ -121,21 +143,30 @@ App.controller('driversController', function ($scope, $http, $cookies, $cookieSt
         })
     };
     $scope.addDriver = function(data_get){
-        console.log(data_get);
-        alert("Oops..... Api pending")
-       /* if(data_get.add_driver_type == $scope.details.isDedicated)
+        if(data_get.add_driver_type == "Freelancer")
             var flag = false;
         else
             var flag = true
         $http({
-            url: MY_CONSTANT.url + 'api/admin/addDriverInfo',
+            url: MY_CONSTANT.url + 'api/admin/registerDriver',
             method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            transformRequest: function (obj) {
+                var str = [];
+                for (var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
             data: { accessToken : $cookieStore.get('obj').accesstoken,
-                email: $scope.pop.email,
-                firstName: $scope.pop.firstName,
-                lastName: $scope.pop.lastName,
-                vehicleType: $scope.pop.vehicleType,
-                flag: flag
+                email: data_get.email,
+                firstName: data_get.firstName,
+                lastName: data_get.lastName,
+                phoneNumber: data_get.phone_number,
+                companyName: data_get.companyName,
+                vehicleType: data_get.add_vehicle_type,
+                isDedicated: flag,
+                commencementDate: moment(data_get.commencementDate).format('YYYY-MM-DD'),
+                residenceVisaExpiryDate: moment(data_get.residenceVisaExpiryDate).format('YYYY-MM-DD')
             }
         })
             .then(function(response) {
@@ -145,7 +176,7 @@ App.controller('driversController', function ($scope, $http, $cookies, $cookieSt
             function(response,status) { // optional
                 // failed
                 alert("Something went wrong");
-            });*/
+            });
     }
     /*------------Add Driver Info Section End---------------*/
 
