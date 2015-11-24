@@ -184,6 +184,7 @@ console.log("try");
                         'paging': true,  // Table pagination
                         'ordering': true,  // Column ordering
                         'info': true,  // Bottom left status text
+
                         oLanguage: {
                             sSearch: 'Search all columns:',
                             sLengthMenu: '_MENU_ records per page',

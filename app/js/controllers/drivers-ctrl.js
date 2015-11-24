@@ -30,12 +30,13 @@ App.controller('driversController', function ($scope, $http, $cookies, $cookieSt
             if (status == 200) {
                 var dataArray = [];
                 var driverList = response.data;
+                console.log(driverList)
                 driverList.forEach(function (column) {
                     var d = {};
                     d._id = column._id;
                     d.firstName = column.firstName;
                     d.lastName = column.lastName;
-                    d.fullName = column.fullName;
+                    d.fullName = column.firstName +" "+ column.lastName;
                     d.email = column.email;
                     d.title = column.title;
                     d.vehicleType = column.vehicleType;

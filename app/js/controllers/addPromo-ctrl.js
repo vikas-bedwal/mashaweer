@@ -61,7 +61,7 @@ App.controller('addPromoController', function ($scope, $http, $cookies, $cookieS
          * ---------Validations On datePicker ---------------------------------------
          --------------------------------------------------------------------------*/
         var startTime = add.startTime;
-        var endTime = add.end_date;
+        var endTime = add.endTime;
         var days = endTime - startTime;
         if (add.startTime == '' || add.startTime == undefined || add.startTime == null) {
             $scope.errorMsg = "Please select start date";
@@ -79,8 +79,8 @@ App.controller('addPromoController', function ($scope, $http, $cookies, $cookieS
             }, 3000);
             return false;
         }
-        else if (!result) {
-            $scope.errorMsg = "Start date must be less than end date";
+        else if (!result && (startDate != endDate)) {
+            $scope.errorMsg = "Start date must be less than or equal to end date";
             setTimeout(function () {
                 $scope.errorMsg = "";
                 $scope.$apply();
@@ -92,7 +92,6 @@ App.controller('addPromoController', function ($scope, $http, $cookies, $cookieS
             startTime = $("#start_date").val();
             endTime = $("#end_date").val();
         }
-
         $.ajax({
             type: "POST",
             url: MY_CONSTANT.url + 'api/admin/addPromoCode',

@@ -1,7 +1,7 @@
 <div ng-controller="dispatcherController" class="ngdialog-message headerMargin"><h3 ng-bind="name"></h3>
 
-    <h3 class="page-header" id="page-header-techServices">Existing Dispatcher List
-        <a ng-click="addDispatcher()" class="btn btn-success pull-right headerButtonMargin">Add Dispatcher</a>
+    <h3 class="page-header" id="page-header-techServices">Existing User List
+        <a ng-click="addDispatcher()" class="btn btn-success pull-right headerButtonMargin">Add User</a>
     </h3>
     <!-- Start View Add Ons Table -->
     <div class="row">
@@ -14,7 +14,9 @@
                             <th hidden="">Id</th>
                             <th>No</th>
                             <th>Name</th>
+                            <!--<th>Phone No</th>-->
                             <th>Email</th>
+                            <th>User Type</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -24,7 +26,9 @@
                             <td class="digits" hidden="">{{data._id}}</td>
                             <td>{{$index + 1}}</td>
                             <td>{{data.fullName}}</td>
+                            <!--<td>{{data.phoneNumber}}</td>-->
                             <td>{{data.email}}</td>
+                            <td>{{data.type}}</td>
                             <td>
                                 <button class="btn btn-success" title="Edit" ng-click="editData(data)"><em class="fa fa-pencil"></em></button>
                                 <button class="btn btn-danger" title="Delete" ng-click="deleteData(data._id)"><em class="fa fa-trash"></em></button>
@@ -187,7 +191,7 @@
 *******************************************************************************-->
 <script type="text/ng-template" id="dispatcher">
     <div class="ngdialog-message">
-        <h3>Add Dispatcher</h3>
+        <h3>Add User</h3>
             <form role="form" validate-form="" novalidate="" ng-submit="register()" class="mb-lg">
                 <div class="form-group has-feedback">
                     <label for="signupInputFName" class="text-muted">First Name</label>
@@ -203,6 +207,17 @@
                     <label for="signupInputEmail1" class="text-muted">Email address</label>
                     <input id="signupInputEmail1" type="email" placeholder="Enter email" autocomplete="off" ng-model="account.email" required="required" class="form-control" />
                     <span class="fa fa-envelope form-control-feedback text-muted"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <label for="signupInputEmail1" class="text-muted">User Type</label>
+                    <select id="userType" ng-init="account.userType='MANAGER'" ng-model="account.userType"
+                            required="required"
+                            placeholder="User Type" name="userType" class="form-control">
+                        <option value="MANAGER">Manager</option>
+                        <option value="ACCOUNTANT">Accountant</option>
+                        <option value="DISPATCHER">Dispatcher</option>
+                        <option value="CALL_CENTER">Call Center</option>
+                    </select>
                 </div>
                 <!--<div class="form-group has-feedback">
                     <label for="signupInputPassword1" class="text-muted">Password</label>
@@ -223,7 +238,7 @@
                         </label>
                     </div>-->
                 </div>
-                <button type="submit" class="btn btn-block btn-success mt-lg">Add Dispatcher</button>
+                <button type="submit" class="btn btn-block btn-success mt-lg">Add User</button>
             </form>
 
 
@@ -235,7 +250,7 @@
 *******************************************************************************-->
 <script type="text/ng-template" id="display_msg">
     <div class="ngdialog-message">
-        <h4>Dispatcher Added Successfully</h4>
+        <h4>User Added Successfully</h4>
         <!--<button type="button" ng-click="closeThisDialog('button')" class="btn btn-default">
             Ok
         </button>-->
@@ -255,11 +270,11 @@
 </script>
 
 <!-- **************************************************************************
-******************* Modal to edit Dispatcher **************************************
+******************* Modal to edit User **************************************
 *******************************************************************************-->
 <script type="text/ng-template" id="editDispatcher">
     <div class="ngdialog-message">
-        <h3>Edit Dispatcher</h3>
+        <h3>Edit User</h3>
         <form class="mb-lg" novalidate="" validate-form="" ng-submit="editDispatcher(popUpData)">
             <div class="form-group has-feedback">
                 <label for="fName" class="text-muted">First Name</label>

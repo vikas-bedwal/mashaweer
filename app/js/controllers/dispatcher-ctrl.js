@@ -19,6 +19,7 @@ App.controller('dispatcherController', function ($scope, $http, $cookies, $cooki
 
     $http.get(MY_CONSTANT.url + 'api/admin/getDispatcher/' + $cookieStore.get('obj').accesstoken)
         .success(function (response, status) {
+            console.log(response)
             if (status == 200) {
                 var dataArray = [];
                 var dispatcherList = response.data;
@@ -28,6 +29,7 @@ App.controller('dispatcherController', function ($scope, $http, $cookies, $cooki
                     d.firstName = column.firstName,
                     d.lastName = column.lastName,
                     d.fullName = column.fullName;
+                    d.phoneNumber = column.phoneNumber;
                     d.email = column.email;
                     d.type = column.type
                     dataArray.push(d);
@@ -81,7 +83,8 @@ App.controller('dispatcherController', function ($scope, $http, $cookies, $cooki
             {
                 email: $scope.account.email,
                 firstName: $scope.account.fName,
-                lastName: $scope.account.lName
+                lastName: $scope.account.lName,
+                type: $scope.account.userType
             })
             .success(function (data,status)  {
                 if (status != 'success') {

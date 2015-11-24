@@ -14,6 +14,7 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
             latitude: "30.7333148",
             longitude: "76.7794179"
         };
+        var marker;
         $scope.map = {
             center: center,
             pan: true,
@@ -146,7 +147,7 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
         var createMarker1 = function (info) {
             var icon = 'app/img/map_icon.png';
             orderCount++;
-            var marker = new MarkerWithLabel({
+            marker = new MarkerWithLabel({
                 icon: icon,
                 position: new google.maps.LatLng(info.pickupLat, info.pickupLong),
                 labelContent: '<span style="color: #F7584B">' + orderCount +'</span>',
@@ -368,18 +369,19 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
         };
         $scope.drawMap();
 
-    /*    var dtInstance;
+        //var dtInstance;
         $scope.setinterval= setInterval(function(){
-            $scope.$on('$destroy', function () {
+           /* $scope.$on('$destroy', function () {
                 dtInstance.fnDestroy();
                 $('[class*=ColVis]').remove();
             })
             markerArr = [];    //empty the markerArray to refresh the map
+            markerCount = 0;*/
+            markerArr = [];    //empty the markerArray to refresh the map
             markerCount = 0;
-
             $scope.drawMap1();
-            // $state.reload();
-        }, 10000);*/
+            //$state.reload();
+        }, 10000);
 
   /*      $scope.setinterval= setInterval(function(){
             $scope.$on('$destroy', function () {
@@ -541,117 +543,91 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
             }
             });
         }
+
+        function move(marker,latitude , longitude) {
+            console.log(marker);
+            var numDeltas = 5;
+            var delay = 10; //milliseconds
+            var i = 0;
+            var lat;
+            var lng;
+            var deltaLat, deltaLng;
+
+            transition();
+            function transition() {
+                i = 0;
+                lat = latitude;
+                lng = longitude;
+                deltaLat = (lat - latitude) / numDeltas;
+                deltaLng = (lng - longitude) / numDeltas;
+
+                console.log(deltaLat, deltaLng)
+                moveMarker();
+            }
+
+            function moveMarker() {
+                lat += deltaLat;
+                lng += deltaLng;
+
+                marker.setPosition(new google.maps.LatLng(lat, lng));
+                if (i != numDeltas) {
+                    i++;
+                    setTimeout(moveMarker, delay);
+                }
+            }
+        }
+
+        $scope.drawMap1 = function () {
+            orderCount = 0;
+            $http.get(MY_CONSTANT.url + 'api/admin/getLiveView/' + $cookieStore.get('obj').accesstoken)
+                .success(function (response, status) {
+                    console.log(response)
+                    if (status == 200) {
+                        var dataArray = [];
+                        var dataArray1 = [];
+                        $scope.liveDriverList = response.data.driverDetailArray;
+                        var liveDriverList = response.data.driverDetailArray;
+                        var liveOrderList = response.data.orderDetail;
+                        console.log(liveOrderList)
+
+                        var liveDriverStatusList = response.data.driverStatusArray;
+                        var orderLength = response.data.orderDetail.length;
+                        var driverLength = response.data.driverDetailArray.length;
+                        $scope.total_no_of_drivers = driverLength;
+                        /*================Calling Live driver marker set function===================*/
+                        if (driverLength) {
+                            liveDriverList.forEach(function (column) {
+                                marker.setPosition(new google.maps.LatLng(column.latitude, column.longitude));
+                                move(marker,column.latitude , column.longitude);
+                                createMarker(column);
+                                $scope.openInfoWindow = function (e, selectedMarker) {
+                                    e.preventDefault();
+                                    google.maps.event.trigger(selectedMarker, 'click');
+                                }
+                            });
+                            $scope.mcOptions = {gridSize: 50, maxZoom: 20};
+
+                            if ($scope.markerClusterer) {
+                                $scope.markerClusterer.clearMarkers();   //clearing the markercluster to add new
+                            }
+
+                            $scope.markerClusterer = new MarkerClusterer($scope.mapContainer, markerArr, $scope.mcOptions);
+
+                            //function to get lat long bounds according to marker position
+                            bound_val = $scope.setBounds();
+                        }
+                        else {
+                        }
+
+                    } else {
+                        alert("Something went wrong, please try again later.");
+                        return false;
+                    }
+                })
+                .error(function (error) {
+                    console.log(error);
+                    $state.go('page.login');
+                });
+        };
+
     }]);
-
-/*  $scope.drawMap1 = function () {
- orderCount = 0;
- $http.get(MY_CONSTANT.url + 'api/admin/getLiveView/' + $cookieStore.get('obj').accesstoken)
- .success(function (response, status) {
- console.log(response)
- if (status == 200) {
- var dataArray = [];
- var marker = undefined;
- var dataArray1 = [];
- var liveDriverList = response.data.driverDetailArray;
- transition(liveDriverList);
- var numDeltas = 100;
- var delay = 10; //milliseconds
- var i = 0;
- var deltaLat;
- var deltaLng;
- function transition(liveDriverList){
- i = 0;
- deltaLat = (liveDriverList.latitude - $scope.liveDriverList.latitude)/numDeltas;
- deltaLng = (liveDriverList.longitude - $scope.liveDriverList.longitude)/numDeltas;
- moveMarker();
- }
-
- function moveMarker(){
- $scope.liveDriverList.latitude += deltaLat;
- $scope.liveDriverList.longitude += deltaLng;
- var latlng = new google.maps.LatLng($scope.liveDriverList.latitude, $scope.liveDriverList.longitude);
- marker.setPosition(latlng);
- if(i!=numDeltas){
- i++;
- setTimeout(moveMarker, delay);
- }
- }
-
- $scope.list = dataArray;
-
- *//*           *//**//*================Calling Live driver marker set function===================*//**//*
- if (driverLength) {
- liveDriverList.forEach(function (column) {
- createMarker(column);
- $scope.openInfoWindow = function (e, selectedMarker) {
- e.preventDefault();
- google.maps.event.trigger(selectedMarker, 'click');
- }
- });
- $scope.mcOptions = {gridSize: 50, maxZoom: 20};
-
- if ($scope.markerClusterer) {
- $scope.markerClusterer.clearMarkers();   //clearing the markercluster to add new
- }
-
- $scope.markerClusterer = new MarkerClusterer($scope.mapContainer, markerArr, $scope.mcOptions);
-
- //function to get lat long bounds according to marker position
- bound_val = $scope.setBounds();
- }
- else {
- }
-
- *//**//*================Calling marker set function for Live order pickup location===================*//**//*
- if (orderLength) {
- liveOrderList.forEach(function (column) {
- createMarker1(column);
- $scope.openInfoWindow = function (e, selectedMarker) {
- e.preventDefault();
- google.maps.event.trigger(selectedMarker, 'click');
- }
-
- });
- $scope.mcOptions = {gridSize: 50, maxZoom: 20};
-
- if ($scope.markerClusterer) {
- $scope.markerClusterer.clearMarkers();   //clearing the markercluster to add new
- }
-
- $scope.markerClusterer = new MarkerClusterer($scope.mapContainer, markerArr, $scope.mcOptions);
-
- //function to get lat long bounds according to marker position
- bound_val = $scope.setBounds();
- }
- else
-
- *//**//*================Calling marker set function for Live order drop off location===================*//**//*
- if (orderLength) {
- liveOrderList.forEach(function (column) {
- createMarker2(column);
- $scope.openInfoWindow = function (e, selectedMarker) {
- e.preventDefault();
- google.maps.event.trigger(selectedMarker, 'click');
- }
- });
- $scope.mcOptions = {gridSize: 50, maxZoom: 20};
- if ($scope.markerClusterer) {
- $scope.markerClusterer.clearMarkers();   //clearing the markercluster to add new
- }
- $scope.markerClusterer = new MarkerClusterer($scope.mapContainer, markerArr, $scope.mcOptions);
- //function to get lat long bounds according to marker position
- bound_val = $scope.setBounds();
- }
- else {
-
- }*//*
- } else {
- alert("Something went wrong, please try again later.");
- return false;
- }
- })
- .error(function (error) {
- console.log(error);
- $state.go('page.login');
- });
- };*/

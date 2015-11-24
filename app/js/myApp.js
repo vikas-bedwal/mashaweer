@@ -32,7 +32,7 @@ App.run(["$log", function ($log) {
 
 App.constant("MY_CONSTANT", {
     "url": " http://52.6.230.125:8002/"
-});
+});-
 App.constant("MY_CONSTANT1", {
     "url": "http://maps.googleapis.com/maps/api/geocode/json"
 });
