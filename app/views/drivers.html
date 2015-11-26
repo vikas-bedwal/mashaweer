@@ -121,8 +121,6 @@
 
 <!---------------- Start Add Driver View--------------------->
 
-
-
 <script type="text/ng-template" id="addDriver">
         <div class="ngdialog-message">
             <div class="panel-body">
@@ -161,7 +159,7 @@
                                 </div>
                                 <div class="col-sm-9" style="padding-right: 0">
                                     <input id="business_phone_number"
-                                           ng-model="data.phone_number"
+                                           ng-model="data.phone_number" ui-mask="{{'999-999-999'}}"
                                            required="required" numbers-only="numbers-only"
                                            class="form-control"/>
                                 </div>

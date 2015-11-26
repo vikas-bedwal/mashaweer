@@ -1,745 +1,646 @@
-/*
-App.controller('AddBookingController', ['$scope','$interval', '$timeout', '$http', 'uiGmapLogger', '$cookies', '$cookieStore', 'MY_CONSTANT', '$state', 'ngDialog', 'uiGmapGoogleMapApi', 'responseCode', 'countryName','MapLatLong'
-    , function ($scope,$interval, $timeout, $http, $log, $cookies, $cookieStore, MY_CONSTANT, $state, ngDialog, GoogleMapApi, responseCode, countryName,MapLatLong) {
+/**
+ * Created by Vikas on 05/08/15.
+ */
 
+App.controller('MapCircleController11', ['$scope','$state', '$timeout', '$http', 'uiGmapLogger','uiGmapGoogleMapApi', '$cookies', '$cookieStore', 'MY_CONSTANT','ngDialog'
+    , function ($scope,$state, $timeout, $http, $log, GoogleMapApi, $cookies, $cookieStore, MY_CONSTANT,ngDialog) {
+
+
+        //jQuery('#datetimepicker').datetimepicker();
+        //jQuery('#datetimepicker1').datetimepicker();
+        var orderCount = 0;
         $log.currentLevel = $log.LEVELS.debug;
-        $scope.newReg = {};
-        $scope.newReg.successMsg = "";
-        $scope.book_ride = false;
-        $scope.booking = {};
-        $scope.driver_data = {};
-        $scope.info = {};
-        $scope.ride = {};
-        $scope.rideText = "Book";
-        $scope.time_msg = false;
-        $scope.book_ride_later_data = {};
-        $scope.customer_access_token = "";
-        $scope.show_driver_flag = false;
-        $scope.manual_drivers = false;
-        $scope.time_value = false;
-        $scope.book_type = false; //manual booking
-        $scope.approx={};
-        $scope.eta_flag =0;   //flag for showing ETA
-        $scope.approx_value_show = 0;//flag for showing hr tag
-        $scope.approx_price =0; //flag for estimated price
-
-        $scope.total_rqst_send = 0;
-
-        $scope.interval_for_particular_driver = {};
-        $scope.cancel_interval_time_driver = {};
-
-        $scope.poly = '';
-
-
-        */
-/*--------------------------------------------------------------------------
-         * --------- funtion to destroy intervals on changing controllers ----------
-         ------------------------------- ------------------------------------------*//*
-
-        $scope.$on('$destroy',function() {
-
-            clearInterval($scope.interval_time);
-            clearInterval($scope.cancel_interval_time);
-
-            for (var i = 1; i <= $scope.total_rqst_send; i++) {
-
-                $interval.cancel($scope.interval_for_particular_driver[i]);
-                $interval.cancel($scope.cancel_interval_time_driver[i]);
-            }
-        });
-
-//==========================================================================================================================
-//========================================================== calculating distance ===========================================
-//==========================================================================================================================
-        $scope.getDistance=function(){
-
-            // show route between the points
-            directionsService = new google.maps.DirectionsService();
-            directionsDisplay = new google.maps.DirectionsRenderer(
-                {
-                    suppressMarkers: true,
-                    suppressInfoWindows: true
-                });
-            // directionsDisplay.setMap(map);
-            var request = {
-                origin:$scope.location1,
-                destination:$scope.location2,
-                travelMode: google.maps.DirectionsTravelMode.DRIVING
-            };
-            directionsService.route(request, function(response, status)
-            {
-                if (status == google.maps.DirectionsStatus.OK)
-                {
-                    var string;
-
-                    directionsDisplay.setDirections(response);
-                    var driving_time = parseFloat(response.routes[0].legs[0].duration.value/60);
-                    var distance = parseFloat(response.routes[0].legs[0].distance.value/1000);
-                    string = "The distance between the two points on the chosen route is: "+response.routes[0].legs[0].distance.text;
-                    string += "<br/>The aproximative driving time is: "+response.routes[0].legs[0].duration.text;
-
-                    $scope.fare_factor = parseFloat($scope.fare_factor);
-                    $scope.approx.fare_fixed = parseFloat($scope.approx.fare_fixed);
-                    $scope.approx.fare_per_min = parseFloat($scope.approx.fare_per_min);
-
-                    $scope.estimated_price = ($scope.fare_factor*($scope.approx.fare_fixed+(driving_time*$scope.approx.fare_per_min)+(distance*$scope.approx.fare_per_km))).toFixed(2);
-                    $scope.approx_price=1;
-
-                }
-                $scope.$apply();
-            });
-        }
-//==========================================================================================================================
-//===============================================end distance calculation ================================================
-//==========================================================================================================================
-
-        //get car type details for expected fare calculation
-        $scope.getfare=function(cartype_val){
-
-            $.post(MY_CONSTANT.url + '/list_all_cars', {access_token: $cookieStore.get('obj').accesstoken},
-                function (data) {
-                    data = JSON.parse(data);
-                    var length = data.data.car_list.length;
-                    if (data.status== responseCode.SUCCESS) {
-                        var carList = data.data.car_list;
-                        for (i = 0; i < length; i++) {
-                            if (i==cartype_val) {
-                                $scope.$apply(function () {
-                                    $scope.approx = {
-                                        fare_per_min: data.data.car_list[i].fare_per_min,
-                                        fare_per_km: data.data.car_list[i].fare_per_km,
-                                        fare_fixed: data.data.car_list[i].fare_fixed
-                                    };
-                                });
-                            }
-                        }
-                        $scope.getDistance();
-                    }
-                });
-
-        }
-
-
-        */
-/*--------------------------------------------------------------------------
-         * --------- funtion to enter only numbers in number field -----------------
-         ------------------------------- ------------------------------------------*//*
-
-        $('#main-content').on('keypress', '#search_phone_no', function (e) {
-            var curval = $(this).val().length;
-
-            if ((e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57))) {
-                return false;
-            }
-            else if (e.which == 8 || e.which == 0) {
-                return true;
-            }
-            else if (curval == 14) {
-                return false;
-            }
-        });
-
-
-
-        var start = new Date();
-        start.setHours(start.getHours() + 1);
-        start = new Date(start);
-
-        start.setMinutes(start.getMinutes() + 4);
-        start = new Date(start);
-
-        //e.setDate(start.getDate() + 3);
-
-        $("#pick_up_time").datetimepicker({
-            format: 'yyyy/mm/dd hh:ii',
-            autoclose: true,
-            startDate: start
-            //endDate: e
-        });
-
-
-
-        $scope.$watch('book_type', function (newValue, oldValue) {
-            start.setHours(start.getHours() + 1);
-            start = new Date(start);
-            if (newValue == false) {
-                $scope.time_value = false;
-
-            }
-            else{
-                $scope.manual_drivers = false;
-            }
-        });
-
-        $scope.$watch('time_value', function (newValue, oldValue) {
-            start.setHours(start.getHours() + 1);
-            start = new Date(start);
-            $("#pick_up_time").val('');
-        });
-
-        */
-/*--------------------------------------------------------------------------
-         * --------- funtion to disable button itself ------------------------------
-         ------------------------------- ------------------------------------------*//*
-
-        $('#driver_table').on('click', '.assignDriver', function(e) {
-            $scope.ongoing_ride_id= e.currentTarget.id;
-            $(this).attr('disabled', 'disabled');
-            $(this).text('Sent');
-        });
-
-        */
-/*--------------------------------------------------------------------------
-         * --------- funtion to send request to a particualr driver ----------------
-         ------------------------------- ------------------------------------------*//*
-
-
-        $scope.sendDriverRequest = function (driver_id) {
-
-            $scope.ride_function = true;
-            $scope.rideText = "Processing";
-
-            $scope.sendDriverRequestTimer(driver_id, 0);
-
-            $scope.total_rqst_send += 1;
-
-            //$scope.interval_for_particular_driver[$scope.total_rqst_send] = $interval(function () {
-            //    $scope.sendDriverRequestTimer(driver_id, 1);
-            //}, 20000);
-            //
-            //for(var i=1;i<=$scope.total_rqst_send;i++){
-            //    $scope.cancel_interval_time_driver[i] = $timeout(function () {
-            //        $scope.ride_function = false;
-            //        $scope.rideText = "Book";
-            //
-            //        $interval.cancel( $scope.interval_for_particular_driver[i]);
-            //        $scope.manual_drivers = false;
-            //    }, 180001);
-            //}
-
-            $scope.interval_for_particular_driver = $interval(function () {
-                $scope.sendDriverRequestTimer(driver_id, 1);
-            }, 20000);
-
-
-            $scope.cancel_interval_time_driver = $timeout(function () {
-                $scope.ride_function = false;
-                $scope.rideText = "Book";
-
-                $interval.cancel( $scope.interval_for_particular_driver);
-                $scope.manual_drivers = false;
-            }, 180001);
-
-
-
-
-
+        var center = {
+            latitude: "30.7333148",
+            longitude: "76.7794179"
+        };
+        var marker;
+        $scope.map = {
+            center: center,
+            pan: true,
+            zoom: 3,
+            refresh: false,
+            events: {},
+            bounds: {}
         };
 
-        */
-/*--------------------------------------------------------------------------
-         * --------- funtion to get latitude and longitude of pick up location -----
-         ------------------------------- ------------------------------------------*//*
+        $scope.total_no_of_drivers = "";
+        $scope.MapTitle = "Driver Name";
 
-        $scope.pickUpMarker = function (book) {
-            var address = book.chosenPlace;
-
-            (new google.maps.Geocoder()).geocode({
-                'address': address
-            }, function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-
-                    $scope.booking.latitude = results[0].geometry.location.lat();
-                    $scope.booking.longitude = results[0].geometry.location.lng();
-
-                } else {
-                }
-            });
-        };
-
-        */
-/*--------------------------------------------------------------------------
-         * --------- funtion to get latitude and longitude of pick up location -----
-         -------------------- and place on map -----------------------------------*//*
-
+        markerArr = new Array();
+        markerCount = 0;
+        var bound_val =0
 
         $scope.map = {
-            zoom:  10,
-            center: new google.maps.LatLng(MapLatLong.lat, MapLatLong.lng),
+            zoom:3,
+            center: new google.maps.LatLng(30.8857, 76.2599),
             pan : true
         }
-        var markerArr = new Array();
-        var markerArr1 = new Array();
         $scope.mapContainer = new google.maps.Map(document.getElementById('map-container'), $scope.map);
-
-        //event for adding marker on click oof body of map
-        google.maps.event.addListener($scope.mapContainer, 'click', function(event) {
-            $scope.booking.latitude = event.latLng.lat();
-            $scope.booking.longitude = event.latLng.lng();
-            $scope.reverseGeocode(event.latLng,0);
-            $scope.placeMarker(event.latLng.lat(),event.latLng.lng(),0);
+        var infoWindow = new google.maps.InfoWindow();
 
 
+        $scope.$on('$destroy',function() {
+            clearInterval($scope.setinterval);
         });
 
-
-/*/
-/*===========================================================================================================================*
-/*/
-/*=============================================REVERSE GEOCODING TO GET ADDRESS==============================================
-/*/
-/*===========================================================================================================================*
-        $scope.reverseGeocode = function(latlong,val){
-            (new google.maps.Geocoder()).geocode({'latLng': latlong}, function(results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    if (results[0]) {
-                        if(val==0)
-                        {
-                            $('#address').val(results[0].formatted_address);
-                            $scope.info.chosenPlace = results[0].formatted_address;
-                        }
-                        else{
-                            $('#drop_off_address').val(results[0].formatted_address);
-                            $scope.info.dropOffPlace = results[0].formatted_address;
-                        }
-                        //$('#latitude').val(marker.getPosition().lat());
-                        //$('#longitude').val(marker.getPosition().lng());
-
-                    }
-                }
+        /*================ Edit Timings for  ongoing order ===================*/
+        $scope.editTimings = function (_id,pickupTime,deliveryTime) {
+            $scope.pickup = pickupTime;
+            $scope.delivery = deliveryTime;
+            $scope.orderId = _id;
+            console.log(_id);
+            ngDialog.open({
+                template: 'edit_timings',
+                className: 'ngdialog-theme-default',
+                scope: $scope,
+                showClose: false
             });
 
+
+            $scope.$on('ngDialog.opened', function (e, element) {
+                $("#dashdatetimepicker").datetimepicker({
+                    format: 'yyyy/mm/dd hh:ii',
+
+                    autoclose: true
+                    //startDate: start
+                    //endDate: e
+                });
+            });
+            $scope.$on('ngDialog.opened', function (e, element) {
+                $("#dashdatetimepicker1").datetimepicker({
+                    format: 'yyyy/mm/dd hh:ii',
+
+                    autoclose: true
+                    //startDate: start
+                    //endDate: e
+                });
+            });
         }
-/*/
-/*===========================================================================================================================*
-/*/
-/*=============================================PLACE MARKER ON GIVEN LATLONG==================================================
-/*/
-/*===========================================================================================================================*
-        $scope.placeMarker = function(lat,long,flag){
 
-            if(flag==0)
-                var icon = 'app/img/redMarker.png';
-            else
-                var icon = 'app/img/greenMarker.png';
-            var marker = new google.maps.Marker({
-                map: $scope.mapContainer,
-                icon: icon,
-                position: new google.maps.LatLng(lat,long),
-                draggable: true
+        $scope.edit = function(){
+            var DATE = new Date($("#dashdatetimepicker").val());
+            //var pick = DATE.toUTCString();
+            console.log(moment.utc(DATE).format("YYYY-MM-DD HH:mm"));
+            $scope.pickup = moment.utc(DATE).format("YYYY-MM-DD HH:mm");
+            var DATE = new Date($("#dashdatetimepicker1").val());
+            //var pick = DATE.toUTCString();
+            console.log(moment.utc(DATE).format("YYYY-MM-DD HH:mm"));
+            $scope.delivery = moment.utc(DATE).format("YYYY-MM-DD HH:mm");
+            $http({
+                method: 'PUT',
+                url: MY_CONSTANT.url + 'api/admin/editOrderTiming',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj)
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },
+                data: {accessToken: $cookieStore.get('obj').accesstoken, orderId: $scope.orderId, pickUpTime: $scope.pickup+":00 +0000", dropUpTime: $scope.delivery+":00 +0000"}
+            })
+                .success(function (response, status) {
+                    console.log(response);
+                    /*    ngDialog.open({
+                     template: 'display_reAssign_msg',
+                     className: 'ngdialog-theme-default',
+                     scope: $scope,
+                     showClose: true,
+                     closeByDocument: false
+                     });*/
+                    $state.reload();
+                })
+                .error(function (response, status) {
+                    console.log(response);
+                    alert("Oops not updated.");
+                })
+        }
+
+
+        /*================Setting marker for Live driver===================*/
+        var createMarker = function (info) {
+            var marker = new MarkerWithLabel({
+                position: new google.maps.LatLng(info.longitude, info.latitude),
+                labelContent: '<span style="color: #F7584B">' + info.fullName +'</span>',
+                map: $scope.mapContainer
             });
-            if(markerArr.length){
-                for(var i=0; i< markerArr.length; i++)
-                    markerArr[i].setMap(null);
-                markerArr.pop();
-            }
+
+            marker.content = '<div class="infoWindowContent">' +
+            '<center>Driver Info</center>' +
+            '<span> Name - ' + info.fullName + '</span><br>' +
+            '<span> Phone - ' + info.phoneNumber + '</span><br>' +
+            '<span> Email - ' + info.email + '</span>' +
+            '</div>';
+
+
+            google.maps.event.addListener(marker, 'click', function () {
+                infoWindow.setContent(marker.content);
+                infoWindow.open($scope.mapContainer, marker);
+            });
+
             markerArr.push(marker);
-            if($scope.poly){
-                poly = $scope.poly
-                poly.setMap(null);   //destrying the already created path;
-            }
-
-            $scope.drawPAth(lat, long, $scope.book_ride_later_data.manual_destination_latitude, $scope.book_ride_later_data.manual_destination_longitude);
-
-            google.maps.event.addListener(marker, 'drag', function() {
-                $scope.reverseGeocode(marker.getPosition(),0);
-                $scope.booking.latitude = marker.getPosition().lat();
-                $scope.booking.longitude = marker.getPosition().lng();
-                if($scope.poly){
-                    poly = $scope.poly
-                    poly.setMap(null);   //destrying the already created path;
-                }
-
-            });
-
-            google.maps.event.addListener(marker, 'dragend', function() {
-                $scope.reverseGeocode(marker.getPosition(),0);
-                $scope.booking.latitude = marker.getPosition().lat();
-                $scope.booking.longitude = marker.getPosition().lng();
-                $scope.drawPAth($scope.booking.latitude, $scope.booking.longitude, $scope.book_ride_later_data.manual_destination_latitude, $scope.book_ride_later_data.manual_destination_longitude);
-
-            });
+            markerCount = markerCount + 1;
 
         }
 
-
-        $scope.pickUpLocationOnMarker = function (book) {
-
-            var address = book.chosenPlace;
-
-            (new google.maps.Geocoder()).geocode({
-                'address': address
-            }, function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    $scope.location1 = results[0].geometry.location;
-                    $scope.booking.latitude = results[0].geometry.location.lat();
-                    $scope.booking.longitude = results[0].geometry.location.lng();
-
-                    $scope.map = {
-                        zoom:  10,
-                        center: new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()),
-                        pan : true
-                    }
-
-                    var panPoint = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
-                    $scope.mapContainer.panTo(panPoint);
-
-                    var icon = 'app/img/redMarker.png';
-
-                    if(markerArr.length){
-                        for(i=0; i< markerArr.length; i++)
-                            markerArr[i].setMap(null);
-                        markerArr.pop();
-                    }
-
-                    var marker = new google.maps.Marker({
-                        map: $scope.mapContainer,
-                        icon: icon,
-                        position: new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()),
-                        draggable: true
-                    });
-
-                    google.maps.event.addListener(marker, 'drag', function() {
-                        $scope.booking.latitude = marker.getPosition().lat();
-                        $scope.booking.longitude = marker.getPosition().lng();
-                        if ($scope.poly) {
-                            poly = $scope.poly;
-                            poly.setMap(null);
-                        }
-
-                    });
-
-                    google.maps.event.addListener(marker,'dragend',function(event) {
-                        $scope.reverseGeocode(marker.getPosition(),0);
-                        $scope.booking.latitude = marker.getPosition().lat();
-                        $scope.booking.longitude = marker.getPosition().lng();
-                        $scope.drawPAth($scope.booking.latitude, $scope.booking.longitude, $scope.book_ride_later_data.manual_destination_latitude, $scope.book_ride_later_data.manual_destination_longitude);
-                    });
-
-                    if (($scope.booking.latitude != '' && $scope.booking.latitude != undefined) &&
-                        ($scope.book_ride_later_data.manual_destination_latitude != '' && $scope.book_ride_later_data.manual_destination_latitude != undefined)) {
-
-                        $scope.drawPAth($scope.booking.latitude, $scope.booking.longitude, $scope.book_ride_later_data.manual_destination_latitude, $scope.book_ride_later_data.manual_destination_longitude);
-                    }
-
-
-                    markerArr.push(marker);
-
-                } else {
-                    $scope.displaymsg = "Pick up location is not valid";
-
-                    ngDialog.open({
-                        template: 'display_msg_modalDialog',
-                        className: 'ngdialog-theme-default',
-                        showClose: false,
-                        closeByDocument: false,
-                        scope: $scope
-                    });
-                }
+        /*================Setting marker for Live order pick up location===================*/
+        var createMarker1 = function (info) {
+            var icon = 'app/img/map_icon.png';
+            orderCount++;
+            marker = new MarkerWithLabel({
+                // icon: icon,
+                position: new google.maps.LatLng(info.pickupLat, info.pickupLong),
+                labelContent: '<span style="color: #F7584B">' + orderCount +'</span>',
+                map: $scope.mapContainer
             });
-        };
 
-        */
-/*--------------------------------------------------------------------------
-         * -------- funtion to get latitude and longitude of drop-off location -----
-         -------------------- and place on map -----------------------------------*//*
+            marker.content = '<div class="infoWindowContent">' +
+            '<center>Order Info</center>' +
+            '<span> Order Id - ' + info.orderId + '</span><br>' +
+            '<span> Driver Name - ' + info.driverFullName + '</span><br>' +
+            '<span> Pick Up Address - ' + info.pickupAddress + '</span><br>' +
+            '<span> Drop Off Address - ' + info.dropUpAddress + '</span><br>' +
+            '<span> Status - ' + info.status + '</span>' +
+            '</div>';
 
-        $scope.dropOffLocationOnMarker = function (book,flag) {
-
-            var address = book.dropOffPlace;
-
-            (new google.maps.Geocoder()).geocode({
-                'address': address
-            }, function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    $scope.location2 = results[0].geometry.location;
-
-                    $scope.book_ride_later_data.manual_destination_latitude = results[0].geometry.location.lat();
-                    $scope.book_ride_later_data.manual_destination_longitude = results[0].geometry.location.lng();
-
-                    $scope.map = {
-                        zoom:  10,
-                        center: new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()),
-                        pan : true
-                    }
-
-                    var panPoint = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
-                    $scope.mapContainer.panTo(panPoint);
-
-                    var icon = 'app/img/greenMarker.png';
-
-                    if(markerArr1.length){
-                        for(i=0; i< markerArr1.length; i++)
-                            markerArr1[i].setMap(null);
-                        markerArr1.pop();
-                    }
-
-                    var marker = new google.maps.Marker({
-                        map: $scope.mapContainer,
-                        icon: icon,
-                        position: new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()),
-                        draggable: true
-                    });
-
-                    google.maps.event.addListener(marker, 'drag', function() {
-                        $scope.book_ride_later_data.manual_destination_latitude = marker.getPosition().lat();
-                        $scope.book_ride_later_data.manual_destination_longitude = marker.getPosition().lng();
-                        if ($scope.poly) {
-                            poly = $scope.poly;
-                            poly.setMap(null);
-                        }
-
-                    });
-                    google.maps.event.addListener(marker,'dragend',function(event) {
-                        $scope.reverseGeocode(marker.getPosition(),1);
-                        $scope.book_ride_later_data.manual_destination_latitude = marker.getPosition().lat();
-                        $scope.book_ride_later_data.manual_destination_longitude = marker.getPosition().lng();
-                        $scope.drawPAth($scope.booking.latitude, $scope.booking.longitude, $scope.book_ride_later_data.manual_destination_latitude, $scope.book_ride_later_data.manual_destination_longitude);
-                    });
-                    markerArr1.push(marker);
-
-                    if (($scope.booking.latitude != '' && $scope.booking.latitude != undefined) &&
-                        ($scope.book_ride_later_data.manual_destination_latitude != '' && $scope.book_ride_later_data.manual_destination_latitude != undefined)) {
-
-                        $scope.drawPAth($scope.booking.latitude, $scope.booking.longitude, $scope.book_ride_later_data.manual_destination_latitude, $scope.book_ride_later_data.manual_destination_longitude);
-                    }
-                } else {
-
-                    $scope.displaymsg = "Drop-off location is not valid";
-
-                    ngDialog.open({
-                        template: 'display_msg_modalDialog',
-                        className: 'ngdialog-theme-default',
-                        showClose: false,
-                        closeByDocument: false,
-                        scope: $scope
-                    });
-                }
+            google.maps.event.addListener(marker, 'click', function () {
+                console.log(marker)
+                infoWindow.setContent(marker.content);
+                infoWindow.open($scope.mapContainer, marker);
             });
-        };
+            markerArr.push(marker);
+            markerCount = markerCount + 1;
+        }
 
-        */
-/*--------------------------------------------------------------------------
-         * --------- funtion to draw path between pick-up location and drop-off ----
-         ------------------------------- location ----------------------------------*//*
+        /*================Setting marker for Live order drop off location===================*/
+        var createMarker2 = function (info) {
+            console.log(info)
+            var icon = 'app/img/map_icon.png';
+            orderCount++;
+            var marker = new MarkerWithLabel({
+                icon: icon,
+                position: new google.maps.LatLng(info.dropUpLat, info.dropUpLong),
+                labelContent: '<span style="color: #F7584B">' + orderCount +'</span>',
+                map: $scope.mapContainer
+            });
 
-        $scope.drawPAth = function(lat1,lng1,lat2,lng2) {
+            marker.content = '<div class="infoWindowContent">' +
+            '<center>Driver Info</center>' +
+            '<span> Address - ' + info.driverFullName + '</span><br>' +
+            '<span> Pick Up Address - ' + info.pickupAddress + '</span><br>' +
+            '<span> Phone - ' + info.dropUpPhoneNo + '</span><br>' +
+            '<span> Status - ' + info.status + '</span>' +
+            '</div>';
 
-            if ($scope.poly) {
-                poly = $scope.poly;
-                poly.setMap(null);
+            google.maps.event.addListener(marker, 'click', function () {
+                infoWindow.setContent(marker.content);
+                infoWindow.open($scope.mapContainer, marker);
+            });
+            markerArr.push(marker);
+            markerCount = markerCount + 1;
+        }
+
+        $scope.setBounds = function(){
+            if(bound_val==0){
+                var bounds = new google.maps.LatLngBounds();
+                for(var i=0;i<markerCount;i++) {
+                    bounds.extend(markerArr[i].getPosition());
+                }
+                $scope.mapContainer.fitBounds(bounds);
+
             }
+            return 1;
+        }
+        $scope.drawMap = function () {
+            orderCount = 0;
+            $http.get(MY_CONSTANT.url + 'api/admin/getLiveView/' + $cookieStore.get('obj').accesstoken)
+                .success(function (response, status) {
+                    if (status == 200) {
+                        var dataArray = [];
+                        var dataArray1 = [];
+                        $scope.liveDriverList = response.data.driverDetailArray;
+                        var liveDriverList = response.data.driverDetailArray;
+                        $scope.liveDriverList = response.data.driverDetailArray;
+                        var liveOrderList = response.data.orderDetail;
+                        var liveDriverStatusList = response.data.driverStatusArray;
+                        var orderLength = response.data.orderDetail.length;
+                        var driverLength = response.data.driverDetailArray.length;
+                        $scope.total_no_of_drivers = driverLength;
 
-            var lat_lng = new Array();
-            var myLatlng = new google.maps.LatLng(lat1, lng1);
-            lat_lng.push(myLatlng);
-            var myLatlng1 = new google.maps.LatLng(lat2, lng2);
-            lat_lng.push(myLatlng1);
+                        /*================ Live driver info window===================*/
+                        var defaultImg = 'app/img/default_user_icon.png';
+                        liveDriverStatusList.forEach(function (column) {
+                            var d = {};
+                            d.driverId = column.driverId;
+                            d.fullName = column.fullName;
+                            d.phoneNumber = column.phoneNumber;
+                            if(column.profilePicture == null)
+                                d.profilePicture = defaultImg;
+                            else
+                                d.profilePicture = column.profilePicture;
+                            if(column.status=='busy')
+                                d.status = 0;
+                            else
+                                d.status = 1;
+                            dataArray.push(d);
+                        });
+                        $scope.list = dataArray;
 
-            var path = new google.maps.MVCArray();
+                        /*================  ongoing order table ===================*/
+                        liveOrderList.forEach(function (column) {
+                            var d = {};
+                            d._id = column._id;
+                            d.orderId = column.orderId;
+                            d.driverId = column.driverId;
+                            d.driverFullName = column.driverFullName;
+                            d.dropUpAddress = column.dropUpAddress;
+                            d.pickupAddress = column.pickupAddress;
+                            var DATE = new Date(column.pickupTime);
+                            d.pickupTime =  moment.utc(DATE.toString()).format("YYYY-MM-DD HH:mm");
+                            var DATE = new Date(column.deliveryTime);
+                            d.deliveryTime =  moment.utc(DATE.toString()).format("YYYY-MM-DD HH:mm");
+                            d.status = column.status;
+                            dataArray1.push(d);
+                        });
+                        $scope.orderList = dataArray1;
+                        var dtInstance;
+                        $timeout(function () {
+                            if (!$.fn.dataTable) return;
+                            dtInstance = $('#datatable2').dataTable({
+                                'paging': true,  // Table pagination
+                                'ordering': true,  // Column ordering
+                                'info': true,  // Bottom left status text
+                                'destroy': true,
+                                oLanguage: {
+                                    sSearch: 'Search all columns:',
+                                    sLengthMenu: '_MENU_ records per page',
+                                    info: 'Showing page _PAGE_ of _PAGES_',
+                                    zeroRecords: 'Nothing found - sorry',
+                                    infoEmpty: 'No records available',
+                                    infoFiltered: '(filtered from _MAX_ total records)'
+                                },
+                                "pageLength": 50
+                            });
+                            var inputSearchClass = 'datatable_input_col_search';
+                            var columnInputs = $('tfoot .' + inputSearchClass);
 
-            //Initialize the Direction Service
-            var service = new google.maps.DirectionsService();
+                            // On input keyup trigger filtering
+                            columnInputs
+                                .keyup(function () {
+                                    dtInstance.fnFilter(this.value, columnInputs.index(this));
+                                });
+                        });
 
-            //Set the Path Stroke Color
-            var poly = new google.maps.Polyline({ map: $scope.mapContainer, strokeColor: '#4986E7' });
+                        $scope.$on('$destroy', function () {
+                            dtInstance.fnDestroy();
+                            $('[class*=ColVis]').remove();
+                        })
 
-            //Loop and Draw Path Route between the Points on MAP
-            for (var i = 0; i < lat_lng.length; i++) {
-                if ((i + 1) < lat_lng.length) {
-                    var src = lat_lng[i];
-                    var des = lat_lng[i + 1];
-                    path.push(src);
-                    poly.setPath(path);
-                    service.route({
-                        origin: src,
-                        destination: des,
-                        travelMode: google.maps.DirectionsTravelMode.DRIVING
-                    }, function (result, status) {
-                        if (status == google.maps.DirectionsStatus.OK) {
-                            for (var i = 0, len = result.routes[0].overview_path.length; i < len; i++) {
-                                path.push(result.routes[0].overview_path[i]);
+                        /*================Calling Live driver marker set function===================*/
+                        if (driverLength) {
+                            liveDriverList.forEach(function (column) {
+                                createMarker(column);
+                                $scope.openInfoWindow = function (e, selectedMarker) {
+                                    e.preventDefault();
+                                    google.maps.event.trigger(selectedMarker, 'click');
+                                }
+                            });
+                            $scope.mcOptions = {gridSize: 50, maxZoom: 20};
+
+                            if ($scope.markerClusterer) {
+                                $scope.markerClusterer.clearMarkers();   //clearing the markercluster to add new
                             }
+
+                            $scope.markerClusterer = new MarkerClusterer($scope.mapContainer, markerArr, $scope.mcOptions);
+
+                            //function to get lat long bounds according to marker position
+                            bound_val = $scope.setBounds();
                         }
+                        else {
+                        }
+
+                        /*================Calling marker set function for Live order pickup location===================*/
+                        if (orderLength) {
+                            liveOrderList.forEach(function (column) {
+                                createMarker1(column);
+                                $scope.openInfoWindow = function (e, selectedMarker) {
+                                    e.preventDefault();
+                                    google.maps.event.trigger(selectedMarker, 'click');
+                                }
+
+                            });
+                            $scope.mcOptions = {gridSize: 50, maxZoom: 20};
+
+                            if ($scope.markerClusterer) {
+                                $scope.markerClusterer.clearMarkers();   //clearing the markercluster to add new
+                            }
+
+                            $scope.markerClusterer = new MarkerClusterer($scope.mapContainer, markerArr, $scope.mcOptions);
+
+                            //function to get lat long bounds according to marker position
+                            bound_val = $scope.setBounds();
+                        }
+                        else
+
+                        /*================Calling marker set function for Live order drop off location===================*/
+                        if (orderLength) {
+                            liveOrderList.forEach(function (column) {
+                                createMarker2(column);
+                                $scope.openInfoWindow = function (e, selectedMarker) {
+                                    e.preventDefault();
+                                    google.maps.event.trigger(selectedMarker, 'click');
+                                }
+                            });
+                            $scope.mcOptions = {gridSize: 50, maxZoom: 20};
+                            if ($scope.markerClusterer) {
+                                $scope.markerClusterer.clearMarkers();   //clearing the markercluster to add new
+                            }
+                            $scope.markerClusterer = new MarkerClusterer($scope.mapContainer, markerArr, $scope.mcOptions);
+                            //function to get lat long bounds according to marker position
+                            bound_val = $scope.setBounds();
+                        }
+                        else {
+
+                        }
+                    } else {
+                        alert("Something went wrong, please try again later.");
+                        return false;
+                    }
+                })
+                .error(function (error) {
+                    console.log(error);
+                    $state.go('page.login');
+                });
+        };
+        $scope.drawMap();
+
+        //var dtInstance;
+        /*       $scope.setinterval= setInterval(function(){
+         $scope.$on('$destroy', function () {
+         dtInstance.fnDestroy();
+         $('[class*=ColVis]').remove();
+         })
+         markerArr = [];    //empty the markerArray to refresh the map
+         markerCount = 0;
+         markerArr = [];    //empty the markerArray to refresh the map
+         markerCount = 0;
+         $scope.drawMap1();
+         //$state.reload();
+         }, 10000);*/
+
+        /*      $scope.setinterval= setInterval(function(){
+         $scope.$on('$destroy', function () {
+         dtInstance.fnDestroy();
+         $('[class*=ColVis]').remove();
+         })
+         markerArr = [];    //empty the markerArray to refresh the map
+         markerCount = 0;
+
+         $scope.drawMap1();
+         // $state.reload();
+         }, 1000);*/
+
+        /*================ Listing Reassignable  driver for  ongoing order ===================*/
+        $scope.reAssignList = function(orderId,driverId,status){
+            var list = $cookieStore.get('obj3').reassignedorderList;
+            console.log(list)
+            function isEmpty(obj) {
+                for(var prop in obj) {
+                    if(obj.hasOwnProperty(prop))
+                        return false;
+                }
+
+                return true;
+            }
+            Object.size = function(obj) {
+                var size = 0, key;
+                for (key in obj) {
+                    if (obj.hasOwnProperty(key)) size++;
+                }
+                return size;
+            };
+            if(!isEmpty(list)) {
+                var size = Object.size(list);
+                for(i=0;i<size;i++) {
+                    if(orderId == list[i]) {
+                        ngDialog.open({
+                            template: 'can_not_reassign_again',
+                            className: 'ngdialog-theme-default',
+                            scope: $scope,
+                            showClose: true
+                        });
+                        return false;
+                    }
+                }
+            }
+
+            if(status == 'DRIVER_ASSIGNED' || status == 'SUCCESS' ||  status == 'REACHED_PICKUP_POINT' || status == 'REQUEST_SENT_TO_DRIVER' ||
+                status == 'ACCEPTED' || status == 'REFUSED' || status == 'DRIVER_RESPONDED'){
+                $scope.orderId = orderId;
+                $http.get(MY_CONSTANT.url + 'api/admin/' + $cookieStore.get('obj').accesstoken + '/fetchNearestDrivers/' + orderId)
+                    .success(function (response, status) {
+                        if (status == 200) {
+                            var dataArray = [];
+                            var nearDriverList = response.data.results;
+                            nearDriverList.forEach(function (column) {
+                                if (column._id != driverId) {
+                                    var d = {};
+                                    d._id = column._id;
+                                    d.fullName = column.fullName;
+                                    d.isDedicated = column.isDedicated;
+                                    dataArray.push(d);
+                                }
+                            });
+                            $scope.nearDriverList = dataArray;
+                            if ($scope.nearDriverList.length > 0) {
+                                $scope.changedDriver = $scope.nearDriverList[0]._id;
+                                ngDialog.open({
+                                    template: 'display_driver_list',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope,
+                                    showClose: true
+                                });
+                            }
+                            else{
+                                ngDialog.open({
+                                    template: 'display_no_driver',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope,
+                                    showClose: true
+                                });
+                            }
+                        } else {
+                            alert("Something went wrong, please try again later.");
+                            return false;
+                        }
+                    })
+                    .error(function (error) {
+                        ngDialog.open({
+                            template: 'display_no_driver',
+                            className: 'ngdialog-theme-default',
+                            scope: $scope,
+                            showClose: true
+                        });
+                        console.log(error);
                     });
-                }
+            }
+            else{
+                ngDialog.open({
+                    template: 'can_not_reassign',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope,
+                    showClose: true
+                });
             }
 
-            $scope.poly = poly;
+        }
 
+        $scope.changeDriver = function(i){
+            $scope.changedDriver = $scope.nearDriverList[i-1]._id;
+        }
+
+        /*================ Reassigning driver for  ongoing order ===================*/
+        $scope.reAssign = function() {
+            var reassignedorderList = [];
+            reassignedorderList.push($scope.orderId)
+            console.log("Lenth = "+reassignedorderList);
+            reassignedorderList = {'reassignedorderList': reassignedorderList}
+            $cookieStore.put('obj3', reassignedorderList);
+            console.log("Cookie Result = "+$cookieStore.get('obj3').reassignedorderList);
+            $http({
+                method: 'POST',
+                url: MY_CONSTANT.url + 'api/admin/orderAssignDriver',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj)
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },
+                data: {accessToken: $cookieStore.get('obj').accesstoken, orderId: $scope.orderId, driverId: $scope.changedDriver}
+
+            })
+                .success(function (response, status) {
+                    ngDialog.open({
+                        template: 'display_reAssign_msg',
+                        className: 'ngdialog-theme-default',
+                        scope: $scope,
+                        showClose: true,
+                        closeByDocument: false
+                    });
+                })
+                .error(function (response, status) {
+                    console.log(response);
+                    alert("Oops driver not assigned.");
+                })
+        }
+
+        $scope.collapse  = function(){
+            console.log("called")
+            $("#sidebar").animate({
+                width: 'toggle'
+            });
+            var value = $("#map")[0].style.width !== "100vw" ? '115vw' : '110vw';
+            $("#map").animate({
+                width: value
+            }, {step:function(){
+                google.maps.event.trigger(map,'resize');
+            }
+            });
+        }
+
+        function move(marker,column) {
+            var oldLat = $scope.liveDriverList[markerCount].latitude;
+            var oldLng = $scope.liveDriverList[markerCount].longitude;
+            console.log("old = ",oldLat,oldLng)
+            var numDeltas = 100;
+            var delay = 10; //milliseconds
+            var i = 0;
+            var lat;
+            var lng;
+            var deltaLat, deltaLng;
+
+            transition();
+            function transition() {
+                i = 0;
+                lat = column.latitude;
+                lng = column.longitude;
+                deltaLat = (28 - oldLat) / numDeltas;
+                deltaLng = (77 - oldLng) / numDeltas;
+                console.log("delta = ",deltaLat, deltaLng)
+                if(deltaLat != 0 || deltaLng != 0){
+                    console.log("moveMarker");
+                    moveMarker();
+                    markerCount++;
+                }
+                else {
+                    console.log("createMarker")
+                    createMarker(column);
+                }
+
+            }
+
+            function moveMarker() {
+                oldLat += deltaLat;
+                oldLng += deltaLng;
+                console.log("loop values = ",oldLat,oldLng);
+                marker.setPosition(new google.maps.LatLng(oldLat, oldLng));
+                if (i != numDeltas) {
+                    console.log("i = ",i);
+                    i++;
+                    setTimeout(moveMarker,delay);
+                }
+            }
+        }
+
+        $scope.drawMap1 = function () {
+            orderCount = 0;
+            $http.get(MY_CONSTANT.url + 'api/admin/getLiveView/' + $cookieStore.get('obj').accesstoken)
+                .success(function (response, status) {
+                    if (status == 200) {
+                        var dataArray = [];
+                        var dataArray1 = [];
+                        $scope.liveDriverList = response.data.driverDetailArray;
+                        var liveDriverList = response.data.driverDetailArray;
+                        var liveOrderList = response.data.orderDetail;
+                        var liveDriverStatusList = response.data.driverStatusArray;
+                        var orderLength = response.data.orderDetail.length;
+                        var driverLength = response.data.driverDetailArray.length;
+                        $scope.total_no_of_drivers = driverLength;
+                        /*================Calling Live driver marker set function===================*/
+                        if (driverLength) {
+                            liveDriverList.forEach(function (column) {
+                                marker.setPosition(new google.maps.LatLng(column.latitude, column.longitude));
+                                move(marker,column);
+                                //createMarker(column);
+                                $scope.openInfoWindow = function (e, selectedMarker) {
+                                    e.preventDefault();
+                                    google.maps.event.trigger(selectedMarker, 'click');
+                                }
+                            });
+                            $scope.mcOptions = {gridSize: 50, maxZoom: 20};
+
+                            if ($scope.markerClusterer) {
+                                $scope.markerClusterer.clearMarkers();   //clearing the markercluster to add new
+                            }
+
+                            $scope.markerClusterer = new MarkerClusterer($scope.mapContainer, markerArr, $scope.mcOptions);
+
+                            //function to get lat long bounds according to marker position
+                            bound_val = $scope.setBounds();
+                        }
+                        else {
+                        }
+
+                    } else {
+                        alert("Something went wrong, please try again later.");
+                        return false;
+                    }
+                })
+                .error(function (error) {
+                    console.log(error);
+                    $state.go('page.login');
+                });
         };
 
-        */
-/*--------------------------------------------------------------------------
-         * --------- funtion to reset form data ------------------------------------
-         ---------------------------------------------------------------------------*//*
-
-
-        $scope.clearData = function () {
-
-            $interval.cancel( $scope.interval_for_particular_driver);
-            $interval.cancel( $scope.cancel_interval_time_driver);
-
-            clearInterval($scope.interval_time);
-            clearInterval($scope.cancel_interval_time);
-
-            $state.reload();
-
-        };
-
-
-        */
-/*--------------------------------------------------------------------------
-         * --------- funtion to check whether customer completed his previous  -----
-         ------------------------------ ride or not --------------------------------*//*
-
-
-        $scope.checkBookingStatus = function (book) {
-
-
-            $scope.successMsg = '';
-            $scope.errorMsg = '';
-            $scope.booking.access_token = book.access_token;
-            $scope.booking.car_type = book.car_type;
-            $scope.booking.device_type = 3;
-
-            var address = book.chosenPlace;
-
-
-            if (book == undefined) {
-                $scope.errorMsg = "All Fields are required.";
-                $scope.TimeOutError($scope.errorMsg);
-                return false;
-            }
-            if (book.user_name == '' || book.user_name == undefined || book.user_email == '' || book.user_email == undefined) {
-                $scope.errorMsg = "Username and Email id is required.";
-                $scope.TimeOutError($scope.errorMsg);
-                return false;
-            }
-
-            if (book.car_type == undefined || book.car_type == '') {
-                $scope.errorMsg = "Please select car type..";
-                $scope.TimeOutError($scope.errorMsg);
-                return false;
-
-            }
-
-            if ($scope.asyncSelected == undefined || $scope.asyncSelected == "") {
-                $scope.errorMsg = "Enter Phone Number To Search.";
-                $scope.TimeOutError($scope.errorMsg);
-                return false;
-            }
-            if (book.user_name == '' || book.user_name == undefined || book.user_email == '' || book.user_email == undefined){
-                $scope.errorMsg = "Username and Email id is required.";
-                $scope.TimeOutError($scope.errorMsg);
-                return false;
-            }
-            if (book.car_type == undefined || book.car_type == '') {
-                $scope.errorMsg = "Please select car type..";
-                $scope.TimeOutError($scope.errorMsg);
-                return false;
-
-            }
-            else {
-                $scope.successMsg = '';
-                $scope.errorMsg = '';
-                $scope.booking.access_token = book.access_token;
-                $scope.booking.car_type = book.car_type;
-                $scope.booking.device_type = 3;
-                var address = book.chosenPlace;
-
-                if ($scope.book_type == undefined) {
-                    $scope.errorMsg = "Please select booking type..";
-                    $scope.TimeOutError($scope.errorMsg);
-                    return false;
-
-                }
-                if($scope.info.chosenPlace==''||$scope.info.chosenPlace==undefined){
-                    $scope.errorMsg = "Enter Pick Up Location.";
-                    $scope.TimeOutError($scope.errorMsg);
-                    return false;
-                }
-                else if ($scope.book_type == false) {//manual booking
-
-                    (new google.maps.Geocoder()).geocode({
-                        'address': address
-                    }, function (results, status) {
-                        if (status == google.maps.GeocoderStatus.OK) {
-
-                            $scope.booking.admin_panel_request_flag = 1;
-
-                            $.post(MY_CONSTANT.url_booking + '/find_a_driver', $scope.booking
-                            ).then(
-                                function (data) {
-                                    data = JSON.parse(data);
-
-                                    var dataArray = [];
-                                    var driverList = data.data;
-                                    var length = data.data.length;
-
-                                    if (length) {
-                                        $scope.getfare(book.car_type);
-
-                                        $scope.manual_drivers = true;
-                                        $scope.eta_flag =1;   //flag for showing ETA
-                                        $scope.approx_value_show = 1;
-                                        $scope.approx_price =0;
-                                        $scope.eta = data.nearest_time;
-                                        $scope.fare_factor = data.fare_factor;
-
-                                        if($scope.info.chosenPlace !="" ||$scope.info.chosenPlace!=undefined){
-                                            $scope.pickUpLocationOnMarker($scope.info); //getting values of lat long from function
-                                        }
-
-                                        if(!(angular.isUndefined($scope.info.dropOffPlace))){
-                                            $scope.dropOffLocationOnMarker($scope.info,1); //getting values of lat long from function
-                                        }
-
-
-                                        driverList.forEach(function (column) {
-                                            var d = {
-                                                user_id: "",
-                                                user_name: "",
-                                                distance: "",
-                                                phone_no: ""
-                                            };
-
-                                            d.user_id = column.user_id;
-                                            d.user_name = column.user_name;
-                                            d.distance = column.distance;
-                                            d.phone_no = column.phone_no;
-
-                                            dataArray.push(d);
-                                        });
-
-                                        $scope.$apply(function () {
-                                            $scope.list = dataArray;
-
-                                            // Define global instance we'll use to destroy later
-                                            var dtInstance;
-
-                                            $timeout(function () {
-                                                if (!$.fn.dataTable)
-                                                    return;
-                                                dtInstance = $('#datatable2').dataTable({
-                                                    'paging': true, // Table pagination
-                                                    'ordering': true, // Column ordering
-                                                    'info': true, // Bottom left status text
-                                                    "bDestroy": true,
-                                                    oLanguage: {
-                                                        sSearch: 'Search all columns:',
-                                                        sLengthMenu: '_MENU_ records per page',
-                                                        info: 'Showing page _PAGE_ of _PAGES_',
-                                                        zeroRecords: 'Nothing found - sorry',
-                                                        infoEmpty: 'No records available',
-                                                        infoFiltered: '(filtered from _MAX_ total records)'
-                                                    }
-                                                });
-                                                var inputSearchClass = 'datatable_input_col_search';
-                                                var columnInputs = $('tfoot .' + inputSearchClass);
-
-                                                // On input keyup trigger filtering
-                                                columnInputs
-                                                    .keyup(function () {
-                                                        dtInstance.fnFilter(this.value, columnInputs.index(this));
-                                                        ...*/
+    }]);

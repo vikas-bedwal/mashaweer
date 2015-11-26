@@ -5,200 +5,28 @@
 App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', 'uiGmapLogger','uiGmapGoogleMapApi', '$cookies', '$cookieStore', 'MY_CONSTANT','ngDialog'
     , function ($scope,$state, $timeout, $http, $log, GoogleMapApi, $cookies, $cookieStore, MY_CONSTANT,ngDialog) {
 
-
-        //jQuery('#datetimepicker').datetimepicker();
-        //jQuery('#datetimepicker1').datetimepicker();
-  var orderCount = 0;
-        $log.currentLevel = $log.LEVELS.debug;
-        var center = {
-            latitude: "30.7333148",
-            longitude: "76.7794179"
-        };
-        var marker;
-        $scope.map = {
-            center: center,
-            pan: true,
-            zoom: 3,
-            refresh: false,
-            events: {},
-            bounds: {}
-        };
-
+        var orderCount = 0;
         $scope.total_no_of_drivers = "";
         $scope.MapTitle = "Driver Name";
+        $log.currentLevel = $log.LEVELS.debug;
 
         markerArr = new Array();
         markerCount = 0;
         var bound_val =0
-
         $scope.map = {
-                zoom:3,
-                center: new google.maps.LatLng(30.8857, 76.2599),
-                pan : true
+            zoom:3,
+            center: new google.maps.LatLng(30.8857, 76.2599),
+            pan : true,
+            refresh: false,
+            events: {},
+            bounds: {}
         }
         $scope.mapContainer = new google.maps.Map(document.getElementById('map-container'), $scope.map);
         var infoWindow = new google.maps.InfoWindow();
 
-
         $scope.$on('$destroy',function() {
             clearInterval($scope.setinterval);
         });
-
-        /*================ Edit Timings for  ongoing order ===================*/
-        $scope.editTimings = function (_id,pickupTime,deliveryTime) {
-            $scope.pickup = pickupTime;
-            $scope.delivery = deliveryTime;
-            $scope.orderId = _id;
-            console.log(_id);
-            ngDialog.open({
-                template: 'edit_timings',
-                className: 'ngdialog-theme-default',
-                scope: $scope,
-                showClose: false
-            });
-
-
-            $scope.$on('ngDialog.opened', function (e, element) {
-                $("#dashdatetimepicker").datetimepicker({
-                    format: 'yyyy/mm/dd hh:ii',
-
-                    autoclose: true
-                    //startDate: start
-                    //endDate: e
-                });
-            });
-            $scope.$on('ngDialog.opened', function (e, element) {
-                $("#dashdatetimepicker1").datetimepicker({
-                    format: 'yyyy/mm/dd hh:ii',
-
-                    autoclose: true
-                    //startDate: start
-                    //endDate: e
-                });
-            });
-        }
-
-        $scope.edit = function(){
-            var DATE = new Date($("#dashdatetimepicker").val());
-            //var pick = DATE.toUTCString();
-            console.log(moment.utc(DATE).format("YYYY-MM-DD HH:mm"));
-            $scope.pickup = moment.utc(DATE).format("YYYY-MM-DD HH:mm");
-            var DATE = new Date($("#dashdatetimepicker1").val());
-            //var pick = DATE.toUTCString();
-            console.log(moment.utc(DATE).format("YYYY-MM-DD HH:mm"));
-            $scope.delivery = moment.utc(DATE).format("YYYY-MM-DD HH:mm");
-            $http({
-                method: 'PUT',
-                url: MY_CONSTANT.url + 'api/admin/editOrderTiming',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                transformRequest: function (obj) {
-                    var str = [];
-                    for (var p in obj)
-                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                    return str.join("&");
-                },
-                data: {accessToken: $cookieStore.get('obj').accesstoken, orderId: $scope.orderId, pickUpTime: $scope.pickup+":00 +0000", dropUpTime: $scope.delivery+":00 +0000"}
-            })
-                .success(function (response, status) {
-                    console.log(response);
-                /*    ngDialog.open({
-                        template: 'display_reAssign_msg',
-                        className: 'ngdialog-theme-default',
-                        scope: $scope,
-                        showClose: true,
-                        closeByDocument: false
-                    });*/
-                    $state.reload();
-                })
-                .error(function (response, status) {
-                    console.log(response);
-                    alert("Oops not updated.");
-                })
-        }
-
-
-        /*================Setting marker for Live driver===================*/
-        var createMarker = function (info) {
-            var marker = new MarkerWithLabel({
-                position: new google.maps.LatLng(info.longitude, info.latitude),
-                labelContent: '<span style="color: #F7584B">' + info.fullName +'</span>',
-                map: $scope.mapContainer
-            });
-
-            marker.content = '<div class="infoWindowContent">' +
-            '<center>Driver Info</center>' +
-            '<span> Name - ' + info.fullName + '</span><br>' +
-            '<span> Phone - ' + info.phoneNumber + '</span><br>' +
-            '<span> Email - ' + info.email + '</span>' +
-            '</div>';
-
-
-            google.maps.event.addListener(marker, 'click', function () {
-                infoWindow.setContent(marker.content);
-                infoWindow.open($scope.mapContainer, marker);
-            });
-
-            markerArr.push(marker);
-            markerCount = markerCount + 1;
-
-        }
-
-        /*================Setting marker for Live order pick up location===================*/
-        var createMarker1 = function (info) {
-            var icon = 'app/img/map_icon.png';
-            orderCount++;
-            marker = new MarkerWithLabel({
-               // icon: icon,
-                position: new google.maps.LatLng(info.pickupLat, info.pickupLong),
-                labelContent: '<span style="color: #F7584B">' + orderCount +'</span>',
-                map: $scope.mapContainer
-            });
-
-            marker.content = '<div class="infoWindowContent">' +
-            '<center>Order Info</center>' +
-            '<span> Order Id - ' + info.orderId + '</span><br>' +
-            '<span> Driver Name - ' + info.driverFullName + '</span><br>' +
-            '<span> Pick Up Address - ' + info.pickupAddress + '</span><br>' +
-            '<span> Drop Off Address - ' + info.dropUpAddress + '</span><br>' +
-            '<span> Status - ' + info.status + '</span>' +
-            '</div>';
-
-            google.maps.event.addListener(marker, 'click', function () {
-                console.log(marker)
-                infoWindow.setContent(marker.content);
-                infoWindow.open($scope.mapContainer, marker);
-            });
-            markerArr.push(marker);
-            markerCount = markerCount + 1;
-        }
-
-        /*================Setting marker for Live order drop off location===================*/
-        var createMarker2 = function (info) {
-            console.log(info)
-            var icon = 'app/img/map_icon.png';
-            orderCount++;
-            var marker = new MarkerWithLabel({
-                icon: icon,
-                position: new google.maps.LatLng(info.dropUpLat, info.dropUpLong),
-                labelContent: '<span style="color: #F7584B">' + orderCount +'</span>',
-                map: $scope.mapContainer
-            });
-
-            marker.content = '<div class="infoWindowContent">' +
-            '<center>Driver Info</center>' +
-            '<span> Address - ' + info.driverFullName + '</span><br>' +
-            '<span> Pick Up Address - ' + info.pickupAddress + '</span><br>' +
-            '<span> Phone - ' + info.dropUpPhoneNo + '</span><br>' +
-            '<span> Status - ' + info.status + '</span>' +
-            '</div>';
-
-            google.maps.event.addListener(marker, 'click', function () {
-                infoWindow.setContent(marker.content);
-                infoWindow.open($scope.mapContainer, marker);
-            });
-            markerArr.push(marker);
-            markerCount = markerCount + 1;
-        }
 
         $scope.setBounds = function(){
             if(bound_val==0){
@@ -221,6 +49,7 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
                         $scope.liveDriverList = response.data.driverDetailArray;
                         var liveDriverList = response.data.driverDetailArray;
                         $scope.liveDriverList = response.data.driverDetailArray;
+                        console.log($scope.liveDriverList)
                         var liveOrderList = response.data.orderDetail;
                         var liveDriverStatusList = response.data.driverStatusArray;
                         var orderLength = response.data.orderDetail.length;
@@ -235,13 +64,13 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
                             d.fullName = column.fullName;
                             d.phoneNumber = column.phoneNumber;
                             if(column.profilePicture == null)
-                            d.profilePicture = defaultImg;
+                                d.profilePicture = defaultImg;
                             else
-                            d.profilePicture = column.profilePicture;
+                                d.profilePicture = column.profilePicture;
                             if(column.status=='busy')
                                 d.status = 0;
                             else
-                            d.status = 1;
+                                d.status = 1;
                             dataArray.push(d);
                         });
                         $scope.list = dataArray;
@@ -319,7 +148,7 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
                         else {
                         }
 
-                    /*================Calling marker set function for Live order pickup location===================*/
+                        /*================Calling marker set function for Live order pickup location===================*/
                         if (orderLength) {
                             liveOrderList.forEach(function (column) {
                                 createMarker1(column);
@@ -373,32 +202,6 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
                 });
         };
         $scope.drawMap();
-
-        //var dtInstance;
- /*       $scope.setinterval= setInterval(function(){
-            $scope.$on('$destroy', function () {
-                dtInstance.fnDestroy();
-                $('[class*=ColVis]').remove();
-            })
-            markerArr = [];    //empty the markerArray to refresh the map
-            markerCount = 0;
-            markerArr = [];    //empty the markerArray to refresh the map
-            markerCount = 0;
-            $scope.drawMap1();
-            //$state.reload();
-        }, 10000);*/
-
-  /*      $scope.setinterval= setInterval(function(){
-            $scope.$on('$destroy', function () {
-                dtInstance.fnDestroy();
-                $('[class*=ColVis]').remove();
-            })
-            markerArr = [];    //empty the markerArray to refresh the map
-            markerCount = 0;
-
-            $scope.drawMap1();
-           // $state.reload();
-        }, 1000);*/
 
         /*================ Listing Reassignable  driver for  ongoing order ===================*/
         $scope.reAssignList = function(orderId,driverId,status){
@@ -549,11 +352,15 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
             });
         }
 
-        function move(marker,column) {
-            var oldLat = $scope.liveDriverList[markerCount].latitude;
-            var oldLng = $scope.liveDriverList[markerCount].longitude;
-            console.log("old = ",oldLat,oldLng)
-            var numDeltas = 100;
+/*        function move(column) {
+            var marker =  new google.maps.Marker({
+                position: new google.maps.LatLng(column.longitude, column.latitude),
+                labelContent: '<span style="color: #F7584B">' +  +'</span>',
+                map: $scope.mapContainer
+            });
+            var oldLat = $scope.liveDriverList[markerCount].longitude;
+            var oldLng = $scope.liveDriverList[markerCount].latitude;
+            var numDeltas = 50;
             var delay = 10; //milliseconds
             var i = 0;
             var lat;
@@ -563,35 +370,37 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
             transition();
             function transition() {
                 i = 0;
-                lat = column.latitude;
-                lng = column.longitude;
-                deltaLat = (28 - oldLat) / numDeltas;
-                deltaLng = (77 - oldLng) / numDeltas;
+                lat = column.longitude;
+                lng = column.latitude;
+                console.log("first old = ",oldLat);
+                deltaLat = (lat - oldLat) / numDeltas;
+                deltaLng = (lng - oldLng) / numDeltas;
                 console.log("delta = ",deltaLat, deltaLng)
-                if(deltaLat != 0 || deltaLng != 0){
-                    console.log("moveMarker");
+                //if(deltaLat != 0 || deltaLng != 0){
                     moveMarker();
                     markerCount++;
-                }
-                else {
-                    console.log("createMarker")
-                    createMarker(column);
-                }
+                //}
+                //else {
+                //    console.log("createMarker")
+                //    createMarker(column);
+                //}
 
             }
 
             function moveMarker() {
                 oldLat += deltaLat;
                 oldLng += deltaLng;
-console.log("loop values = ",oldLat,oldLng);
+                console.log("last values = ",oldLat);
+                console.log("i = ",i);
                 marker.setPosition(new google.maps.LatLng(oldLat, oldLng));
-                if (i != numDeltas) {
-                    console.log("i = ",i);
+                if ( i != numDeltas) {
+                    //console.log("i = ",i);
                     i++;
+                    //moveMarker();
                     setTimeout(moveMarker,delay);
                 }
             }
-        }
+        }*/
 
         $scope.drawMap1 = function () {
             orderCount = 0;
@@ -610,9 +419,9 @@ console.log("loop values = ",oldLat,oldLng);
                         /*================Calling Live driver marker set function===================*/
                         if (driverLength) {
                             liveDriverList.forEach(function (column) {
-                                marker.setPosition(new google.maps.LatLng(column.latitude, column.longitude));
-                                move(marker,column);
-                                //createMarker(column);
+                                //marker.setPosition(new google.maps.LatLng(column.latitude, column.longitude));
+                                //move(column);
+                                createMarker(column);
                                 $scope.openInfoWindow = function (e, selectedMarker) {
                                     e.preventDefault();
                                     google.maps.event.trigger(selectedMarker, 'click');
@@ -642,5 +451,139 @@ console.log("loop values = ",oldLat,oldLng);
                     $state.go('page.login');
                 });
         };
+
+        /********************************************************************
+         ================ Setting marker for Live driver ===================
+         ********************************************************************/
+
+        var createMarker = function (info) {
+            var marker = new MarkerWithLabel({
+                position: new google.maps.LatLng(info.longitude, info.latitude),
+                labelContent: '<span style="color: #F7584B">' + info.fullName +'</span>',
+                map: $scope.mapContainer
+            });
+
+            marker.content = '<div class="infoWindowContent">' +
+            '<center>Driver Info</center>' +
+            '<span> Name - ' + info.fullName + '</span><br>' +
+            '<span> Phone - ' + info.phoneNumber + '</span><br>' +
+            '<span> Email - ' + info.email + '</span>' +
+            '</div>';
+
+
+            google.maps.event.addListener(marker, 'click', function () {
+                infoWindow.setContent(marker.content);
+                infoWindow.open($scope.mapContainer, marker);
+            });
+
+            markerArr.push(marker);
+            markerCount = markerCount + 1;
+
+        }
+
+        /*================Setting marker for Live order pick up location===================*/
+        var createMarker1 = function (info) {
+            var icon = 'app/img/map_icon.png';
+            orderCount++;
+            var marker = new MarkerWithLabel({
+                icon: icon,
+                position: new google.maps.LatLng(info.pickupLat, info.pickupLong),
+                labelContent: '<span style="color: #F7584B">' + orderCount +'</span>',
+                map: $scope.mapContainer
+            });
+
+            marker.content = '<div class="infoWindowContent">' +
+            '<center>Order Info</center>' +
+            '<span> Order Id - ' + info.orderId + '</span><br>' +
+            '<span> Driver Name - ' + info.driverFullName + '</span><br>' +
+            '<span> Pick Up Address - ' + info.pickupAddress + '</span><br>' +
+            '<span> Drop Off Address - ' + info.dropUpAddress + '</span><br>' +
+            '<span> Status - ' + info.status + '</span>' +
+            '</div>';
+
+            google.maps.event.addListener(marker, 'click', function () {
+               // console.log(marker)
+                infoWindow.setContent(marker.content);
+                infoWindow.open($scope.mapContainer, marker);
+            });
+            markerArr.push(marker);
+            markerCount = markerCount + 1;
+        }
+
+        /********************************************************************
+        ================ Edit Timings for  ongoing order ===================
+         ********************************************************************/
+
+        $scope.editTimings = function (_id,pickupTime,deliveryTime) {
+            $scope.pickup = pickupTime;
+            $scope.delivery = deliveryTime;
+            $scope.orderId = _id;
+            console.log(_id);
+            ngDialog.open({
+                template: 'edit_timings',
+                className: 'ngdialog-theme-default',
+                scope: $scope,
+                showClose: false
+            });
+
+
+            $scope.$on('ngDialog.opened', function (e, element) {
+                $("#dashdatetimepicker").datetimepicker({
+                    format: 'yyyy/mm/dd hh:ii',
+
+                    autoclose: true
+                    //startDate: start
+                    //endDate: e
+                });
+            });
+            $scope.$on('ngDialog.opened', function (e, element) {
+                $("#dashdatetimepicker1").datetimepicker({
+                    format: 'yyyy/mm/dd hh:ii',
+
+                    autoclose: true
+                    //startDate: start
+                    //endDate: e
+                });
+            });
+        }
+
+        $scope.edit = function(){
+            var DATE = new Date($("#dashdatetimepicker").val());
+            console.log(moment.utc(DATE).format("YYYY-MM-DD HH:mm"));
+            $scope.pickup = moment.utc(DATE).format("YYYY-MM-DD HH:mm");
+            var DATE = new Date($("#dashdatetimepicker1").val());
+            console.log(moment.utc(DATE).format("YYYY-MM-DD HH:mm"));
+            $scope.delivery = moment.utc(DATE).format("YYYY-MM-DD HH:mm");
+            $http({
+                method: 'PUT',
+                url: MY_CONSTANT.url + 'api/admin/editOrderTiming',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj)
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },
+                data: {accessToken: $cookieStore.get('obj').accesstoken, orderId: $scope.orderId, pickUpTime: $scope.pickup+":00 +0000", dropUpTime: $scope.delivery+":00 +0000"}
+            })
+                .success(function (response, status) {
+                    console.log(response);
+                    $state.reload();
+                })
+                .error(function (response, status) {
+                    console.log(response);
+                    alert("Oops not updated.");
+                })
+        }
+
+        $scope.setinterval= setInterval(function(){
+          /*  $scope.$on('$destroy', function () {
+                dtInstance.fnDestroy();
+                $('[class*=ColVis]').remove();
+            })*/
+            markerArr = [];    //empty the markerArray to refresh the map
+            markerCount = 0;
+            $scope.drawMap1();
+        }, 10000);
 
     }]);
