@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9668868d-7c3b-418d-95e8-db7ad5491ce6" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/js/controllers/addPromo-ctrl.js" afterPath="$PROJECT_DIR$/app/js/controllers/addPromo-ctrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/js/controllers/dispatcher-ctrl.js" afterPath="$PROJECT_DIR$/app/js/controllers/dispatcher-ctrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/dispatcher.html" afterPath="$PROJECT_DIR$/app/views/dispatcher.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/js/controllers/drivers-ctrl.js" afterPath="$PROJECT_DIR$/app/js/controllers/drivers-ctrl.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/img/default_user_icon.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/js/controllers/map-circle-ctrl.js" afterPath="$PROJECT_DIR$/app/js/controllers/map-circle-ctrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/js/myApp.js" afterPath="$PROJECT_DIR$/app/js/myApp.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/js/controllers/orders-ctrl.js" afterPath="$PROJECT_DIR$/app/js/controllers/orders-ctrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/js/controllers/promo-ctrl.js" afterPath="$PROJECT_DIR$/app/js/controllers/promo-ctrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/promo.html" afterPath="$PROJECT_DIR$/app/views/promo.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Mashaweer.iws" />
@@ -38,13 +31,30 @@
       <file leaf-file-name="map-circle-ctrl.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/js/controllers/map-circle-ctrl.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.14285715" vertical-offset="8280" max-vertical-offset="9570">
-              <caret line="546" column="21" selection-start-line="546" selection-start-column="17" selection-end-line="546" selection-end-column="21" />
+            <state vertical-scroll-proportion="0.5952381" vertical-offset="885" max-vertical-offset="6300">
+              <caret line="151" column="12" selection-start-line="151" selection-start-column="12" selection-end-line="151" selection-end-column="12" />
               <folding>
-                <marker date="1448372757000" expanded="true" signature="4693:4707" placeholder="..." />
-                <marker date="1448372757000" expanded="true" signature="5827:5841" placeholder="..." />
-                <marker date="1448372757000" expanded="true" signature="7052:7066" placeholder="..." />
+                <element signature="e#1546#2545#0" expanded="false" />
+                <element signature="e#2579#4395#0" expanded="false" />
+                <element signature="e#6893#8007#0" expanded="false" />
+                <element signature="e#18257#22337#0" expanded="false" />
+                <element signature="e#22380#22458#0" expanded="false" />
+                <element signature="e#22584#24151#0" expanded="false" />
+                <element signature="e#24190#24582#0" expanded="false" />
+                <marker date="1448530327000" expanded="true" signature="4693:4707" placeholder="..." />
+                <marker date="1448530327000" expanded="true" signature="5829:5843" placeholder="..." />
+                <marker date="1448530327000" expanded="true" signature="7200:7214" placeholder="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dashboard.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/dashboard.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-9.375" vertical-offset="2010" max-vertical-offset="5400">
+              <caret line="149" column="47" selection-start-line="149" selection-start-column="47" selection-end-line="149" selection-end-column="47" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -463,13 +473,6 @@
     <find-history />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vendor/angular-xeditable/dist/js/xeditable.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.703704" vertical-offset="1463" max-vertical-offset="6990">
-          <caret line="115" column="29" selection-start-line="115" selection-start-column="24" selection-end-line="115" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Downloads/add-session-ctrl (1).js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="17.925926" vertical-offset="1939" max-vertical-offset="4380">
@@ -788,14 +791,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/dashboard.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.5" vertical-offset="1575" max-vertical-offset="5400">
-          <caret line="117" column="39" selection-start-line="117" selection-start-column="39" selection-end-line="117" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.6210046" vertical-offset="3570" max-vertical-offset="17295">
@@ -820,14 +815,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.125" vertical-offset="30" max-vertical-offset="1110">
-          <caret line="23" column="63" selection-start-line="23" selection-start-column="63" selection-end-line="24" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/js/controllers/orders-ctrl.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="22.074074" vertical-offset="4586" max-vertical-offset="6435">
@@ -844,14 +831,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-29.375" vertical-offset="0" max-vertical-offset="1110">
+          <caret line="47" column="70" selection-start-line="47" selection-start-column="70" selection-end-line="47" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/dashboard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.375" vertical-offset="2010" max-vertical-offset="5400">
+          <caret line="149" column="47" selection-start-line="149" selection-start-column="47" selection-end-line="149" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/img/default_user_icon.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/js/controllers/map-circle-ctrl.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.14285715" vertical-offset="8280" max-vertical-offset="9570">
-          <caret line="546" column="21" selection-start-line="546" selection-start-column="17" selection-end-line="546" selection-end-column="21" />
+        <state vertical-scroll-proportion="0.5952381" vertical-offset="885" max-vertical-offset="6300">
+          <caret line="151" column="12" selection-start-line="151" selection-start-column="12" selection-end-line="151" selection-end-column="12" />
           <folding>
-            <marker date="1448372757000" expanded="true" signature="4693:4707" placeholder="..." />
-            <marker date="1448372757000" expanded="true" signature="5827:5841" placeholder="..." />
-            <marker date="1448372757000" expanded="true" signature="7052:7066" placeholder="..." />
+            <element signature="e#1546#2545#0" expanded="false" />
+            <element signature="e#2579#4395#0" expanded="false" />
+            <element signature="e#6893#8007#0" expanded="false" />
+            <element signature="e#18257#22337#0" expanded="false" />
+            <element signature="e#22380#22458#0" expanded="false" />
+            <element signature="e#22584#24151#0" expanded="false" />
+            <element signature="e#24190#24582#0" expanded="false" />
+            <marker date="1448530327000" expanded="true" signature="4693:4707" placeholder="..." />
+            <marker date="1448530327000" expanded="true" signature="5829:5843" placeholder="..." />
+            <marker date="1448530327000" expanded="true" signature="7200:7214" placeholder="..." />
           </folding>
         </state>
       </provider>

@@ -148,7 +148,7 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
             var icon = 'app/img/map_icon.png';
             orderCount++;
             marker = new MarkerWithLabel({
-                icon: icon,
+               // icon: icon,
                 position: new google.maps.LatLng(info.pickupLat, info.pickupLong),
                 labelContent: '<span style="color: #F7584B">' + orderCount +'</span>',
                 map: $scope.mapContainer
@@ -156,13 +156,15 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
 
             marker.content = '<div class="infoWindowContent">' +
             '<center>Order Info</center>' +
-            '<span> Address - ' + info.driverFullName + '</span><br>' +
+            '<span> Order Id - ' + info.orderId + '</span><br>' +
+            '<span> Driver Name - ' + info.driverFullName + '</span><br>' +
+            '<span> Pick Up Address - ' + info.pickupAddress + '</span><br>' +
             '<span> Drop Off Address - ' + info.dropUpAddress + '</span><br>' +
-            '<span> Phone - ' + info.pickupPhoneNo + '</span><br>' +
             '<span> Status - ' + info.status + '</span>' +
             '</div>';
 
             google.maps.event.addListener(marker, 'click', function () {
+                console.log(marker)
                 infoWindow.setContent(marker.content);
                 infoWindow.open($scope.mapContainer, marker);
             });
@@ -172,6 +174,7 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
 
         /*================Setting marker for Live order drop off location===================*/
         var createMarker2 = function (info) {
+            console.log(info)
             var icon = 'app/img/map_icon.png';
             orderCount++;
             var marker = new MarkerWithLabel({
@@ -212,26 +215,28 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
             orderCount = 0;
             $http.get(MY_CONSTANT.url + 'api/admin/getLiveView/' + $cookieStore.get('obj').accesstoken)
                 .success(function (response, status) {
-                    console.log(response)
                     if (status == 200) {
                         var dataArray = [];
                         var dataArray1 = [];
                         $scope.liveDriverList = response.data.driverDetailArray;
                         var liveDriverList = response.data.driverDetailArray;
+                        $scope.liveDriverList = response.data.driverDetailArray;
                         var liveOrderList = response.data.orderDetail;
-                        console.log(liveOrderList)
-
                         var liveDriverStatusList = response.data.driverStatusArray;
                         var orderLength = response.data.orderDetail.length;
                         var driverLength = response.data.driverDetailArray.length;
                         $scope.total_no_of_drivers = driverLength;
 
                         /*================ Live driver info window===================*/
+                        var defaultImg = 'app/img/default_user_icon.png';
                         liveDriverStatusList.forEach(function (column) {
                             var d = {};
                             d.driverId = column.driverId;
                             d.fullName = column.fullName;
                             d.phoneNumber = column.phoneNumber;
+                            if(column.profilePicture == null)
+                            d.profilePicture = defaultImg;
+                            else
                             d.profilePicture = column.profilePicture;
                             if(column.status=='busy')
                                 d.status = 0;
@@ -370,18 +375,18 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
         $scope.drawMap();
 
         //var dtInstance;
-        $scope.setinterval= setInterval(function(){
-           /* $scope.$on('$destroy', function () {
+ /*       $scope.setinterval= setInterval(function(){
+            $scope.$on('$destroy', function () {
                 dtInstance.fnDestroy();
                 $('[class*=ColVis]').remove();
             })
             markerArr = [];    //empty the markerArray to refresh the map
-            markerCount = 0;*/
+            markerCount = 0;
             markerArr = [];    //empty the markerArray to refresh the map
             markerCount = 0;
             $scope.drawMap1();
             //$state.reload();
-        }, 10000);
+        }, 10000);*/
 
   /*      $scope.setinterval= setInterval(function(){
             $scope.$on('$destroy', function () {
@@ -544,9 +549,11 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
             });
         }
 
-        function move(marker,latitude , longitude) {
-            console.log(marker);
-            var numDeltas = 5;
+        function move(marker,column) {
+            var oldLat = $scope.liveDriverList[markerCount].latitude;
+            var oldLng = $scope.liveDriverList[markerCount].longitude;
+            console.log("old = ",oldLat,oldLng)
+            var numDeltas = 100;
             var delay = 10; //milliseconds
             var i = 0;
             var lat;
@@ -556,23 +563,32 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
             transition();
             function transition() {
                 i = 0;
-                lat = latitude;
-                lng = longitude;
-                deltaLat = (lat - latitude) / numDeltas;
-                deltaLng = (lng - longitude) / numDeltas;
+                lat = column.latitude;
+                lng = column.longitude;
+                deltaLat = (28 - oldLat) / numDeltas;
+                deltaLng = (77 - oldLng) / numDeltas;
+                console.log("delta = ",deltaLat, deltaLng)
+                if(deltaLat != 0 || deltaLng != 0){
+                    console.log("moveMarker");
+                    moveMarker();
+                    markerCount++;
+                }
+                else {
+                    console.log("createMarker")
+                    createMarker(column);
+                }
 
-                console.log(deltaLat, deltaLng)
-                moveMarker();
             }
 
             function moveMarker() {
-                lat += deltaLat;
-                lng += deltaLng;
-
-                marker.setPosition(new google.maps.LatLng(lat, lng));
+                oldLat += deltaLat;
+                oldLng += deltaLng;
+console.log("loop values = ",oldLat,oldLng);
+                marker.setPosition(new google.maps.LatLng(oldLat, oldLng));
                 if (i != numDeltas) {
+                    console.log("i = ",i);
                     i++;
-                    setTimeout(moveMarker, delay);
+                    setTimeout(moveMarker,delay);
                 }
             }
         }
@@ -581,15 +597,12 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
             orderCount = 0;
             $http.get(MY_CONSTANT.url + 'api/admin/getLiveView/' + $cookieStore.get('obj').accesstoken)
                 .success(function (response, status) {
-                    console.log(response)
                     if (status == 200) {
                         var dataArray = [];
                         var dataArray1 = [];
                         $scope.liveDriverList = response.data.driverDetailArray;
                         var liveDriverList = response.data.driverDetailArray;
                         var liveOrderList = response.data.orderDetail;
-                        console.log(liveOrderList)
-
                         var liveDriverStatusList = response.data.driverStatusArray;
                         var orderLength = response.data.orderDetail.length;
                         var driverLength = response.data.driverDetailArray.length;
@@ -598,8 +611,8 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
                         if (driverLength) {
                             liveDriverList.forEach(function (column) {
                                 marker.setPosition(new google.maps.LatLng(column.latitude, column.longitude));
-                                move(marker,column.latitude , column.longitude);
-                                createMarker(column);
+                                move(marker,column);
+                                //createMarker(column);
                                 $scope.openInfoWindow = function (e, selectedMarker) {
                                     e.preventDefault();
                                     google.maps.event.trigger(selectedMarker, 'click');
