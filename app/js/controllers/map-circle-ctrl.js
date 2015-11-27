@@ -26,6 +26,10 @@ App.controller('MapCircleController', ['$scope','$state', '$timeout', '$http', '
 
         $scope.$on('$destroy',function() {
             clearInterval($scope.setinterval);
+            $("#dashdatetimepicker").datetimepicker('hide');
+            $("#dashdatetimepicker1").datetimepicker('hide');
+            ngDialog.close();
+
         });
 
         $scope.setBounds = function(){

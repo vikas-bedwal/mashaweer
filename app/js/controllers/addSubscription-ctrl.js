@@ -9,26 +9,29 @@ App.controller('addSubscriptionController', function ($scope, $http, $cookies, $
     $scope.showCity3 = 1;
     $scope.choice = '';
     $scope.conditionArray = [];
-    jQuery('#datetimepicker').datetimepicker({
-        lang: 'de',
-        i18n: {
-            de: {
-                months: [
-                    'January', 'February', 'March', 'April',
-                    'May', 'June', 'July', 'August',
-                    'September', 'October', 'November', 'December',
-                ],
-                dayOfWeek: [
-                    "Sun", "Mon", "Tue", "Wed",
-                    "Thu", "Fri", "Sat",
-                ]
-            }
-        },
-        timepicker: false,
-        format: 'Y-m-d',
-        minDate: ''//yesterday is minimum date(for today use 0 or -1970/01/01)
-
+    $scope.$on('$destroy',function() {
+        $("#datetimepicker").datetimepicker('hide');
     });
+    //jQuery('#datetimepicker').datetimepicker({
+    //    lang: 'de',
+    //    i18n: {
+    //        de: {
+    //            months: [
+    //                'January', 'February', 'March', 'April',
+    //                'May', 'June', 'July', 'August',
+    //                'September', 'October', 'November', 'December',
+    //            ],
+    //            dayOfWeek: [
+    //                "Sun", "Mon", "Tue", "Wed",
+    //                "Thu", "Fri", "Sat",
+    //            ]
+    //        }
+    //    },
+    //    timepicker: false,
+    //    format: 'Y-m-d',
+    //    minDate: ''//yesterday is minimum date(for today use 0 or -1970/01/01)
+    //
+    //});
 
     /*--------------------------------------------------------------------------
      * --------- Shows/Hide form fields According to Selected Choice --------------------------
@@ -205,7 +208,7 @@ App.controller('addSubscriptionController', function ($scope, $http, $cookies, $
                     'heading': add.heading,
                 'text': descArray,
                 'amount': add.amount,
-                'expiryDate': add.validUpto,
+                'expiryDate': $("#datetimepicker").val(),
                 'validity': add.validity,
                 'totalCredits': $scope.totalCredits,
                 'conditionsApply': arrayOfObj
@@ -216,7 +219,11 @@ App.controller('addSubscriptionController', function ($scope, $http, $cookies, $
                 $scope.loading = false;
             },
             function(response) { // optional
+                console.log(response)
                 // failed
+                $scope.loading = false;
+                $scope.msg = response.data.message;
+                console.log($scope.msg);
                 ngDialog.open({
                     template: 'display_msg',
                     scope: '$scope',

@@ -40,6 +40,10 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
         $scope.cust = function(data){
             $scope.job.personal_phone_no = data.phoneNumber;
             $scope.job.email = data.email;
+                $('.parsleyError').removeClass("parsley-error");
+                var a = $('.parsleyError').addClass("parsley-success");
+                a.siblings("ul").removeClass("filled");
+
         }
 
 

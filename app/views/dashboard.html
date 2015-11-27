@@ -17,6 +17,21 @@
         padding: 15px;
         margin-top: 25px;
     }
+    .glyphicon {
+        position: relative;
+        top: 1px;
+        display: inline-block;
+        font-family: 'Glyphicons Halflings';
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .glyphicon-calendar:before {
+        content: "\e109";
+    }
 </style>
 
 <h3>
@@ -196,9 +211,9 @@
                                 <th>Pick up Location</th>
                                 <th>Drop off Location</th>
                                 <th>Pick up Time</th>
-                                <th>Drop off Time</th>
+                                <th style="width: 8%">Drop off Time</th>
                                 <th style="width: 7% !important;">Driver Name</th>
-                                <th style="width: 10% !important;">Action</th>
+                                <th style="width: 12% !important;">Action</th>
                             </tr>
                             </thead>
                             <tbody>

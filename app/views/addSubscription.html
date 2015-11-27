@@ -1,39 +1,43 @@
 <h3>
     Package Form
 </h3>
+
 <div class="row" ng-controller="addSubscriptionController">
     <div class="col-lg-6">
         <div class="panel panel-default" ng-class="{'whirl standard' : loading }">
-            <div class="panel-body">
 
-                <form method="post" ng-submit="subscribe(add)" validate-form="" novalidate="">
+
+            <form method="post" name="firstForm" validate-form="" novalidate=""
+                  ng-submit="firstForm.$valid && subscribe(add)">
+                <div class="panel-body">
                     <div ng-show="successMsg" class="alert alert-success text-center">{{successMsg}}</div>
                     <div ng-show="errorMsg" class="alert alert-danger text-center">{{errorMsg}}</div>
 
                     <div class="clearfix subscribeForm">
-                        <div class="col-lg-6 padding-left">
-                            <div class="form-group">
-                                <label class="control-label subscribeLabels">Amount</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon fixHeight">AED</span>
-                                    <input type="text" name="amount" min="1" required="required" numbers-only="" data-parsley-type="number"
-                                           class="form-control"
-                                           ng-model="add.amount"/>
+                        <div class="col-lg-12 padding-left padding-right">
+                            <div class="col-lg-6 padding-left">
+                                <div class="form-group">
+                                    <label class="control-label subscribeLabels">Amount</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon fixHeight">AED</span>
+                                        <input type="text" name="amount" min="1" required="required" numbers-only=""
+                                               data-parsley-type="number"
+                                               class="form-control"
+                                               ng-model="add.amount"/>
+                                    </div>
                                 </div>
-
                             </div>
-                        </div>
 
-                        <div class="col-lg-6 padding-right">
-                            <div class="form-group">
-                                <label class="control-label subscribeLabels">Valid Upto</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon fixHeight"><em class="fa fa-calendar"></em></span>
-                                    <input type="text" name="validUpto" id="datetimepicker"
-                                           class="form-control"
-                                           readonly
-                                           ng-model="add.validUpto"
-                                           required="required">
+                            <div class="col-lg-6 padding-right">
+                                <div class="form-group">
+                                    <label class="control-label subscribeLabels">Valid Upto</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon fixHeight"><em class="fa fa-calendar"></em></span>
+                                        <input type="text" name="validUpto" id="datetimepicker"
+                                               class="form-control"
+                                               readonly
+                                               ng-model="add.validUpto">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -50,7 +54,8 @@
                         <div class="col-lg-6 padding-right">
                             <div class="form-group">
                                 <label class="control-label subscribeLabels">Validity (Days)</label>
-                                <input type="text" name="amount" min="1" required="required" numbers-only="" data-parsley-type="number"
+                                <input type="text" name="amount" min="1" required="required" numbers-only=""
+                                       data-parsley-type="number"
                                        class="form-control"
                                        ng-model="add.validity"/>
                             </div>
@@ -64,17 +69,17 @@
                                                       required="required"></textarea>
                         </div>
 
-                        <!--<div class="col-lg-12 padding-left-right">
-                            <div class="form-group" ng-repeat="item in conditionArray">
-                                <label class="control-label subscribeLabels">Conditions</label>
-                                <input type="text" id="choice.id" ng-model="item.name" name=""
-                                       class="form-control">
-                                <em class="fa icon-plus" ng-show="showAddChoice({{length}})" id="{{length}}"
-                                    type="button"
-                                    style="margin-top: 10px;float: right;" ng-click="addNewChoice()"></em>
+                        <!--<div class="col-lg-12 padding-left-right">-->
+                            <!--<div class="form-group" ng-repeat="item in conditionArray">-->
+                                <!--<label class="control-label subscribeLabels">Conditions</label>-->
+                                <!--<input type="text" id="choice.id" ng-model="item.name" name=""-->
+                                       <!--class="form-control">-->
+                                <!--<em class="fa icon-plus" ng-show="showAddChoice({{length}})" id="{{length}}"-->
+                                    <!--type="button"-->
+                                    <!--style="margin-top: 10px;float: right;" ng-click="addNewChoice()"></em>-->
 
-                            </div>
-                        </div>-->
+                            <!--</div>-->
+                        <!--</div>-->
                     </div>
 
                     <div class="clearfix subscribeForm">
@@ -94,7 +99,8 @@
                         <div class="col-lg-6 padding-right">
                             <div class="form-group">
                                 <label class="control-label subscribeLabels">Credit</label>
-                                <input type="text" name="credit" ng-init="add.credit='0'" numbers-only=""  required="required" data-parsley-type="number"
+                                <input type="text" name="credit" ng-init="add.credit='0'" numbers-only=""
+                                       required="required" data-parsley-type="number"
                                        class="form-control"
                                        ng-model="add.credit"/>
                             </div>
@@ -197,7 +203,8 @@
                         <div class="col-lg-6 padding-right">
                             <div class="form-group">
                                 <label class="control-label subscribeLabels">Credit</label>
-                                <input type="text" name="credit2" ng-init="add.credit2='0'" numbers-only="" required="required" data-parsley-type="number"
+                                <input type="text" name="credit2" ng-init="add.credit2='0'" numbers-only=""
+                                       required="required" data-parsley-type="number"
                                        class="form-control"
                                        ng-required="second"
                                        ng-model="add.credit2"/>
@@ -304,7 +311,8 @@
                         <div class="col-lg-6 padding-right">
                             <div class="form-group">
                                 <label class="control-label subscribeLabels">Credit</label>
-                                <input type="text" name="credit3" ng-init="add.credit3='0'" numbers-only="" required="required" data-parsley-type="number"
+                                <input type="text" name="credit3" ng-init="add.credit3='0'" numbers-only=""
+                                       required="required" data-parsley-type="number"
                                        class="form-control"
                                        ng-required="third"
                                        ng-model="add.credit3"/>
@@ -392,27 +400,49 @@
                             style="margin-top: 10px;float: right;" ng-click="deleteForm(len)"></em>
                     </div>
 
-<div class="panel-footer" style="background: #fff; padding-left: 0">
-        <button type="submit" class="btn btn-success">Add Package</button>
-        <!--<button type="button" class="btn btn-default">Cancel</button>-->
-</div>
+                </div>
 
-                </form>
-            </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-success">Add Package</button>
+                </div>
+
+            </form>
+
         </div>
     </div>
+
 </div>
 
 <!-- **************************************************************************
 ******************* Modal to display msg **************************************
 *******************************************************************************-->
+
 <script type="text/ng-template" id="display_msg">
     <div>
-    <div class="ngdialog-message">
-        <h4>Oops Invalid Entry in Description  Field.</h4>
-        <!--<button type="button" ng-click="closeThisDialog('button')" class="btn btn-success pull-right">
-            Ok
-        </button>-->
-    </div>
+        <div class="ngdialog-message">
+            <h4>Oops Bad Request.</h4>
+            <!--<button type="button" ng-click="closeThisDialog('button')" class="btn btn-success pull-right">
+                Ok
+            </button>-->
         </div>
+    </div>
 </script>
+
+
+<script>
+    $("#datetimepicker").datetimepicker({
+        format: 'yyyy-mm-dd',
+        showTimePicker: false,
+        pickTime: false,
+        minView: 2,
+        autoclose: true
+        //startDate: start
+        //endDate: e
+    });
+    $('#datetimepicker').change(function(){
+        $(this).removeClass("parsley-error");
+        var a = $(this).addClass("parsley-success");
+        a.siblings("ul").removeClass("filled");
+    });
+</script>
+

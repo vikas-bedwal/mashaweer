@@ -67,7 +67,7 @@
     "icon": "fa fa-key"
   },
   {
-    "text": "Dispatcher",
+    "text": "Users",
     "sref": "app.dispatcher",
     "is_super": 1,
     "icon": "fa fa-pencil-square-o"

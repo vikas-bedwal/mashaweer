@@ -6,7 +6,7 @@
     <div class="col-lg-6">
         <div ng-show="successMsg" class="alert alert-success text-center">{{successMsg}}</div>
         <div ng-show="errorMsg" class="alert alert-danger text-center">{{errorMsg}}</div>
-        <form method="post" name="addOrderForm" validate-form="" novalidate="" ng-submit="addOrderForm.$valid && addOrder(job)">
+        <form method="post" name="addOrderForm" ng-submit="addOrder(job)" validate-form="" novalidate="" >
             <div class="panel panel-default">
                 <div id="panelDemo4" class="panel panel-default custom-panel" ng-class="{'whirl standard' : loading }">
                     <div class="panel-heading">
@@ -19,7 +19,6 @@
                                 <div class="">
 
                                     <!-- <div class="col-lg-6">
-
                                          <div class="form-group">
                                              <select id="search"  ng-model="job.search"
                                                      required="required"
@@ -61,7 +60,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group"><input type="email" name="pickup_email"
-                                                                       class="form-control"
+                                                                       class="form-control parsleyError"
                                                                        placeholder="Email"
                                                                        ng-model="job.email"
                                                                        ng-required="boxStatus1"
@@ -72,9 +71,9 @@
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <input type="text" name="personal_phone_no"
-                                                   class="form-control"
-                                                   placeholder="Phone No" ng-model="job.personal_phone_no"
-                                                   ng-required="boxStatus1" numbers-only=""
+                                                   class="form-control parsleyError"
+                                                   placeholder="Ph.No" ng-model="job.personal_phone_no"
+                                                   ng-required="boxStatus1" numbers-only="" ui-mask="{{'99-999-9999'}}"
                                                    required="required">
                                         </div>
                                     </div>
@@ -459,8 +458,8 @@
         $("#datetimepicker").datetimepicker({
             format: 'yyyy-mm-dd hh:ii',
 
-            autoclose: true
-            //startDate: start
+            autoclose: true,
+            startDate: new Date()
             //endDate: e
         });
         $("#datetimepicker1").datetimepicker({
@@ -469,6 +468,11 @@
             autoclose: true
             //startDate: start
             //endDate: e
+        });
+        $('#datetimepicker').change(function(){
+            $(this).removeClass("parsley-error");
+            var a = $(this).addClass("parsley-success");
+            a.siblings("ul").removeClass("filled");
         });
     </script>
 </div>
