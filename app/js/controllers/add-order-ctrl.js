@@ -2,7 +2,7 @@
  * Created by vikas on 20/08/15.
  */
 
-App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLogger', 'uiGmapGoogleMapApi', '$cookies', '$cookieStore', 'MY_CONSTANT', 'ngDialog'
+App.controller('addOrderController', ['$scope', '$timeout', '$http', 'uiGmapLogger', 'uiGmapGoogleMapApi', '$cookies', '$cookieStore', 'MY_CONSTANT', 'ngDialog'
     , function ($scope, $timeout, $http, $log, GoogleMapApi, $cookies, $cookieStore, MY_CONSTANT,ngDialog) {
         $http.get(MY_CONSTANT.url + 'api/admin/customerList/' + $cookieStore.get('obj').accesstoken)
             .success(function (response, status) {
@@ -96,7 +96,7 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
         });
         $("#d_mobile-number").intlTelInput("selectCountry", "ae");
 
-       /* ============= Prevent Users from submitting form by hitting enter============ */
+       /* ============= Prevent Users from submitting form by hitting enter on text box suggestions============ */
         $(document).ready(function() {
             $(window).keydown(function(event){
                 if(event.keyCode == 13) {
@@ -626,6 +626,10 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
             $scope.poly = poly;
         };
 
+
+        /*--------------------------------------------------------------------------
+         * --------- funtion to filter whatever you input customer name ----
+         ------------------------------- location ----------------------------------*/
         App.filter('propsFilter', function() {
             return function(items, props) {
                 var out = [];
@@ -655,19 +659,4 @@ App.controller('MapCircleController1', ['$scope', '$timeout', '$http', 'uiGmapLo
         });
     }]);
 
-App.directive('numbersOnly', function () {
-    return {
-        require: 'ngModel',
-        link: function (scope, element, attrs, modelCtrl) {
-            modelCtrl.$parsers.push(function (inputValue) {
-                if (inputValue == undefined) return ''
-                var transformedInput = inputValue.replace(/[^0-9]/g, '');
-                if (transformedInput != inputValue) {
-                    modelCtrl.$setViewValue(transformedInput);
-                    modelCtrl.$render();
-                }
-                return transformedInput;
-            });
-        }
-    };
-});
+

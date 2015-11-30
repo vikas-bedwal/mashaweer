@@ -12,26 +12,6 @@ App.controller('addSubscriptionController', function ($scope, $http, $cookies, $
     $scope.$on('$destroy',function() {
         $("#datetimepicker").datetimepicker('hide');
     });
-    //jQuery('#datetimepicker').datetimepicker({
-    //    lang: 'de',
-    //    i18n: {
-    //        de: {
-    //            months: [
-    //                'January', 'February', 'March', 'April',
-    //                'May', 'June', 'July', 'August',
-    //                'September', 'October', 'November', 'December',
-    //            ],
-    //            dayOfWeek: [
-    //                "Sun", "Mon", "Tue", "Wed",
-    //                "Thu", "Fri", "Sat",
-    //            ]
-    //        }
-    //    },
-    //    timepicker: false,
-    //    format: 'Y-m-d',
-    //    minDate: ''//yesterday is minimum date(for today use 0 or -1970/01/01)
-    //
-    //});
 
     /*--------------------------------------------------------------------------
      * --------- Shows/Hide form fields According to Selected Choice --------------------------
@@ -291,24 +271,4 @@ App.controller('addSubscriptionController', function ($scope, $http, $cookies, $
         }
     }
 
-});
-
-App.directive('numbersOnly', function () {
-    return {
-        require: 'ngModel',
-        link: function (scope, element, attrs, modelCtrl) {
-            modelCtrl.$parsers.push(function (inputValue) {
-                // this next if is necessary for when using ng-required on your input.
-                // In such cases, when a letter is typed first, this parser will be called
-                // again, and the 2nd time, the value will be undefined
-                if (inputValue == undefined) return ''
-                var transformedInput = inputValue.replace(/[^0-9]/g, '');
-                if (transformedInput != inputValue) {
-                    modelCtrl.$setViewValue(transformedInput);
-                    modelCtrl.$render();
-                }
-                return transformedInput;
-            });
-        }
-    };
 });

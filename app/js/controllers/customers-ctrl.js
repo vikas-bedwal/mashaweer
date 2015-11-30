@@ -93,6 +93,10 @@ App.controller('customersController', function ($scope, $http, $cookies, $cookie
 
     }
 
+    /*--------------------------------------------------------------------------
+     * --------- Add Credit Section Starts ---------------------------------------
+     --------------------------------------------------------------------------*/
+
     /*-----------Add Credit Section dialog---------------------*/
     $scope.addCreditDialog = function () {
         ngDialog.open({
@@ -103,9 +107,6 @@ App.controller('customersController', function ($scope, $http, $cookies, $cookie
             closeByEscape: false
         });
     }
-
-    /*-----------Add Credit Section Starts---------------------*/
-
 
     $scope.addCredit = function(data){
         $http({
@@ -147,8 +148,9 @@ App.controller('customersController', function ($scope, $http, $cookies, $cookie
             });
     }
 
-
-    /*------------Edit Customer Info Section Starts---------------*/
+    /*--------------------------------------------------------------------------
+     * --------- Edit Customer Info Section Starts ---------------------------------------
+     --------------------------------------------------------------------------*/
     $scope.pop = {};
     $scope.editData = function (data_get) {
         $scope.id = data_get._id;
@@ -188,31 +190,11 @@ App.controller('customersController', function ($scope, $http, $cookies, $cookie
                 alert("Something went wrong");
             });
     }
-    /*------------Edit Driver Info Section End---------------*/
+    /*------------Edit Customer Info Section End---------------*/
 
     /*-----------Export CSV Section Starts---------------------*/
     $scope.exportData = function () {
         alasql('SELECT * INTO CSV("customer.csv",{headers:true}) FROM ?', [$scope.excelList]);
     };
 
-});
-
-App.directive('numbersOnly', function () {
-    return {
-        require: 'ngModel',
-        link: function (scope, element, attrs, modelCtrl) {
-            modelCtrl.$parsers.push(function (inputValue) {
-                // this next if is necessary for when using ng-required on your input.
-                // In such cases, when a letter is typed first, this parser will be called
-                // again, and the 2nd time, the value will be undefined
-                if (inputValue == undefined) return ''
-                var transformedInput = inputValue.replace(/[^0-9]/g, '');
-                if (transformedInput != inputValue) {
-                    modelCtrl.$setViewValue(transformedInput);
-                    modelCtrl.$render();
-                }
-                return transformedInput;
-            });
-        }
-    };
 });
